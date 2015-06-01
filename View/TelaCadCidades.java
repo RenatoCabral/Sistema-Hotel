@@ -1,38 +1,39 @@
+
 package View;
 
-import DAO.DAOFuncaoFuncionario;
-import TableModel.TableModelFuncaoFuncionario;
+import DAO.DAOCidades;
 import MascarasCampos.ApenasLetras;
 import MascarasCampos.ApenasNumeros;
-import classes.FuncaoFuncionario;
+import TableModel.TableModelCidades;
+import classes.Cidades;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
 
 
-public class TelaFuncaoFuncionario extends javax.swing.JFrame {
+public class TelaCadCidades extends javax.swing.JFrame {
     
-    FuncaoFuncionario ff = new FuncaoFuncionario();
+    Cidades cid =  new Cidades();
     
-    private DAO.DAOFuncaoFuncionario dff = new DAOFuncaoFuncionario();
-    private TableModel.TableModelFuncaoFuncionario tmff = new TableModelFuncaoFuncionario();
+    private DAOCidades dCidades = new DAOCidades();
+    private TableModel.TableModelCidades tmc = new TableModelCidades();
 
-   
-    public TelaFuncaoFuncionario() {
+    public TelaCadCidades() {
         initComponents();
         
-        //MASCARA PARA OS CAMPOS
-        
+        //MASCARAS PARA OS CAMPOS
+        jTextFieldNomes.setDocument(new ApenasLetras());
         jTextFieldCodigo.setDocument(new ApenasNumeros());
-        jTextFieldDescricao.setDocument(new ApenasLetras());
         
         try {
             preencheTabela();
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
         }
+        
     }
 
-   
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -40,8 +41,10 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabelCodigo = new javax.swing.JLabel();
         jTextFieldCodigo = new javax.swing.JTextField();
-        jLabelDescricao = new javax.swing.JLabel();
-        jTextFieldDescricao = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jTextFieldNomes = new javax.swing.JTextField();
+        jLabelEstados = new javax.swing.JLabel();
+        jComboBoxEstados = new javax.swing.JComboBox();
         jButtonNovo = new javax.swing.JButton();
         jButtonSalvar = new javax.swing.JButton();
         jButtonAlterar = new javax.swing.JButton();
@@ -53,20 +56,22 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de Função");
+        setTitle("Cadastro de Cidades");
         setResizable(false);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Cadastro de Função"));
-        jPanel1.setToolTipText("Cadastro de Função");
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Cadastro de Cidades"));
+        jPanel1.setToolTipText("Cadastro de Cidades");
 
         jLabelCodigo.setText("Código");
 
         jTextFieldCodigo.setEditable(false);
-        jTextFieldCodigo.setEnabled(false);
+        jTextFieldCodigo.setToolTipText("Código");
 
-        jLabelDescricao.setText("Descrição");
+        jLabel1.setText("Nome");
 
-        jTextFieldDescricao.setEnabled(false);
+        jLabelEstados.setText("Estados");
+
+        jComboBoxEstados.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<Selecione>", "Alagoas - AL\t ", "Amapá - AP\t ", "Amazonas - AM\t ", "Bahia - BA\t ", "Ceará - CE\t ", "Distrito Federal - DF\t ", "Espírito Santo - ES\t ", "Goiás - GO\t ", "Maranhão - MA\t ", "Mato Grosso - MT\t ", "Mato Grosso do Sul - MS\t ", "Minas Gerais - MG\t ", "Pará - PA\t ", "Paraíba - PB\t ", "Paraná - PR\t ", "Pernambuco - PE\t ", "Piauí - PI\t ", "Rio de Janeiro - RJ\t ", "Rio Grande do Norte - RN\t ", "Rio Grande do Sul - RS\t ", "Rondônia - RO\t ", "Roraima\tRR\t ", "Santa Catarina - SC\t ", "São Paulo - SP\t ", "Sergipe - SE\t ", "Tocantins - TO" }));
 
         jButtonNovo.setText("Novo");
         jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -125,6 +130,7 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTableTabela.setToolTipText("Cidades");
         jTableTabela.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTableTabelaMouseClicked(evt);
@@ -139,30 +145,39 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jSeparator1)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelCodigo)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelCodigo)
+                            .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabelDescricao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabelEstados)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboBoxEstados, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jTextFieldNomes, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButtonNovo)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonSalvar)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonAlterar)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonExcluir)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonFechar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonLimpar)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButtonNovo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonSalvar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonAlterar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonExcluir)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonFechar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonLimpar))
+                            .addComponent(jScrollPane1)
+                            .addComponent(jSeparator1))
+                        .addGap(0, 15, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,8 +186,12 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCodigo)
                     .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelDescricao)
-                    .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelEstados)
+                    .addComponent(jComboBoxEstados, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextFieldNomes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonNovo)
@@ -181,43 +200,43 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
                     .addComponent(jButtonExcluir)
                     .addComponent(jButtonFechar)
                     .addComponent(jButtonLimpar))
-                .addGap(18, 18, 18)
+                .addGap(16, 16, 16)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(557, 309));
+        setSize(new java.awt.Dimension(542, 339));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNovoActionPerformed
-       jTextFieldCodigo.setText(String.valueOf(dff.geraCodigo()));
-       jTextFieldDescricao.setText("");
+       jTextFieldCodigo.setText(String.valueOf(dCidades.geraCodigo()));
+       jTextFieldNomes.setText("");
        jTextFieldCodigo.setEnabled(true);
-       jTextFieldDescricao.setEnabled(true);
+       jTextFieldNomes.setEnabled(true);
        jButtonAlterar.setEnabled(true);
        jButtonExcluir.setEnabled(true);
        jButtonLimpar.setEnabled(true);
        jButtonSalvar.setEnabled(true);
+       jComboBoxEstados.setEnabled(true);
        jButtonNovo.setEnabled(false);
        jButtonFechar.setEnabled(true);
        jTextFieldCodigo.requestFocus();
@@ -225,94 +244,102 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
         try {
-            ff = new FuncaoFuncionario();
-            ff.setId_funcao(Integer.parseInt(jTextFieldCodigo.getText()));
-            ff.setNome_Funcao(jTextFieldDescricao.getText());
-            dff.insert(ff);
+            cid = new Cidades();
+            cid.setId_cidades(Integer.parseInt(jTextFieldCodigo.getText()));
+            cid.setNome_cidades(jTextFieldNomes.getText());
+            cid.setEstados((jComboBoxEstados.getSelectedIndex()));
+            dCidades.insert(cid);
             preencheTabela();
+             //JOptionPane.showMessageDialog(null, "Cidade salva com sucesso!");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "ERRO:" + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao salvar a cidade!" + "ERRO:"+ e.getMessage());
         }
-        
         jTextFieldCodigo.setText("");
-        jTextFieldDescricao.setText("");
+        jTextFieldNomes.setText("");
+        jComboBoxEstados.setSelectedIndex(0);
         jTextFieldCodigo.setEnabled(false);
-        jTextFieldDescricao.setEnabled(false);
+        jTextFieldNomes.setEnabled(false);
         jButtonAlterar.setEnabled(false);
         jButtonExcluir.setEnabled(false);
         jButtonLimpar.setEnabled(false);
         jButtonSalvar.setEnabled(false);
+        jComboBoxEstados.setEnabled(false);
         jButtonNovo.setEnabled(true);
+
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
-        try {
-            ff = new FuncaoFuncionario();
-            ff.setNome_Funcao(jTextFieldDescricao.getText());
-            ff.setId_funcao(Integer.parseInt(jTextFieldCodigo.getText()));
-            dff.atualizar(ff);
+       try {
+            cid = new Cidades();
+            cid.setId_cidades(Integer.parseInt(jTextFieldCodigo.getText()));
+            cid.setNome_cidades(jTextFieldNomes.getText());
+            cid.setEstados(jComboBoxEstados.getSelectedIndex());
+            dCidades.atualizar(cid);
             preencheTabela();
-             JOptionPane.showMessageDialog(null, "Função atualizado!");
+            dCidades.atualizar(cid);
+             JOptionPane.showMessageDialog(null, "A Cidade foi atualizada com sucesso!");
         } catch (Exception e) {
-             JOptionPane.showMessageDialog(null, "Função não atualizado!" + "ERRO:" + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao atualizar a cidade!" + "ERRO:"+ e.getMessage());
         }
-        
         jButtonSalvar.setEnabled(false);
         jButtonExcluir.setEnabled(false);
         jButtonLimpar.setEnabled(false);
+        jComboBoxEstados.setEnabled(false);
         jButtonNovo.setEnabled(true);
         jTextFieldCodigo.setEnabled(false);
-        jTextFieldDescricao.setEnabled(false);
+        jTextFieldNomes.setEnabled(false);
+       
     }//GEN-LAST:event_jButtonAlterarActionPerformed
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
         int resultado = JOptionPane.showConfirmDialog(this, "Confirma a exclusão do registro selecionado?","Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.OK_OPTION );
             if(resultado == JOptionPane.YES_OPTION){
                 try {
-                    dff.removerSelecionado(ff);
+                    dCidades.removerSelecionado(cid);
                     preencheTabela();
                     jTextFieldCodigo.setText("");
-                    jTextFieldDescricao.setText("");
-                    JOptionPane.showMessageDialog(null, "Estado removido com sucesso!");
+                    jTextFieldNomes.setText("");
+                    JOptionPane.showMessageDialog(null, "Cidade removida com sucesso!");
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Erro ao remover funcaofuncionario:" + e.getMessage());
+                    JOptionPane.showMessageDialog(null, "Erro ao remover a Cidade:" + "ERRO:" + e.getMessage());
                 }
 
-            }  
+            } 
+            jButtonNovo.setEnabled(true);
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jButtonFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharActionPerformed
-       this.dispose();
+        this.dispose();
     }//GEN-LAST:event_jButtonFecharActionPerformed
 
     private void jButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimparActionPerformed
-       jTextFieldDescricao.setText(null);
+       jTextFieldNomes.setText(null);
        jTextFieldCodigo.setText(null);
+       jComboBoxEstados.setSelectedIndex(0);
        jButtonNovo.setEnabled(true);
     }//GEN-LAST:event_jButtonLimparActionPerformed
 
     private void jTableTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTabelaMouseClicked
-       int linha = jTableTabela.getSelectedRow();
-       ff = tmff.getEStados(linha);
+        int linha = jTableTabela.getSelectedRow();
+        cid = tmc.getCidades(linha);
        
-       jTextFieldCodigo.setText((String.valueOf(ff.getId_funcao())));
-       jTextFieldDescricao.setText(String.valueOf(ff.getNome_Funcao()));
+       jTextFieldCodigo.setText((String.valueOf(cid.getId_cidades())));
+       jTextFieldNomes.setText(String.valueOf(cid.getNome_cidades()));
+       jComboBoxEstados.setSelectedIndex(Integer.parseInt(String.valueOf(cid.getEstados())));
        jButtonAlterar.setEnabled(true);
        jButtonNovo.setEnabled(false);
        jButtonExcluir.setEnabled(true);
        jTextFieldCodigo.setEnabled(true);
-       jTextFieldDescricao.setEnabled(true);
+       jTextFieldNomes.setEnabled(true);
     }//GEN-LAST:event_jTableTabelaMouseClicked
 
-     private void preencheTabela() throws SQLException{
-        List<FuncaoFuncionario> tipos = dff.listarTodos();
-        tmff = new TableModelFuncaoFuncionario(tipos);
-        jTableTabela.setModel(tmff);
-    } 
+    private void preencheTabela() throws SQLException{
+        List<Cidades> tipos = dCidades.listarTodos();
+        tmc = new TableModelCidades(tipos);
+        jTableTabela.setModel(tmc);
+    }
     
-    
-    
-    
+   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -327,20 +354,20 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaFuncaoFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadCidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaFuncaoFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadCidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaFuncaoFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadCidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaFuncaoFuncionario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadCidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaFuncaoFuncionario().setVisible(true);
+                new TelaCadCidades().setVisible(true);
             }
         });
     }
@@ -352,13 +379,15 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
     private javax.swing.JButton jButtonLimpar;
     private javax.swing.JButton jButtonNovo;
     private javax.swing.JButton jButtonSalvar;
+    private javax.swing.JComboBox jComboBoxEstados;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelCodigo;
-    private javax.swing.JLabel jLabelDescricao;
+    private javax.swing.JLabel jLabelEstados;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTableTabela;
     private javax.swing.JTextField jTextFieldCodigo;
-    private javax.swing.JTextField jTextFieldDescricao;
+    private javax.swing.JTextField jTextFieldNomes;
     // End of variables declaration//GEN-END:variables
 }

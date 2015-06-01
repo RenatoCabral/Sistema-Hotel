@@ -28,6 +28,13 @@ public class FuncaoFuncionario {
     public void setNome_Funcao(String nome_funcao) {
         this.nome_funcao = nome_funcao;
     }
+
+    @Override
+    public String toString() {
+        return id_funcao+" "+nome_funcao;
+    }
+    
+    
     
     
     

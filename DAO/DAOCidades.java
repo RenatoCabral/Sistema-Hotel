@@ -1,6 +1,6 @@
 package DAO;
 
-import classes.Estado;
+import classes.Cidades;
 import conexao.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,50 +10,47 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class DAOEstado {
+public class DAOCidades {
     
     private Conexao cSQL = new Conexao();
     private Connection conexao;
     public static ResultSet resultado;
     private PreparedStatement enviaComando;
-    private Estado est = new Estado();
+    private Cidades cid = new Cidades();
     
     
     
-    public void insert(Estado est){
-        String comando  = "Insert Into estado (id_estado, sigla, nome_estado, status) values (?, ?, ?, ?)";
+    public void insert(Cidades cid){
+        String comando  = "Insert Into cidades (id_cidades, nome_cidades, estado) values (?, ?, ?)";
         conexao  = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(comando);
-            enviaComando.setInt(1, est.getId_estado());
-            enviaComando.setString(2, est.getSigla());
-            enviaComando.setString(3, est.getNome_estado());
-            enviaComando.setInt(4, est.getStatus());
+            enviaComando.setInt(1, cid.getId_cidades());
+            enviaComando.setString(2, cid.getNome_cidades());
+            enviaComando.setInt(3, cid.getEstados());
             enviaComando.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Registro efetuado");   
+            JOptionPane.showMessageDialog(null, "Cadastro salvo com sucesso!");   
             enviaComando.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Registro não efetuado" + ex.getMessage());
         }
     }
     
-    public void atualizar(Estado est ){
-        String query = "update estado set sigla = ?, nome_estado= ?, status= ? where id_estado= ?";
+    public void atualizar(Cidades cid){
+        String query = "update cidades set nome_cidades= ?, estado= ? where id_cidades= ?";
         conexao = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(query);
-            enviaComando.setInt(4, est.getId_estado());
-            enviaComando.setString(1, est.getSigla());
-            enviaComando.setString(2, est.getNome_estado());
-            enviaComando.setInt(3, est.getStatus());
+            enviaComando.setInt(3, cid.getId_cidades());
+            enviaComando.setString(1, cid.getNome_cidades());
+            enviaComando.setInt(2, cid.getEstados());
             enviaComando.executeUpdate();
         }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao alterar estado:" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao alterar cidades:" + ex.getMessage());
         }finally{  
-            try{
-                
+            try{ 
             enviaComando.close();
             conexao.close();
             }catch (SQLException ex) {
@@ -64,14 +61,13 @@ public class DAOEstado {
     
   
     public void removerTudo(){ 
-        String query = "Delete from estado";
+        String query = "Delete from cidades";
         conexao = cSQL.getConnection();
-        
         try {
             enviaComando = conexao.prepareStatement(query);
             enviaComando.executeUpdate();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir estado:" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao excluir cidades:" + ex.getMessage());
         }finally{
             try {
                 enviaComando.close();
@@ -86,7 +82,7 @@ public class DAOEstado {
     public int geraCodigo(){
         conexao = cSQL.getConnection();
         int codigo = 0;
-        String comando = "select max(id_estado) as codigo from estado";
+        String comando = "select max(id_cidades) as codigo from cidades";
         
         try {
             enviaComando = conexao.prepareStatement(comando);
@@ -108,25 +104,25 @@ public class DAOEstado {
         return codigo + 1;
     }
     
-    public List<Estado> localizarTipo(String Estados){
+    public List<Cidades> localizarTipo(String Cidades){
         conexao = cSQL.getConnection();
-        List<Estado> tipos = new ArrayList<>();
-        String comando = "select *from estado where nome_estado = ?";
+        List<Cidades> tipos = new ArrayList<>();
+        String comando = "select *from cidades where nome_cidades= ?";
         
         try {
             enviaComando = conexao.prepareStatement(comando);
-            enviaComando.setString(1, Estados);
+            enviaComando.setString(1, Cidades);
             resultado = enviaComando.executeQuery() ;
             
             while(resultado.next()){ 
-                Estado est = new Estado();
-                est.setId_estado(resultado.getInt("id_estado"));
-                est.setSigla(resultado.getString("sigla"));
-                est.setNome_estado(resultado.getString("nome_estados"));
-                tipos.add(est);
+               Cidades cid = new Cidades();
+                cid.setId_cidades(resultado.getInt("id_cidades"));
+                cid.setNome_cidades(resultado.getString("nome_cidades"));
+                cid.setEstados(resultado.getInt("estado"));
+                tipos.add(cid);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar estado" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao buscar cidades" + ex.getMessage());
         }finally{
             try {    
             } catch (Throwable ex) {
@@ -136,23 +132,22 @@ public class DAOEstado {
         return tipos;
     }
     
-     public List<Estado> listarTodos(){
+     public List<Cidades> listarTodos(){
         conexao = cSQL.getConnection();
-        List<Estado> tipos = new ArrayList<>();
-        String comando = "select *from estado";  
+        List<Cidades> tipos = new ArrayList<>();
+        String comando = "select *from cidades";  
         try {
             enviaComando = conexao.prepareStatement(comando);
             resultado = enviaComando.executeQuery() ;       
             while(resultado.next()){ 
-                Estado est = new Estado();
-                est.setId_estado(resultado.getInt("id_estado"));
-                est.setSigla(resultado.getString("sigla"));
-                est.setNome_estado(resultado.getString("nome_estado"));
-                est.setStatus(resultado.getInt("status"));
-                tipos.add(est);
+                Cidades est = new Cidades();
+                cid.setId_cidades(resultado.getInt("id_cidades"));
+                cid.setNome_cidades(resultado.getString("nome_cidades"));
+                cid.setEstados(resultado.getInt("estado"));
+                tipos.add(cid);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar estado" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao buscar cidades" + ex.getMessage());
         }finally{
             try {
                
@@ -163,16 +158,16 @@ public class DAOEstado {
         return tipos;
     }
     
-    public void removerSelecionado(Estado est){
-        String query = "Delete from estado where id_estado= ?";
+    public void removerSelecionado(Cidades cid){
+        String query = "Delete from cidades where id_cidades= ?";
         conexao = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(query);
-            enviaComando.setInt(1, est.getId_estado());
+            enviaComando.setInt(1, cid.getId_cidades());
             enviaComando.executeUpdate();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir estado:" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao excluir cidades:" + ex.getMessage());
         }finally{
             try {
                 enviaComando.close();
@@ -183,7 +178,4 @@ public class DAOEstado {
         }
     }
     
-    
 }
-
-  

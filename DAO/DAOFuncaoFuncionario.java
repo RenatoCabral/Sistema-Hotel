@@ -156,7 +156,7 @@ public class DAOFuncaoFuncionario {
     }
     
     public void removerSelecionado(FuncaoFuncionario ff){
-        String query = "Delete from funcao_funcionario where id_estado= ?";
+        String query = "Delete from funcao_funcionario where id_funcao= ?";
         conexao = cSQL.getConnection();
         
         try {

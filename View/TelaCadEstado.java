@@ -2,7 +2,7 @@ package View;
 
 import DAO.DAOEstado;
 import TableModel.TableModelEstado;
-import classes.ApenasLetras;
+import MascarasCampos.ApenasLetras;
 import classes.Estado;
 import java.sql.Connection;
 import java.sql.SQLException;

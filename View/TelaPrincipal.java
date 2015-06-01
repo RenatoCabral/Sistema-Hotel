@@ -36,6 +36,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItemCadFuncionario = new javax.swing.JMenuItem();
         jMenuItemCadHospede = new javax.swing.JMenuItem();
+        jMenuItemCadCidades = new javax.swing.JMenuItem();
+        jMenuItemCadEstados = new javax.swing.JMenuItem();
+        jMenuItemCadProdutos = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -84,6 +87,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItemCadHospede);
+
+        jMenuItemCadCidades.setText("Cadastro de Cidades");
+        jMenu1.add(jMenuItemCadCidades);
+
+        jMenuItemCadEstados.setText("Cadastro de Estados");
+        jMenu1.add(jMenuItemCadEstados);
+
+        jMenuItemCadProdutos.setText("Cadastro de Produtos");
+        jMenu1.add(jMenuItemCadProdutos);
 
         jMenuBar1.add(jMenu1);
 
@@ -175,8 +187,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItemCadCidades;
+    private javax.swing.JMenuItem jMenuItemCadEstados;
     private javax.swing.JMenuItem jMenuItemCadFuncionario;
     private javax.swing.JMenuItem jMenuItemCadHospede;
+    private javax.swing.JMenuItem jMenuItemCadProdutos;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables

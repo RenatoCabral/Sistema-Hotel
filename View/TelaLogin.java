@@ -6,7 +6,7 @@
 
 package View;
 
-import classes.ApenasNumeros;
+import MascarasCampos.ApenasNumeros;
 import javax.swing.JOptionPane;
 
 /**
