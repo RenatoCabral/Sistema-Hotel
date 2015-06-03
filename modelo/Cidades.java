@@ -1,15 +1,15 @@
-package classes;
+package modelo;
 
 public class Cidades {
     
     private int id_cidades;
     private String nome_cidades;
-    private int estados;
+    private String estados;
 
     public Cidades() {
     }
 
-    public Cidades(int id_cidades, String nome_cidades, int estados) {
+    public Cidades(int id_cidades, String nome_cidades, String estados) {
         this.id_cidades = id_cidades;
         this.nome_cidades = nome_cidades;
         this.estados = estados;
@@ -31,11 +31,11 @@ public class Cidades {
         this.nome_cidades = nome_cidades;
     }
 
-    public int getEstados() {
+    public String getEstados() {
         return estados;
     }
 
-    public void setEstados(int estados) {
+    public void setEstados(String estados) {
         this.estados = estados;
     }
     
@@ -43,7 +43,7 @@ public class Cidades {
 
     @Override
     public String toString() {
-        return id_cidades + " " + nome_cidades + " " + estados;
+        return nome_cidades;
     }
     
     

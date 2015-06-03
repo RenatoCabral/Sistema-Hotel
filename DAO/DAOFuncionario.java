@@ -1,6 +1,6 @@
 package DAO;
 
-import classes.Funcionarios;
+import modelo.Funcionarios;
 import conexao.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,7 +18,7 @@ public class DAOFuncionario {
     private PreparedStatement enviaComando;
     
      public void insert(Funcionarios func){
-        String comando  = "Insert Into fornecedor (id_funcionarios, nome_funcionarios, cpf_funcionarios, rg_funcionarios, endereco,email_funcionarios) values (?, ?, ?, ?, ?, ?)";
+        String comando  = "Insert Into fornecedor (id_funcionarios, nome_funcionarios, cpf_funcionarios, rg_funcionarios, endereco,email_funcionarios, id_cidades, id_funcao) values (?, ?, ?, ?, ?, ?, ?)";
         conexao  = cSQL.getConnection();
         
         try {
@@ -29,6 +29,7 @@ public class DAOFuncionario {
             enviaComando.setString(4, func.getRg_funcionario());
             enviaComando.setString(5, func.getEndereco());
             enviaComando.setString(6, func.getEmail_funcionario());
+            enviaComando.setString(7, func.getCidades().getNome_cidades());
             enviaComando.executeUpdate();
             JOptionPane.showMessageDialog(null, "Registro efetuado com sucesso!");   
             enviaComando.close();
@@ -38,17 +39,18 @@ public class DAOFuncionario {
     }
     
     public void atualizar(Funcionarios func ){
-        String query = "update funcionarios set nome_funcionarios = ?, cpf_funcionarios= ?, rg_funcionarios= ?, endereco= ?, email_funcionarios=? where id_funcionario= ?";
+        String query = "update funcionarios set nome_funcionarios = ?, cpf_funcionarios= ?, rg_funcionarios= ?, endereco= ?, email_funcionarios=?, id_cidades= ?  where id_funcionario= ?";
         conexao = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(query);
-            enviaComando.setInt(6, func.getId_funcionario());
+            enviaComando.setInt(7, func.getId_funcionario());
             enviaComando.setString(1, func.getNome_funcionario());
             enviaComando.setString(2, func.getCpf_funcionario());
             enviaComando.setString(3, func.getRg_funcionario());
             enviaComando.setString(4, func.getEndereco());
             enviaComando.setString(5, func.getEmail_funcionario());
+            enviaComando.setString(6, func.getCidades().getNome_cidades());
             enviaComando.executeUpdate();
         }catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao alterar funcionarios:" + ex.getMessage());
@@ -125,6 +127,7 @@ public class DAOFuncionario {
                 func.setRg_funcionario(resultado.getString("rg_funcionarios"));
                 func.setEndereco(resultado.getString("endereco"));
                 func.setEmail_funcionario(resultado.getString("email_funcionarios"));
+                //func.setCidades(resultado.getC("id_cidades"));
                 tipos.add(func);
             }
         } catch (SQLException ex) {

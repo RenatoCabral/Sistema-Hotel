@@ -1,6 +1,6 @@
 package TableModel;
 
-import classes.FuncaoFuncionario;
+import modelo.FuncaoFuncionario;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -52,7 +52,7 @@ public class TableModelFuncaoFuncionario extends AbstractTableModel{
          return "";
     }
     
-     public FuncaoFuncionario getEStados(int linha){
+     public FuncaoFuncionario getFuncaoFuncionario(int linha){
         return tipos.get(linha);
     }
     

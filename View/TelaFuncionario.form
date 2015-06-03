@@ -113,11 +113,7 @@
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="jLabelNomeFunc" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jTextFieldNomeFunc" min="-2" pref="386" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jLabelStatus" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jComboBoxStatus" linkSize="3" min="-2" pref="119" max="-2" attributes="0"/>
+                                  <Component id="jTextFieldNomeFunc" min="-2" pref="559" max="-2" attributes="0"/>
                                   <EmptySpace max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
@@ -207,7 +203,7 @@
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jComboBoxCidade" min="-2" pref="276" max="-2" attributes="0"/>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="jButtonAdd" linkSize="1" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="jButtonAddCidade" linkSize="1" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -231,10 +227,8 @@
                       <Component id="jTextFieldCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelNomeFunc" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jTextFieldNomeFunc" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBoxStatus" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabelCPF" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jTextFieldCPF" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -249,7 +243,7 @@
                       <Component id="jTextFieldEndereco" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelCidade" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jComboBoxCidade" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButtonAdd" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonAddCidade" linkSize="2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -309,6 +303,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldCPF">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="try{&#xd;&#xa; javax.swing.text.MaskFormatter CPF = new javax.swing.text.MaskFormatter(&quot;###.###.###-##&quot;);&#xd;&#xa;&#xd;&#xa; jTextFieldCPF = new javax.swing.JFormattedTextField(CPF);&#xd;&#xa; }catch(Exception e){&#xd;&#xa;}"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelRG">
           <Properties>
@@ -316,6 +313,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldRG">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="try{&#xd;&#xa; javax.swing.text.MaskFormatter RG = new javax.swing.text.MaskFormatter(&quot;##.###.###-#&quot;);&#xd;&#xa;&#xd;&#xa; jTextFieldRG = new javax.swing.JFormattedTextField(RG);&#xd;&#xa; }catch(Exception e){&#xd;&#xa;}"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelEmail">
           <Properties>
@@ -337,7 +337,9 @@
         <Component class="javax.swing.JComboBox" name="jComboBoxCidade">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="0"/>
+              <StringArray count="1">
+                <StringItem index="0" value="&lt;Selecione&gt;"/>
+              </StringArray>
             </Property>
           </Properties>
           <Events>
@@ -363,21 +365,33 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Salvar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSalvarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonAlterar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Alterar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAlterarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonExcluir">
           <Properties>
             <Property name="text" type="java.lang.String" value="Excluir"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonExcluirActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonFechar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Fechar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonFecharActionPerformed"/>
+          </Events>
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPane3">
           <AuxValues>
@@ -397,6 +411,9 @@
                   </Table>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableTabelaMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -404,32 +421,24 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Limpar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonLimparActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonAdd">
+        <Component class="javax.swing.JButton" name="jButtonAddCidade">
           <Properties>
             <Property name="text" type="java.lang.String" value="+"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAddCidadeActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldEmail">
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelStatus">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Status"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBoxStatus">
-          <Properties>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="3">
-                <StringItem index="0" value="&lt;Selecione&gt;"/>
-                <StringItem index="1" value="Ativo"/>
-                <StringItem index="2" value="Inativo"/>
-              </StringArray>
-            </Property>
-            <Property name="toolTipText" type="java.lang.String" value="Status"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldTelefone1">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="try{&#xd;&#xa; javax.swing.text.MaskFormatter Telefone = new javax.swing.text.MaskFormatter(&quot;(##)####-####&quot;);&#xd;&#xa;&#xd;&#xa; jTextFieldTelefone1 = new javax.swing.JFormattedTextField(Telefone);&#xd;&#xa; }catch(Exception e){&#xd;&#xa;}"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelTelefone2">
           <Properties>
@@ -437,6 +446,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldTelefone2">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="try{&#xd;&#xa; javax.swing.text.MaskFormatter Telefone = new javax.swing.text.MaskFormatter(&quot;(##)####-####&quot;);&#xd;&#xa;&#xd;&#xa; jTextFieldTelefone2 = new javax.swing.JFormattedTextField(Telefone);&#xd;&#xa; }catch(Exception e){&#xd;&#xa;}"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5TipoTelefone">
           <Properties>
@@ -466,11 +478,17 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="+"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAddTel1ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonAddTel2">
           <Properties>
             <Property name="text" type="java.lang.String" value="+"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAddTel2ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
@@ -483,11 +501,17 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxFuncaoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonAddFuncao">
           <Properties>
             <Property name="text" type="java.lang.String" value="+"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAddFuncaoActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

@@ -188,7 +188,7 @@
                 <StringItem index="19" value="Rio Grande do Norte - RN&#x9; "/>
                 <StringItem index="20" value="Rio Grande do Sul - RS&#x9; "/>
                 <StringItem index="21" value="Rond&#xf4;nia - RO&#x9; "/>
-                <StringItem index="22" value="Roraima&#x9;RR&#x9; "/>
+                <StringItem index="22" value="Roraima - RR&#x9; "/>
                 <StringItem index="23" value="Santa Catarina - SC&#x9; "/>
                 <StringItem index="24" value="S&#xe3;o Paulo - SP&#x9; "/>
                 <StringItem index="25" value="Sergipe - SE&#x9; "/>
@@ -196,6 +196,9 @@
               </StringArray>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBoxEstadosActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonNovo">
           <Properties>

@@ -1,4 +1,4 @@
-package classes;
+package modelo;
 
 public class FuncaoFuncionario {
     
@@ -31,7 +31,7 @@ public class FuncaoFuncionario {
 
     @Override
     public String toString() {
-        return id_funcao+" "+nome_funcao;
+        return nome_funcao;
     }
     
     

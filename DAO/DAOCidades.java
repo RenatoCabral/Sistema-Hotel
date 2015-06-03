@@ -1,6 +1,6 @@
 package DAO;
 
-import classes.Cidades;
+import modelo.Cidades;
 import conexao.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,15 +20,16 @@ public class DAOCidades {
     
     
     
+    
     public void insert(Cidades cid){
-        String comando  = "Insert Into cidades (id_cidades, nome_cidades, estado) values (?, ?, ?)";
+        String comando  = "Insert Into cidades (id_cidades, nome_cidades, estados) values (?, ?, ?)";
         conexao  = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(comando);
             enviaComando.setInt(1, cid.getId_cidades());
             enviaComando.setString(2, cid.getNome_cidades());
-            enviaComando.setInt(3, cid.getEstados());
+            enviaComando.setString(3, cid.getEstados());
             enviaComando.executeUpdate();
             JOptionPane.showMessageDialog(null, "Cadastro salvo com sucesso!");   
             enviaComando.close();
@@ -45,7 +46,7 @@ public class DAOCidades {
             enviaComando = conexao.prepareStatement(query);
             enviaComando.setInt(3, cid.getId_cidades());
             enviaComando.setString(1, cid.getNome_cidades());
-            enviaComando.setInt(2, cid.getEstados());
+            enviaComando.setString(2, cid.getEstados());
             enviaComando.executeUpdate();
         }catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao alterar cidades:" + ex.getMessage());
@@ -116,9 +117,9 @@ public class DAOCidades {
             
             while(resultado.next()){ 
                Cidades cid = new Cidades();
-                cid.setId_cidades(resultado.getInt("id_cidades"));
-                cid.setNome_cidades(resultado.getString("nome_cidades"));
-                cid.setEstados(resultado.getInt("estado"));
+               cid.setId_cidades(resultado.getInt("id_cidades"));
+               cid.setNome_cidades(resultado.getString("nome_cidades"));
+               cid.setEstados(resultado.getString("estados"));
                 tipos.add(cid);
             }
         } catch (SQLException ex) {
@@ -140,10 +141,10 @@ public class DAOCidades {
             enviaComando = conexao.prepareStatement(comando);
             resultado = enviaComando.executeQuery() ;       
             while(resultado.next()){ 
-                Cidades est = new Cidades();
+                Cidades cid = new Cidades();
                 cid.setId_cidades(resultado.getInt("id_cidades"));
                 cid.setNome_cidades(resultado.getString("nome_cidades"));
-                cid.setEstados(resultado.getInt("estado"));
+                cid.setEstados(resultado.getString("estados"));
                 tipos.add(cid);
             }
         } catch (SQLException ex) {
@@ -157,6 +158,7 @@ public class DAOCidades {
         }
         return tipos;
     }
+     
     
     public void removerSelecionado(Cidades cid){
         String query = "Delete from cidades where id_cidades= ?";
@@ -177,5 +179,6 @@ public class DAOCidades {
             }
         }
     }
-    
+     
+   
 }

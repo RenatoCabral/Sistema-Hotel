@@ -3,7 +3,7 @@ package View;
 import DAO.DAOEstado;
 import TableModel.TableModelEstado;
 import MascarasCampos.ApenasLetras;
-import classes.Estado;
+import modelo.Estado;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -50,8 +50,6 @@ public class TelaCadEstado extends javax.swing.JFrame {
         jButtonExcluir = new javax.swing.JButton();
         jButtonFechar = new javax.swing.JButton();
         jButtonLimpar = new javax.swing.JButton();
-        jComboBoxStatus = new javax.swing.JComboBox();
-        jLabelStatus = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Estados");
@@ -143,11 +141,6 @@ public class TelaCadEstado extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<Selecione>", "Ativo", "Inativo" }));
-        jComboBoxStatus.setToolTipText("Status");
-
-        jLabelStatus.setText("Status");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -168,25 +161,19 @@ public class TelaCadEstado extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextFieldSigla, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTextFieldNomeEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(315, 315, 315)
-                            .addComponent(jLabelStatus)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(12, 12, 12)
-                            .addComponent(jButtonNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButtonAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButtonExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jButtonLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jButtonNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButtonLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(53, 53, 53))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -199,22 +186,19 @@ public class TelaCadEstado extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelStatus)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabelCodigo)
-                        .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabelSigla)
-                        .addComponent(jTextFieldSigla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(22, 22, 22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelCodigo)
+                    .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelSigla)
+                    .addComponent(jTextFieldSigla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextFieldNomeEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(43, 43, 43)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(9, 9, 9)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -224,10 +208,10 @@ public class TelaCadEstado extends javax.swing.JFrame {
                             .addComponent(jButtonAlterar)
                             .addComponent(jButtonSalvar)
                             .addComponent(jButtonNovo))
-                        .addContainerGap())))
+                        .addContainerGap(185, Short.MAX_VALUE))))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonAlterar, jButtonExcluir, jButtonFechar, jButtonLimpar, jButtonNovo, jButtonSalvar, jComboBoxStatus});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonAlterar, jButtonExcluir, jButtonFechar, jButtonLimpar, jButtonNovo, jButtonSalvar});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -261,7 +245,6 @@ public class TelaCadEstado extends javax.swing.JFrame {
             est.setId_estado(Integer.parseInt(jTextFieldCodigo.getText()));
             est.setNome_estado(jTextFieldNomeEstado.getText());
             est.setSigla(jTextFieldSigla.getText());
-            est.setStatus(jComboBoxStatus.getSelectedIndex());
             dEstado.insert(est);
             preencheTabela();
             
@@ -280,14 +263,12 @@ public class TelaCadEstado extends javax.swing.JFrame {
         jButtonExcluir.setEnabled(false);
         jButtonLimpar.setEnabled(false);
         jButtonSalvar.setEnabled(false);
-        jComboBoxStatus.setEnabled(false);
         jButtonNovo.setEnabled(true);
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimparActionPerformed
        jTextFieldNomeEstado.setText(null);
        jTextFieldSigla.setText(null);
-       jComboBoxStatus.setSelectedIndex(0);
        jButtonNovo.setEnabled(true);
     }//GEN-LAST:event_jButtonLimparActionPerformed
 
@@ -295,7 +276,6 @@ public class TelaCadEstado extends javax.swing.JFrame {
         jTextFieldCodigo.setText(String.valueOf(dEstado.geraCodigo()));
         jTextFieldNomeEstado.setText("");
         jTextFieldSigla.setText("");
-        jComboBoxStatus.getSelectedIndex();
         jTextFieldCodigo.setEnabled(true);
         jTextFieldNomeEstado.setEnabled(true);
         jTextFieldSigla.setEnabled(true);
@@ -303,7 +283,6 @@ public class TelaCadEstado extends javax.swing.JFrame {
         jButtonExcluir.setEnabled(true);
         jButtonLimpar.setEnabled(true);
         jButtonSalvar.setEnabled(true);
-        jComboBoxStatus.setEnabled(true);
         jButtonNovo.setEnabled(false);
         jTextFieldSigla.requestFocus();
     }//GEN-LAST:event_jButtonNovoActionPerformed
@@ -317,7 +296,6 @@ public class TelaCadEstado extends javax.swing.JFrame {
                     jTextFieldCodigo.setText("");
                     jTextFieldNomeEstado.setText("");
                     jTextFieldSigla.setText("");
-                    jComboBoxStatus.setSelectedIndex(0);
                     JOptionPane.showMessageDialog(null, "Estado removido com sucesso!");
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Erro ao remover estado:" + e.getMessage());
@@ -333,7 +311,6 @@ public class TelaCadEstado extends javax.swing.JFrame {
        jTextFieldCodigo.setText((String.valueOf(est.getId_estado())));
        jTextFieldNomeEstado.setText(String.valueOf(est.getNome_estado()));
        jTextFieldSigla.setText(String.valueOf(est.getSigla()));
-       jComboBoxStatus.setSelectedIndex(Integer.parseInt(String.valueOf(est.getStatus())));
        jButtonExcluir.setEnabled(true);
     }//GEN-LAST:event_jTableTabelaMouseClicked
 
@@ -343,7 +320,6 @@ public class TelaCadEstado extends javax.swing.JFrame {
             est.setSigla(jTextFieldSigla.getText());
             est.setNome_estado(jTextFieldNomeEstado.getText());
             est.setId_estado(Integer.parseInt(jTextFieldCodigo.getText()));
-            est.setStatus(jComboBoxStatus.getSelectedIndex());
             dEstado.atualizar(est);
             preencheTabela();
             JOptionPane.showMessageDialog(null, "Estado atualizado!");
@@ -358,7 +334,6 @@ public class TelaCadEstado extends javax.swing.JFrame {
          jTextFieldCodigo.setEnabled(false);
          jTextFieldNomeEstado.setEnabled(false);
          jTextFieldSigla.setEnabled(false);
-         jComboBoxStatus.setEnabled(false);
     }//GEN-LAST:event_jButtonAlterarActionPerformed
 
     
@@ -407,11 +382,9 @@ public class TelaCadEstado extends javax.swing.JFrame {
     private javax.swing.JButton jButtonLimpar;
     private javax.swing.JButton jButtonNovo;
     private javax.swing.JButton jButtonSalvar;
-    private javax.swing.JComboBox jComboBoxStatus;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelCodigo;
     private javax.swing.JLabel jLabelSigla;
-    private javax.swing.JLabel jLabelStatus;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableTabela;
@@ -420,27 +393,4 @@ public class TelaCadEstado extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldSigla;
     // End of variables declaration//GEN-END:variables
 
-    private boolean validarCampos(){
-        if(jTextFieldSigla.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"Digite a sigla!");
-            jTextFieldSigla.requestFocus();
-            return false;
-        }
-        if(jTextFieldNomeEstado.getText().equals("")){
-            JOptionPane.showMessageDialog(null, "Digite o Nome do Estado!");
-            jTextFieldNomeEstado.requestFocus();
-            return false;
-        }
-        if(jComboBoxStatus.getSelectedIndex() == 0){
-            JOptionPane.showMessageDialog(null, "Selecione um status!");
-            jComboBoxStatus.requestFocus();
-            return false;
-            
-        }
-        return true;
-    }
-    
-    private boolean preencherObjeto() throws Exception{
-        return true;
-    }
-} 
+}

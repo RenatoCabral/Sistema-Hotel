@@ -1,6 +1,6 @@
 package TableModel;
 
-import classes.Cidades;
+import modelo.Cidades;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -8,7 +8,7 @@ public class TableModelCidades extends AbstractTableModel{
     
     private static final int Col_Id_Cidades = 0;
     private static final int Col_NomeCidades = 1;
-    private static final int Col_Estado = 2;
+    private static final int Col_Estados = 2;
     
     private List<Cidades> tipos;
 
@@ -36,9 +36,10 @@ public class TableModelCidades extends AbstractTableModel{
            return cid.getId_cidades();
        }else if(columnIndex == Col_NomeCidades){
            return cid.getNome_cidades();
-       }else if(columnIndex == Col_Estado){
+       }else if(columnIndex == Col_Estados){
            return cid.getEstados();
        }
+      
         return "";
     }
     
@@ -48,8 +49,8 @@ public class TableModelCidades extends AbstractTableModel{
             return "IdCidades";
         if(column == Col_NomeCidades)
             return "NomeCidades";
-        if(column == Col_Estado)
-            return "Estado";
+        if(column == Col_Estados)
+            return "Estados";
          return "";
     }
     

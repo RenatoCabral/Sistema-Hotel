@@ -5,10 +5,10 @@ import DAO.DAOCidades;
 import MascarasCampos.ApenasLetras;
 import MascarasCampos.ApenasNumeros;
 import TableModel.TableModelCidades;
-import classes.Cidades;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
+import modelo.Cidades;
 
 
 public class TelaCadCidades extends javax.swing.JFrame {
@@ -16,8 +16,11 @@ public class TelaCadCidades extends javax.swing.JFrame {
     Cidades cid =  new Cidades();
     
     private DAOCidades dCidades = new DAOCidades();
+    //private DAOEstado dEstado = new DAOEstado();
     private TableModel.TableModelCidades tmc = new TableModelCidades();
-
+    
+   
+   
     public TelaCadCidades() {
         initComponents();
         
@@ -32,8 +35,6 @@ public class TelaCadCidades extends javax.swing.JFrame {
         }
         
     }
-
-  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -71,7 +72,12 @@ public class TelaCadCidades extends javax.swing.JFrame {
 
         jLabelEstados.setText("Estados");
 
-        jComboBoxEstados.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<Selecione>", "Alagoas - AL\t ", "Amapá - AP\t ", "Amazonas - AM\t ", "Bahia - BA\t ", "Ceará - CE\t ", "Distrito Federal - DF\t ", "Espírito Santo - ES\t ", "Goiás - GO\t ", "Maranhão - MA\t ", "Mato Grosso - MT\t ", "Mato Grosso do Sul - MS\t ", "Minas Gerais - MG\t ", "Pará - PA\t ", "Paraíba - PB\t ", "Paraná - PR\t ", "Pernambuco - PE\t ", "Piauí - PI\t ", "Rio de Janeiro - RJ\t ", "Rio Grande do Norte - RN\t ", "Rio Grande do Sul - RS\t ", "Rondônia - RO\t ", "Roraima\tRR\t ", "Santa Catarina - SC\t ", "São Paulo - SP\t ", "Sergipe - SE\t ", "Tocantins - TO" }));
+        jComboBoxEstados.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<Selecione>", "Alagoas - AL\t ", "Amapá - AP\t ", "Amazonas - AM\t ", "Bahia - BA\t ", "Ceará - CE\t ", "Distrito Federal - DF\t ", "Espírito Santo - ES\t ", "Goiás - GO\t ", "Maranhão - MA\t ", "Mato Grosso - MT\t ", "Mato Grosso do Sul - MS\t ", "Minas Gerais - MG\t ", "Pará - PA\t ", "Paraíba - PB\t ", "Paraná - PR\t ", "Pernambuco - PE\t ", "Piauí - PI\t ", "Rio de Janeiro - RJ\t ", "Rio Grande do Norte - RN\t ", "Rio Grande do Sul - RS\t ", "Rondônia - RO\t ", "Roraima - RR\t ", "Santa Catarina - SC\t ", "São Paulo - SP\t ", "Sergipe - SE\t ", "Tocantins - TO" }));
+        jComboBoxEstados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxEstadosActionPerformed(evt);
+            }
+        });
 
         jButtonNovo.setText("Novo");
         jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -247,7 +253,7 @@ public class TelaCadCidades extends javax.swing.JFrame {
             cid = new Cidades();
             cid.setId_cidades(Integer.parseInt(jTextFieldCodigo.getText()));
             cid.setNome_cidades(jTextFieldNomes.getText());
-            cid.setEstados((jComboBoxEstados.getSelectedIndex()));
+            cid.setEstados(Integer.toString(jComboBoxEstados.getSelectedIndex()));
             dCidades.insert(cid);
             preencheTabela();
              //JOptionPane.showMessageDialog(null, "Cidade salva com sucesso!");
@@ -273,7 +279,7 @@ public class TelaCadCidades extends javax.swing.JFrame {
             cid = new Cidades();
             cid.setId_cidades(Integer.parseInt(jTextFieldCodigo.getText()));
             cid.setNome_cidades(jTextFieldNomes.getText());
-            cid.setEstados(jComboBoxEstados.getSelectedIndex());
+            cid.setEstados(Integer.toString(jComboBoxEstados.getSelectedIndex()));
             dCidades.atualizar(cid);
             preencheTabela();
             dCidades.atualizar(cid);
@@ -299,6 +305,7 @@ public class TelaCadCidades extends javax.swing.JFrame {
                     preencheTabela();
                     jTextFieldCodigo.setText("");
                     jTextFieldNomes.setText("");
+                    jComboBoxEstados.setSelectedItem("");
                     JOptionPane.showMessageDialog(null, "Cidade removida com sucesso!");
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Erro ao remover a Cidade:" + "ERRO:" + e.getMessage());
@@ -310,6 +317,7 @@ public class TelaCadCidades extends javax.swing.JFrame {
 
     private void jButtonFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharActionPerformed
         this.dispose();
+
     }//GEN-LAST:event_jButtonFecharActionPerformed
 
     private void jButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimparActionPerformed
@@ -333,13 +341,17 @@ public class TelaCadCidades extends javax.swing.JFrame {
        jTextFieldNomes.setEnabled(true);
     }//GEN-LAST:event_jTableTabelaMouseClicked
 
+    private void jComboBoxEstadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEstadosActionPerformed
+        String a = jComboBoxEstados.getModel().toString();
+    }//GEN-LAST:event_jComboBoxEstadosActionPerformed
+
     private void preencheTabela() throws SQLException{
         List<Cidades> tipos = dCidades.listarTodos();
         tmc = new TableModelCidades(tipos);
         jTableTabela.setModel(tmc);
     }
     
-   
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -371,7 +383,8 @@ public class TelaCadCidades extends javax.swing.JFrame {
             }
         });
     }
-
+    
+   
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAlterar;
     private javax.swing.JButton jButtonExcluir;

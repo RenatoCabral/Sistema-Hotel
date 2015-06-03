@@ -1,23 +1,48 @@
 package View;
 
+import DAO.DAOCidades;
+import DAO.DAOFuncaoFuncionario;
 import DAO.DAOFuncionario;
+import MascarasCampos.ApenasLetras;
 import MascarasCampos.ApenasNumeros;
 import TableModel.TableModelFuncionario;
-import classes.Funcionarios;
+import java.sql.SQLException;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableRowSorter;
+import modelo.Cidades;
+import modelo.FuncaoFuncionario;
+import modelo.Funcionarios;
 
 public class TelaFuncionario extends javax.swing.JFrame {
     
     Funcionarios func = new Funcionarios();
+    Cidades cid = new Cidades();
+    FuncaoFuncionario ff = new FuncaoFuncionario();
     
     private DAOFuncionario dfunc = new DAOFuncionario();
+    private DAOCidades dCidade = new DAOCidades();
+    private DAOFuncaoFuncionario dff = new DAOFuncaoFuncionario();
     private TableModel.TableModelFuncionario tmfunc = new TableModelFuncionario();
+    private DefaultComboBoxModel dcmCidades = new DefaultComboBoxModel();
+    private DefaultComboBoxModel dcbmff = new DefaultComboBoxModel();
+    private TableRowSorter sorter = new TableRowSorter();
 
     public TelaFuncionario() {
         initComponents();
         
+        try {
+            preencherCombobox();
+            preencherComboboxFuncao();
+            preencheTabela();
+        } catch (Exception e) {
+        }
+        
         //MASCARA PARA OS CAMPOS
-        jTextFieldNomeFunc.setDocument(new ApenasNumeros());
+        jTextFieldNomeFunc.setDocument(new ApenasLetras());
         jTextFieldCodigo.setDocument(new ApenasNumeros());
+        jTableTabela.setAutoCreateRowSorter(true); // ordenação das colunas
     }
 
     @SuppressWarnings("unchecked")
@@ -35,8 +60,20 @@ public class TelaFuncionario extends javax.swing.JFrame {
         jTextFieldNomeFunc = new javax.swing.JTextField();
         jLabelCPF = new javax.swing.JLabel();
         jTextFieldCPF = new javax.swing.JTextField();
+        try{
+            javax.swing.text.MaskFormatter CPF = new javax.swing.text.MaskFormatter("###.###.###-##");
+
+            jTextFieldCPF = new javax.swing.JFormattedTextField(CPF);
+        }catch(Exception e){
+        }
         jLabelRG = new javax.swing.JLabel();
         jTextFieldRG = new javax.swing.JTextField();
+        try{
+            javax.swing.text.MaskFormatter RG = new javax.swing.text.MaskFormatter("##.###.###-#");
+
+            jTextFieldRG = new javax.swing.JFormattedTextField(RG);
+        }catch(Exception e){
+        }
         jLabelEmail = new javax.swing.JLabel();
         jLabelEndereco = new javax.swing.JLabel();
         jTextFieldEndereco = new javax.swing.JTextField();
@@ -52,13 +89,23 @@ public class TelaFuncionario extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTableTabela = new javax.swing.JTable();
         jButtonLimpar = new javax.swing.JButton();
-        jButtonAdd = new javax.swing.JButton();
+        jButtonAddCidade = new javax.swing.JButton();
         jTextFieldEmail = new javax.swing.JTextField();
-        jLabelStatus = new javax.swing.JLabel();
-        jComboBoxStatus = new javax.swing.JComboBox();
         jTextFieldTelefone1 = new javax.swing.JTextField();
+        try{
+            javax.swing.text.MaskFormatter Telefone = new javax.swing.text.MaskFormatter("(##)####-####");
+
+            jTextFieldTelefone1 = new javax.swing.JFormattedTextField(Telefone);
+        }catch(Exception e){
+        }
         jLabelTelefone2 = new javax.swing.JLabel();
         jTextFieldTelefone2 = new javax.swing.JTextField();
+        try{
+            javax.swing.text.MaskFormatter Telefone = new javax.swing.text.MaskFormatter("(##)####-####");
+
+            jTextFieldTelefone2 = new javax.swing.JFormattedTextField(Telefone);
+        }catch(Exception e){
+        }
         jLabel5TipoTelefone = new javax.swing.JLabel();
         jLabelTipoTel2 = new javax.swing.JLabel();
         jComboBoxTipoTel2 = new javax.swing.JComboBox();
@@ -116,6 +163,7 @@ public class TelaFuncionario extends javax.swing.JFrame {
 
         jLabelCidade.setText("Cidade");
 
+        jComboBoxCidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<Selecione>" }));
         jComboBoxCidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxCidadeActionPerformed(evt);
@@ -132,12 +180,32 @@ public class TelaFuncionario extends javax.swing.JFrame {
         });
 
         jButtonSalvar.setText("Salvar");
+        jButtonSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSalvarActionPerformed(evt);
+            }
+        });
 
         jButtonAlterar.setText("Alterar");
+        jButtonAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAlterarActionPerformed(evt);
+            }
+        });
 
         jButtonExcluir.setText("Excluir");
+        jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExcluirActionPerformed(evt);
+            }
+        });
 
         jButtonFechar.setText("Fechar");
+        jButtonFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFecharActionPerformed(evt);
+            }
+        });
 
         jTableTabela.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -150,16 +218,26 @@ public class TelaFuncionario extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTableTabela.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableTabelaMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTableTabela);
 
         jButtonLimpar.setText("Limpar");
+        jButtonLimpar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonLimparActionPerformed(evt);
+            }
+        });
 
-        jButtonAdd.setText("+");
-
-        jLabelStatus.setText("Status");
-
-        jComboBoxStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<Selecione>", "Ativo", "Inativo" }));
-        jComboBoxStatus.setToolTipText("Status");
+        jButtonAddCidade.setText("+");
+        jButtonAddCidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddCidadeActionPerformed(evt);
+            }
+        });
 
         jLabelTelefone2.setText("Telefone");
 
@@ -168,12 +246,33 @@ public class TelaFuncionario extends javax.swing.JFrame {
         jLabelTipoTel2.setText("Tipo Tel");
 
         jButtonAddTel1.setText("+");
+        jButtonAddTel1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddTel1ActionPerformed(evt);
+            }
+        });
 
         jButtonAddTel2.setText("+");
+        jButtonAddTel2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddTel2ActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Função");
 
+        jComboBoxFuncao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxFuncaoActionPerformed(evt);
+            }
+        });
+
         jButtonAddFuncao.setText("+");
+        jButtonAddFuncao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddFuncaoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -193,11 +292,7 @@ public class TelaFuncionario extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabelNomeFunc)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldNomeFunc, javax.swing.GroupLayout.PREFERRED_SIZE, 386, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabelStatus)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextFieldNomeFunc, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jTextFieldCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -269,15 +364,15 @@ public class TelaFuncionario extends javax.swing.JFrame {
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(jComboBoxCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(jButtonAdd))))))
+                                                .addComponent(jButtonAddCidade))))))
                             .addComponent(jScrollPane3)
                             .addComponent(jSeparator1))
                         .addGap(42, 42, 42))))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonAdd, jButtonAddFuncao, jButtonAddTel1, jButtonAddTel2});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonAddCidade, jButtonAddFuncao, jButtonAddTel1, jButtonAddTel2});
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jComboBoxFuncao, jComboBoxStatus, jComboBoxTipoTel2, jComboBoxTipoTelefone});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jComboBoxFuncao, jComboBoxTipoTel2, jComboBoxTipoTelefone});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -287,10 +382,8 @@ public class TelaFuncionario extends javax.swing.JFrame {
                     .addComponent(jLabelCodigo)
                     .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelNomeFunc)
-                    .addComponent(jTextFieldNomeFunc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelStatus)
-                    .addComponent(jComboBoxStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
+                    .addComponent(jTextFieldNomeFunc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCPF)
                     .addComponent(jTextFieldCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -304,7 +397,7 @@ public class TelaFuncionario extends javax.swing.JFrame {
                     .addComponent(jTextFieldEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelCidade)
                     .addComponent(jComboBoxCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonAdd))
+                    .addComponent(jButtonAddCidade))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelTelefone1)
@@ -337,9 +430,9 @@ public class TelaFuncionario extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonAdd, jButtonAddFuncao, jButtonAddTel1, jButtonAddTel2});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonAddCidade, jButtonAddFuncao, jButtonAddTel1, jButtonAddTel2});
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jComboBoxFuncao, jComboBoxStatus, jComboBoxTipoTel2, jComboBoxTipoTelefone});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jComboBoxFuncao, jComboBoxTipoTel2, jComboBoxTipoTelefone});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -360,6 +453,9 @@ public class TelaFuncionario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jComboBoxCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCidadeActionPerformed
+        //String a = jComboBoxCidade.getModel().toString();
+        cid = (Cidades)jComboBoxCidade.getSelectedItem();
+        
        
     }//GEN-LAST:event_jComboBoxCidadeActionPerformed
 
@@ -367,11 +463,146 @@ public class TelaFuncionario extends javax.swing.JFrame {
         jTextFieldCodigo.setText(String.valueOf(dfunc.geraCodigo()));
         jTextFieldNomeFunc.setText("");
         jTextFieldCPF.setText("");
+        jTextFieldRG.setText("");
+        jTextFieldEmail.setText("");
+        jTextFieldEndereco.setText("");
+        jTextFieldTelefone1.setText("");
+        jTextFieldTelefone2.setText("");
+        jTextFieldCodigo.setEnabled(true);
+        jTextFieldNomeFunc.setEnabled(true);
+        jTextFieldNomeFunc.requestFocus();
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
+        try {
+            func = new Funcionarios();
+            func.setId_funcionario(Integer.parseInt(jTextFieldCodigo.getText()));
+            func.setCpf_funcionario(jTextFieldCPF.getText());
+            func.setEmail_funcionario(jTextFieldEmail.getText());
+            func.setEndereco(jTextFieldEndereco.getText());
+            func.setNome_funcionario(jTextFieldNomeFunc.getText());
+            func.setRg_funcionario(jTextFieldRG.getText());
+            dfunc.insert(func);
+            preencheTabela();
+        } catch (Exception e) {
+             JOptionPane.showMessageDialog(null, "ERRO:" + e.getMessage());
+        }
+    }//GEN-LAST:event_jButtonSalvarActionPerformed
+
+    private void jButtonAddCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddCidadeActionPerformed
+
+        TelaCadCidades tcc = new TelaCadCidades();//ABIR A TELA DE CADASTRO DE CIDADES
+        tcc.setVisible(true); 
+        preencherCombobox();
+    }//GEN-LAST:event_jButtonAddCidadeActionPerformed
+
+    private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
+         try {
+            func = new Funcionarios();
+            func.setId_funcionario(Integer.parseInt(jTextFieldCodigo.getText()));
+            func.setCpf_funcionario(jTextFieldCPF.getText());
+            func.setEmail_funcionario(jTextFieldEmail.getText());
+            func.setEndereco(jTextFieldEndereco.getText());
+            func.setNome_funcionario(jTextFieldNomeFunc.getText());
+            func.setRg_funcionario(jTextFieldRG.getText());
+            dfunc.atualizar(func);
+            preencheTabela();
+             JOptionPane.showMessageDialog(null, "Funcionario atualizado!");
+        } catch (Exception e) {
+             JOptionPane.showMessageDialog(null, "Erro ao atualizar o funcionario!"+ "ERRO:" + e.getMessage());
+        }
+    }//GEN-LAST:event_jButtonAlterarActionPerformed
+
+    private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
+        int resultado = JOptionPane.showConfirmDialog(this, "Confirma a exclusão do registro selecionado?","Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.OK_OPTION );
+            if(resultado == JOptionPane.YES_OPTION){
+                try {
+                    dfunc.removerSelecionado(func);
+                    preencheTabela();
+                    jTextFieldCodigo.setText("");
+                    jTextFieldCPF.setText("");
+                    jTextFieldEmail.setText("");
+                    jTextFieldEndereco.setText("");
+                    jTextFieldNomeFunc.setText("");
+                    jTextFieldRG.setText("");
+                    jTextFieldTelefone1.setText("");
+                    jTextFieldTelefone2.setText("");
+                    JOptionPane.showMessageDialog(null, "Estado removido com sucesso!");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Erro ao remover funcaofuncionario:" + e.getMessage());
+                }
+
+            }  
+    }//GEN-LAST:event_jButtonExcluirActionPerformed
+
+    private void jButtonFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharActionPerformed
+       this.dispose();
+    }//GEN-LAST:event_jButtonFecharActionPerformed
+
+    private void jButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimparActionPerformed
+        jTextFieldCodigo.setText(null);
+        jTextFieldCPF.setText(null);
+        jTextFieldEmail.setText(null);
+        jTextFieldEndereco.setText(null);
+        jTextFieldNomeFunc.setText(null);
+        jTextFieldRG.setText(null);
+        jTextFieldTelefone1.setText(null);
+        jTextFieldTelefone2.setText(null);
+    }//GEN-LAST:event_jButtonLimparActionPerformed
+
+    private void jTableTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTabelaMouseClicked
+        int linha  = jTableTabela.getSelectedRow();
+        func = tmfunc.getFuncionarios(linha);
+        
+       jTextFieldCodigo.setText((String.valueOf(func.getId_funcionario())));
+       jTextFieldCPF.setText(String.valueOf(func.getCpf_funcionario()));
+       jTextFieldEmail.setText(String.valueOf(func.getEmail_funcionario()));
+       jTextFieldEndereco.setText(String.valueOf(func.getEndereco()));
+       jTextFieldNomeFunc.setText(String.valueOf(func.getNome_funcionario()));
+       jTextFieldRG.setText(String.valueOf(func.getRg_funcionario()));
+       jTextFieldTelefone1.setText(String.valueOf(func.getTel()));
+       jTextFieldTelefone2.setText(String.valueOf(func.getTel()));
+    }//GEN-LAST:event_jTableTabelaMouseClicked
+
+    private void jButtonAddFuncaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddFuncaoActionPerformed
+        TelaFuncaoFuncionario tff = new TelaFuncaoFuncionario();
+        tff.setVisible(true);
+        preencherComboboxFuncao();
+    }//GEN-LAST:event_jButtonAddFuncaoActionPerformed
+
+    private void jComboBoxFuncaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxFuncaoActionPerformed
+        ff = (FuncaoFuncionario)jComboBoxFuncao.getSelectedItem();
+    }//GEN-LAST:event_jComboBoxFuncaoActionPerformed
+
+    private void jButtonAddTel1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddTel1ActionPerformed
+       TelaTipoTelefone ttt = new TelaTipoTelefone();
+       ttt.setVisible(true);
+    }//GEN-LAST:event_jButtonAddTel1ActionPerformed
+
+    private void jButtonAddTel2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddTel2ActionPerformed
+       TelaTipoTelefone ttt = new TelaTipoTelefone();
+       ttt.setVisible(true);
+    }//GEN-LAST:event_jButtonAddTel2ActionPerformed
+
+    
+    private void preencheTabela() throws SQLException{
+        List<Funcionarios> tipos = dfunc.listarTodos();
+        tmfunc = new TableModelFuncionario(tipos);
+        jTableTabela.setModel(tmfunc);
+    } 
+   
+    private void preencherCombobox(){
+        jComboBoxCidade.removeAll();
+        dcmCidades = new DefaultComboBoxModel(dCidade.listarTodos().toArray());
+        jComboBoxCidade.setModel(dcmCidades);
+    }
+    
+    private void preencherComboboxFuncao(){
+        jComboBoxFuncao.removeAll();
+        dcbmff = new DefaultComboBoxModel(dff.listarTodos().toArray());
+        jComboBoxFuncao.setModel(dcbmff);
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -405,7 +636,7 @@ public class TelaFuncionario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonAdd;
+    private javax.swing.JButton jButtonAddCidade;
     private javax.swing.JButton jButtonAddFuncao;
     private javax.swing.JButton jButtonAddTel1;
     private javax.swing.JButton jButtonAddTel2;
@@ -417,7 +648,6 @@ public class TelaFuncionario extends javax.swing.JFrame {
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JComboBox jComboBoxCidade;
     private javax.swing.JComboBox jComboBoxFuncao;
-    private javax.swing.JComboBox jComboBoxStatus;
     private javax.swing.JComboBox jComboBoxTipoTel2;
     private javax.swing.JComboBox jComboBoxTipoTelefone;
     private javax.swing.JLabel jLabel5TipoTelefone;
@@ -429,7 +659,6 @@ public class TelaFuncionario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelEndereco;
     private javax.swing.JLabel jLabelNomeFunc;
     private javax.swing.JLabel jLabelRG;
-    private javax.swing.JLabel jLabelStatus;
     private javax.swing.JLabel jLabelTelefone1;
     private javax.swing.JLabel jLabelTelefone2;
     private javax.swing.JLabel jLabelTipoTel2;

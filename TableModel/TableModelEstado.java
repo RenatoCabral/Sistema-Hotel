@@ -1,6 +1,6 @@
 package TableModel;
 
-import classes.Estado;
+import modelo.Estado;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -10,7 +10,6 @@ public class TableModelEstado extends AbstractTableModel{
     private static final int Col_Id = 0;
     private static final int Col_NomeEstado = 1;
     private static final int Col_Sigla = 2;
-    private static final int Col_Status = 3;
     
     private List<Estado> tipos;
 
@@ -30,7 +29,7 @@ public class TableModelEstado extends AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-         return 4;
+         return 3;
     }
 
     @Override
@@ -42,9 +41,7 @@ public class TableModelEstado extends AbstractTableModel{
            return est.getNome_estado();
        }else if(columnIndex == Col_Sigla){
            return est.getSigla();
-       }else if(columnIndex == Col_Status){
-           return est.getStatus();
-       }   
+       } 
         return "";
     }
     
@@ -56,8 +53,6 @@ public class TableModelEstado extends AbstractTableModel{
             return "NomeEstado";
         if(column == Col_Sigla)
             return "Sigla";
-        if(column == Col_Status)
-            return "Status";
          return "";
     }
     

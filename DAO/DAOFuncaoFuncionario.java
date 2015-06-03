@@ -1,6 +1,6 @@
 package DAO;
 
-import classes.FuncaoFuncionario;
+import modelo.FuncaoFuncionario;
 import conexao.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

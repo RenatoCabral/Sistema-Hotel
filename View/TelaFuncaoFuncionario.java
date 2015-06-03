@@ -4,7 +4,7 @@ import DAO.DAOFuncaoFuncionario;
 import TableModel.TableModelFuncaoFuncionario;
 import MascarasCampos.ApenasLetras;
 import MascarasCampos.ApenasNumeros;
-import classes.FuncaoFuncionario;
+import modelo.FuncaoFuncionario;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -293,7 +293,7 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
 
     private void jTableTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTabelaMouseClicked
        int linha = jTableTabela.getSelectedRow();
-       ff = tmff.getEStados(linha);
+       ff = tmff.getFuncaoFuncionario(linha);
        
        jTextFieldCodigo.setText((String.valueOf(ff.getId_funcao())));
        jTextFieldDescricao.setText(String.valueOf(ff.getNome_Funcao()));

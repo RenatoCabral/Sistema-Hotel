@@ -1,21 +1,20 @@
-package classes;
+package modelo;
 
 public class Estado {
     
     private int id_estado;
     private String nome_estado;
     private String sigla;
-    private int status;
+  
    
 
     public Estado() {
     }
 
-    public Estado(int id_estado, String nome_estado, String sigla, int status) {
+    public Estado(int id_estado, String nome_estado, String sigla) {
         this.id_estado = id_estado;
         this.nome_estado = nome_estado;
         this.sigla = sigla;
-        this.status = status;
       
     }
 
@@ -43,16 +42,5 @@ public class Estado {
         this.sigla = sigla;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-    
-    
-
-    
-  
+   
 }

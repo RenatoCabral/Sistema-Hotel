@@ -1,6 +1,5 @@
 package DAO;
 
-import modelo.Estado;
 import conexao.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,26 +8,23 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import modelo.TipoTelefone;
 
-public class DAOEstado {
+public class DAOTipoTelefone {
     
-    private Conexao cSQL = new Conexao();
+     private Conexao cSQL = new Conexao();
     private Connection conexao;
     public static ResultSet resultado;
     private PreparedStatement enviaComando;
-    private Estado est = new Estado();
     
-    
-    
-    public void insert(Estado est){
-        String comando  = "Insert Into estado (id_estado, sigla, nome_estado) values (?, ?, ?)";
+     public void insert(TipoTelefone tt){
+        String comando  = "Insert Into tipotelefone (id_tipo_telefone, nome_tipo_telefone) values (?, ?)";
         conexao  = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(comando);
-            enviaComando.setInt(1, est.getId_estado());
-            enviaComando.setString(2, est.getSigla());
-            enviaComando.setString(3, est.getNome_estado());
+            enviaComando.setInt(1, tt.getId_tipo_telefone());
+            enviaComando.setString(2, tt.getNome_tipo_telefone());
             enviaComando.executeUpdate();
             JOptionPane.showMessageDialog(null, "Registro efetuado");   
             enviaComando.close();
@@ -36,19 +32,18 @@ public class DAOEstado {
             JOptionPane.showMessageDialog(null, "Registro não efetuado" + ex.getMessage());
         }
     }
-    
-    public void atualizar(Estado est ){
-        String query = "update estado set sigla = ?, nome_estado= ? where id_estado= ?";
+     
+     public void atualizar(TipoTelefone tt){
+        String query = "update tipotelefone set nome_tipo_telefone = ? where id_tipo_telefone= ?";
         conexao = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(query);
-            enviaComando.setInt(4, est.getId_estado());
-            enviaComando.setString(1, est.getSigla());
-            enviaComando.setString(2, est.getNome_estado());
+            enviaComando.setInt(2, tt.getId_tipo_telefone());
+            enviaComando.setString(1, tt.getNome_tipo_telefone());
             enviaComando.executeUpdate();
         }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao alterar estado:" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao alterar tipotelefone:" + ex.getMessage());
         }finally{  
             try{
                 
@@ -59,17 +54,16 @@ public class DAOEstado {
             }
         }
     }
-    
-  
-    public void removerTudo(){ 
-        String query = "Delete from estado";
+     
+      public void removerTudo(){ 
+        String query = "Delete from tipotelefone";
         conexao = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(query);
             enviaComando.executeUpdate();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir estado:" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao excluir tipotelefone:" + ex.getMessage());
         }finally{
             try {
                 enviaComando.close();
@@ -80,11 +74,11 @@ public class DAOEstado {
         
         }
     }
-    
-    public int geraCodigo(){
+      
+      public int geraCodigo(){
         conexao = cSQL.getConnection();
         int codigo = 0;
-        String comando = "select max(id_estado) as codigo from estado";
+        String comando = "select max(id_tipo_telefone) as codigo from tipotelefone";
         
         try {
             enviaComando = conexao.prepareStatement(comando);
@@ -105,26 +99,25 @@ public class DAOEstado {
         }
         return codigo + 1;
     }
-    
-    public List<Estado> localizarTipo(String Estados){
+      
+       public List<TipoTelefone> localizarTipo(String TipoTelefone){
         conexao = cSQL.getConnection();
-        List<Estado> tipos = new ArrayList<>();
-        String comando = "select *from estado where nome_estado = ?";
+        List<TipoTelefone> tipos = new ArrayList<>();
+        String comando = "select *from tipotelefone where nome_tipo_telefone = ?";
         
         try {
             enviaComando = conexao.prepareStatement(comando);
-            enviaComando.setString(1, Estados);
+            enviaComando.setString(1, TipoTelefone);
             resultado = enviaComando.executeQuery() ;
             
             while(resultado.next()){ 
-                Estado est = new Estado();
-                est.setId_estado(resultado.getInt("id_estado"));
-                est.setSigla(resultado.getString("sigla"));
-                est.setNome_estado(resultado.getString("nome_estados"));
-                tipos.add(est);
+                TipoTelefone tt = new TipoTelefone();
+                tt.setId_tipo_telefone(resultado.getInt("id_tipo_telefone"));
+                tt.setNome_tipo_telefone(resultado.getString("nome_tipo_telefone"));
+                tipos.add(tt);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar estado" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao buscar tipotelefone" + ex.getMessage());
         }finally{
             try {    
             } catch (Throwable ex) {
@@ -133,23 +126,22 @@ public class DAOEstado {
         }
         return tipos;
     }
-    
-     public List<Estado> listarTodos(){
+       
+       public List<TipoTelefone> listarTodos(){
         conexao = cSQL.getConnection();
-        List<Estado> tipos = new ArrayList<>();
-        String comando = "select *from estado";  
+        List<TipoTelefone> tipos = new ArrayList<>();
+        String comando = "select *from tipotelefone";  
         try {
             enviaComando = conexao.prepareStatement(comando);
             resultado = enviaComando.executeQuery() ;       
             while(resultado.next()){ 
-                Estado est = new Estado();
-                est.setId_estado(resultado.getInt("id_estado"));
-                est.setSigla(resultado.getString("sigla"));
-                est.setNome_estado(resultado.getString("nome_estado"));
-                tipos.add(est);
+                TipoTelefone tt = new TipoTelefone();
+                tt.setId_tipo_telefone(resultado.getInt("id_tipo_telefone"));
+                tt.setNome_tipo_telefone(resultado.getString("nome_tipo_telefone"));
+                tipos.add(tt);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar estado" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao buscar tipotelefone" + ex.getMessage());
         }finally{
             try {
                
@@ -159,17 +151,17 @@ public class DAOEstado {
         }
         return tipos;
     }
-    
-    public void removerSelecionado(Estado est){
-        String query = "Delete from estado where id_estado= ?";
+       
+        public void removerSelecionado(TipoTelefone tt){
+        String query = "Delete from estado where id_tipo_telefone= ?";
         conexao = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(query);
-            enviaComando.setInt(1, est.getId_estado());
+            enviaComando.setInt(1, tt.getId_tipo_telefone());
             enviaComando.executeUpdate();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir estado:" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao excluir tipotelefone:" + ex.getMessage());
         }finally{
             try {
                 enviaComando.close();
@@ -180,7 +172,4 @@ public class DAOEstado {
         }
     }
     
-    
 }
-
-  

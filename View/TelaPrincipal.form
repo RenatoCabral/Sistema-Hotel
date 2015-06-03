@@ -45,11 +45,6 @@
                 <Property name="text" type="java.lang.String" value="Cadastro de Cidades"/>
               </Properties>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCadEstados">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Cadastro de Estados"/>
-              </Properties>
-            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCadProdutos">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Cadastro de Produtos"/>

@@ -1,6 +1,6 @@
 package TableModel;
 
-import classes.Funcionarios;
+import modelo.Funcionarios;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
@@ -12,6 +12,7 @@ public class TableModelFuncionario extends AbstractTableModel{
     private static final int Col_RG_Funcionario= 3;
     private static final int Col_Endereco= 4;
     private static final int Col_Email_Funcionario= 5;
+    private static final int Col_Nome_Cidades = 6;
     
     private List<Funcionarios> tipos;
 
@@ -31,7 +32,7 @@ public class TableModelFuncionario extends AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-         return 6;
+         return 7;
     }
 
     @Override
@@ -49,6 +50,9 @@ public class TableModelFuncionario extends AbstractTableModel{
            return func.getEndereco();
        }else if(columnIndex == Col_Email_Funcionario){
            return func.getEmail_funcionario();
+       }else if(columnIndex == Col_Nome_Cidades){
+           return func.getCidades().getNome_cidades();
+       
        }
         return "";      
     }
@@ -67,6 +71,8 @@ public class TableModelFuncionario extends AbstractTableModel{
             return "Endereco";
         if(column == Col_Email_Funcionario)
             return "Email_Funcionario";
+        if(column == Col_Nome_Cidades)
+            return "Nome_Cidades";
          return "";
     }
     
