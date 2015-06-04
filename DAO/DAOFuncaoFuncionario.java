@@ -175,4 +175,32 @@ public class DAOFuncaoFuncionario {
         }
     }
     
+    public FuncaoFuncionario localizarFuncaoFuncionario(int  id) {
+        conexao = cSQL.getConnection();
+        FuncaoFuncionario  ff = null;
+        String comando = "Select * from funcao_funcionario where id_funcao = ? order by nome_funcao";
+        try {
+            enviaComando = conexao.prepareStatement(comando);
+            enviaComando.setInt(1, id);
+            resultado = enviaComando.executeQuery();
+
+            while (resultado.next()) {
+                ff = new FuncaoFuncionario();
+                ff.setId_funcao(resultado.getInt("id_funcao"));
+                ff.setNome_Funcao(resultado.getString("nome_funcao"));
+            
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar funcao_funcionario:" + e.getMessage());
+        } finally {
+            try {
+                enviaComando.close();
+                resultado.close();
+            } catch (Throwable e) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexÃ£o com o banco de dados:" + e.getMessage());
+            }
+        }
+        return ff;
+    }
+    
 }

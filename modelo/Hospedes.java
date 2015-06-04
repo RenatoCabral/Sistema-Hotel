@@ -7,26 +7,30 @@ public class Hospedes {
     private String cpf_hospede;
     private String rg_hospede;
     private String endereco_hospede;
-    private String cidade;
+    private Cidades cidades;
     private String telefone;
     private String placa_veiculo;
     private String email;
-    private String observacao;
+    private String telefone1;
+    private String telefone2;
+    private TipoTelefone tipoTelefone;
 
     public Hospedes() {
     }
 
-    public Hospedes(int id_hospede, String nome_hospede, String cpf_hospede, String rg_hospede, String endereco_hospede, String cidade, String telefone, String placa_veiculo, String email, String observacao) {
+    public Hospedes(int id_hospede,String telefone1, String telefone2, String nome_hospede, String cpf_hospede, String rg_hospede, String endereco_hospede,String telefone, String placa_veiculo, String email, Cidades cidades, TipoTelefone tipoTelefone) {
         this.id_hospede = id_hospede;
         this.nome_hospede = nome_hospede;
         this.cpf_hospede = cpf_hospede;
         this.rg_hospede = rg_hospede;
         this.endereco_hospede = endereco_hospede;
-        this.cidade = cidade;
         this.telefone = telefone;
         this.placa_veiculo = placa_veiculo;
         this.email = email;
-        this.observacao = observacao;
+        this.telefone1 = telefone1;
+        this.telefone2 = telefone2;
+        this.cidades = cidades;
+        this.tipoTelefone = tipoTelefone;
     }
 
     public int getId_hospede() {
@@ -69,14 +73,6 @@ public class Hospedes {
         this.endereco_hospede = endereco_hospede;
     }
 
-    public String getCidade() {
-        return cidade;
-    }
-
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
-
     public String getTelefone() {
         return telefone;
     }
@@ -101,17 +97,43 @@ public class Hospedes {
         this.email = email;
     }
 
-    public String getObservacao() {
-        return observacao;
+    public Cidades getCidades() {
+        return cidades;
     }
 
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
+    public void setCidades(Cidades cidades) {
+        this.cidades = cidades;
+    }
+
+    public TipoTelefone getTipoTelefone() {
+        return tipoTelefone;
+    }
+
+    public void setTipoTelefone(TipoTelefone tipoTelefone) {
+        this.tipoTelefone = tipoTelefone;
+    }
+
+    public String getTelefone1() {
+        return telefone1;
+    }
+
+    public void setTelefone1(String telefone1) {
+        this.telefone1 = telefone1;
+    }
+
+    public String getTelefone2() {
+        return telefone2;
+    }
+
+    public void setTelefone2(String telefone2) {
+        this.telefone2 = telefone2;
+    }
+    
+    @Override
+    public String toString() {
+        return nome_hospede;
     }
     
     
-    
-    
-    
-    
+
 }

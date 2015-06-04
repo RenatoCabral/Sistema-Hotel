@@ -18,13 +18,13 @@ public class DAOTipoTelefone {
     private PreparedStatement enviaComando;
     
      public void insert(TipoTelefone tt){
-        String comando  = "Insert Into tipotelefone (id_tipo_telefone, nome_tipo_telefone) values (?, ?)";
+        String comando  = "Insert Into tipotelefone (id_tipotelefone, nome_tipotelefone) values (?, ?)";
         conexao  = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(comando);
-            enviaComando.setInt(1, tt.getId_tipo_telefone());
-            enviaComando.setString(2, tt.getNome_tipo_telefone());
+            enviaComando.setInt(1, tt.getId_tipotelefone());
+            enviaComando.setString(2, tt.getNome_tipotelefone());
             enviaComando.executeUpdate();
             JOptionPane.showMessageDialog(null, "Registro efetuado");   
             enviaComando.close();
@@ -34,13 +34,13 @@ public class DAOTipoTelefone {
     }
      
      public void atualizar(TipoTelefone tt){
-        String query = "update tipotelefone set nome_tipo_telefone = ? where id_tipo_telefone= ?";
+        String query = "update tipotelefone set nome_tipotelefone = ? where id_tipotelefone= ?";
         conexao = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(query);
-            enviaComando.setInt(2, tt.getId_tipo_telefone());
-            enviaComando.setString(1, tt.getNome_tipo_telefone());
+            enviaComando.setInt(2, tt.getId_tipotelefone());
+            enviaComando.setString(1, tt.getNome_tipotelefone());
             enviaComando.executeUpdate();
         }catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao alterar tipotelefone:" + ex.getMessage());
@@ -78,7 +78,7 @@ public class DAOTipoTelefone {
       public int geraCodigo(){
         conexao = cSQL.getConnection();
         int codigo = 0;
-        String comando = "select max(id_tipo_telefone) as codigo from tipotelefone";
+        String comando = "select max(id_tipotelefone) as codigo from tipotelefone";
         
         try {
             enviaComando = conexao.prepareStatement(comando);
@@ -103,7 +103,7 @@ public class DAOTipoTelefone {
        public List<TipoTelefone> localizarTipo(String TipoTelefone){
         conexao = cSQL.getConnection();
         List<TipoTelefone> tipos = new ArrayList<>();
-        String comando = "select *from tipotelefone where nome_tipo_telefone = ?";
+        String comando = "select *from tipotelefone where nome_tipotelefone = ?";
         
         try {
             enviaComando = conexao.prepareStatement(comando);
@@ -112,8 +112,8 @@ public class DAOTipoTelefone {
             
             while(resultado.next()){ 
                 TipoTelefone tt = new TipoTelefone();
-                tt.setId_tipo_telefone(resultado.getInt("id_tipo_telefone"));
-                tt.setNome_tipo_telefone(resultado.getString("nome_tipo_telefone"));
+                tt.setId_tipotelefone(resultado.getInt("id_tipotelefone"));
+                tt.setNome_tipotelefone(resultado.getString("nome_tipotelefone"));
                 tipos.add(tt);
             }
         } catch (SQLException ex) {
@@ -136,8 +136,8 @@ public class DAOTipoTelefone {
             resultado = enviaComando.executeQuery() ;       
             while(resultado.next()){ 
                 TipoTelefone tt = new TipoTelefone();
-                tt.setId_tipo_telefone(resultado.getInt("id_tipo_telefone"));
-                tt.setNome_tipo_telefone(resultado.getString("nome_tipo_telefone"));
+                tt.setId_tipotelefone(resultado.getInt("id_tipotelefone"));
+                tt.setNome_tipotelefone(resultado.getString("nome_tipotelefone"));
                 tipos.add(tt);
             }
         } catch (SQLException ex) {
@@ -153,12 +153,12 @@ public class DAOTipoTelefone {
     }
        
         public void removerSelecionado(TipoTelefone tt){
-        String query = "Delete from estado where id_tipo_telefone= ?";
+        String query = "Delete from tipotelefone where id_tipotelefone= ?";
         conexao = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(query);
-            enviaComando.setInt(1, tt.getId_tipo_telefone());
+            enviaComando.setInt(1, tt.getId_tipotelefone());
             enviaComando.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao excluir tipotelefone:" + ex.getMessage());
@@ -170,6 +170,34 @@ public class DAOTipoTelefone {
                 JOptionPane.showMessageDialog(null, "Erro ao fechar conexão com o banco de dados:\n ERRO:" + ex.getMessage());
             }
         }
+    }
+        
+        public TipoTelefone localizarTipoTelefone(int  id) {
+        conexao = cSQL.getConnection();
+        TipoTelefone  tt = null;
+        String comando = "Select * from tipotelefone where id_tipotelefone = ? order by nome_tipotelefone";
+        try {
+            enviaComando = conexao.prepareStatement(comando);
+            enviaComando.setInt(1, id);
+            resultado = enviaComando.executeQuery();
+
+            while (resultado.next()) {
+                tt = new TipoTelefone();
+                tt.setId_tipotelefone(resultado.getInt("id_tipotelefone"));
+                tt.setNome_tipotelefone(resultado.getString("nome_tipotelefone"));
+     
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar tipotelefone:" + e.getMessage());
+        } finally {
+            try {
+                enviaComando.close();
+                resultado.close();
+            } catch (Throwable e) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexão com o banco de dados:" + e.getMessage());
+            }
+        }
+        return tt;
     }
     
 }

@@ -2,62 +2,66 @@ package modelo;
 
 public class Funcionarios {
     
-    private int id_funcionario;
-    private String nome_funcionario;
-    private String cpf_funcionario;
-    private String rg_funcionario;
+    private int id_funcionarios;
+    private String nome_funcionarios;
+    private String cpf_funcionarios;
+    private String rg_funcionarios;
     private String endereco;
-    private String email_funcionario;
+    private String email_funcionarios;
+    private String telefone1;
+    private String telefone2;
     private Cidades cidades;
     private FuncaoFuncionario ffunc;
-    private Telefone tel;
+    private TipoTelefone tipotel;
 
     public Funcionarios() {
     }
 
   
-    public Funcionarios(int id_funcionario, String nome_funcionario, String cpf_funcionario, String rg_funcionario, String endereco, String email_funcionario, Cidades cidades, FuncaoFuncionario ffunc, Telefone tel) {
-        this.id_funcionario = id_funcionario;
-        this.nome_funcionario = nome_funcionario;
-        this.cpf_funcionario = cpf_funcionario;
-        this.rg_funcionario = rg_funcionario;
+    public Funcionarios(int id_funcionarios, String nome_funcionarios, String cpf_funcionarios, String rg_funcionarios, String endereco, String email_funcionarios, String telefone1, String telefone2, Cidades cidades, FuncaoFuncionario ffunc, TipoTelefone tipotel) {
+        this.id_funcionarios = id_funcionarios;
+        this.nome_funcionarios = nome_funcionarios;
+        this.cpf_funcionarios = cpf_funcionarios;
+        this.rg_funcionarios = rg_funcionarios;
         this.endereco = endereco;
-        this.email_funcionario = email_funcionario;
+        this.email_funcionarios = email_funcionarios;
+        this.telefone1 = telefone1;
+        this.telefone2 = telefone2;
         this.cidades = cidades;
         this.ffunc = ffunc;
-        this.tel = tel;
+        this.tipotel = tipotel;
     }
 
-    public int getId_funcionario() {
-        return id_funcionario;
+    public int getId_funcionarios() {
+        return id_funcionarios;
     }
 
-    public void setId_funcionario(int id_funcionario) {
-        this.id_funcionario = id_funcionario;
+    public void setId_funcionarios(int id_funcionarios) {
+        this.id_funcionarios = id_funcionarios;
     }
 
-    public String getNome_funcionario() {
-        return nome_funcionario;
+    public String getNome_funcionarios() {
+        return nome_funcionarios;
     }
 
-    public void setNome_funcionario(String nome_funcionario) {
-        this.nome_funcionario = nome_funcionario;
+    public void setNome_funcionarios(String nome_funcionarios) {
+        this.nome_funcionarios = nome_funcionarios;
     }
 
-    public String getCpf_funcionario() {
-        return cpf_funcionario;
+    public String getCpf_funcionarios() {
+        return cpf_funcionarios;
     }
 
-    public void setCpf_funcionario(String cpf_funcionario) {
-        this.cpf_funcionario = cpf_funcionario;
+    public void setCpf_funcionarios(String cpf_funcionarios) {
+        this.cpf_funcionarios = cpf_funcionarios;
     }
 
-    public String getRg_funcionario() {
-        return rg_funcionario;
+    public String getRg_funcionarios() {
+        return rg_funcionarios;
     }
 
-    public void setRg_funcionario(String rg_funcionario) {
-        this.rg_funcionario = rg_funcionario;
+    public void setRg_funcionarios(String rg_funcionarios) {
+        this.rg_funcionarios = rg_funcionarios;
     }
 
     public String getEndereco() {
@@ -68,12 +72,12 @@ public class Funcionarios {
         this.endereco = endereco;
     }
 
-    public String getEmail_funcionario() {
-        return email_funcionario;
+    public String getEmail_funcionarios() {
+        return email_funcionarios;
     }
 
-    public void setEmail_funcionario(String email_funcionario) {
-        this.email_funcionario = email_funcionario;
+    public void setEmail_funcionarios(String email_funcionarios) {
+        this.email_funcionarios = email_funcionarios;
     }
 
     public Cidades getCidades() {
@@ -92,17 +96,34 @@ public class Funcionarios {
         this.ffunc = ffunc;
     }
 
-    public Telefone getTel() {
-        return tel;
+    public TipoTelefone getTipotel() {
+        return tipotel;
     }
 
-    public void setTel(Telefone tel) {
-        this.tel = tel;
+    public void setTipotel(TipoTelefone tipotel) {
+        this.tipotel = tipotel;
+    }
+
+    public String getTelefone1() {
+        return telefone1;
+    }
+
+    public void setTelefone1(String telefone1) {
+        this.telefone1 = telefone1;
+    }
+
+    public String getTelefone2() {
+        return telefone2;
+    }
+
+    public void setTelefone2(String telefone2) {
+        this.telefone2 = telefone2;
+    }
+
+    @Override
+    public String toString() {
+        return nome_funcionarios;
     }
     
-    
-    
-    
-
-       
+      
 }

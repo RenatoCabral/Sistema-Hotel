@@ -12,7 +12,11 @@ public class TableModelFuncionario extends AbstractTableModel{
     private static final int Col_RG_Funcionario= 3;
     private static final int Col_Endereco= 4;
     private static final int Col_Email_Funcionario= 5;
-    private static final int Col_Nome_Cidades = 6;
+    private static final int Col_Telefone1 = 6;
+    private static final int Col_Telefone2 = 7;
+    private static final int Col_Id_Cidades = 8;
+    private static final int Col_Id_Funcao_Funcionario = 9;
+    private static final int Col_Id_Tipo_Telefone = 10;
     
     private List<Funcionarios> tipos;
 
@@ -32,27 +36,35 @@ public class TableModelFuncionario extends AbstractTableModel{
 
     @Override
     public int getColumnCount() {
-         return 7;
+         return 11;
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Funcionarios func = tipos.get(rowIndex);
         if(columnIndex == Col_Id_Funcionario){
-           return func.getId_funcionario();
+           return func.getId_funcionarios();
        }else if(columnIndex == Col_Nome_Funcionario){
-           return func.getNome_funcionario();
+           return func.getNome_funcionarios();
        }else if(columnIndex == Col_CPF_Funcionario){
-           return func.getCpf_funcionario();
+           return func.getCpf_funcionarios();
        }else if(columnIndex == Col_RG_Funcionario){
-           return func.getRg_funcionario();
+           return func.getRg_funcionarios();
        } else if(columnIndex == Col_Endereco){
            return func.getEndereco();
        }else if(columnIndex == Col_Email_Funcionario){
-           return func.getEmail_funcionario();
-       }else if(columnIndex == Col_Nome_Cidades){
-           return func.getCidades().getNome_cidades();
-       
+           return func.getEmail_funcionarios();
+       }else if(columnIndex == Col_Telefone1){
+           return func.getTelefone1();
+       }else if(columnIndex == Col_Telefone2){
+           return func.getTelefone2();
+       }else if(columnIndex == Col_Id_Cidades){
+           return func.getCidades().getId_cidades();
+       }else if(columnIndex == Col_Id_Funcao_Funcionario){
+           return func.getFfunc().getId_funcao();
+       }else if(columnIndex == Col_Id_Tipo_Telefone){
+           return func.getTipotel().getId_tipotelefone();
+           
        }
         return "";      
     }
@@ -71,8 +83,16 @@ public class TableModelFuncionario extends AbstractTableModel{
             return "Endereco";
         if(column == Col_Email_Funcionario)
             return "Email_Funcionario";
-        if(column == Col_Nome_Cidades)
-            return "Nome_Cidades";
+        if(column == Col_Telefone1)
+            return "Telefone1";
+        if(column == Col_Telefone2)
+            return "Telefone2";
+        if(column == Col_Id_Cidades)
+            return "id_Cidades";
+        if(column == Col_Id_Funcao_Funcionario)
+            return "id_Funcao_Funcionario";
+        if(column == Col_Id_Tipo_Telefone)
+            return "id_Tipo_Telefone";
          return "";
     }
     

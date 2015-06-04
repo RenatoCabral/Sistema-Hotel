@@ -9,48 +9,65 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import modelo.Cidades;
+import modelo.FuncaoFuncionario;
+import modelo.TipoTelefone;
 
 public class DAOFuncionario {
     
+    private Cidades cid = new Cidades();
+    private FuncaoFuncionario ff = new FuncaoFuncionario();
+    private TipoTelefone tt = new TipoTelefone();
+    private DAOCidades dCidades = new DAOCidades();
+    private DAOFuncaoFuncionario dFuncFunc = new DAOFuncaoFuncionario();
+    private DAOTipoTelefone dTipoTel = new DAOTipoTelefone();
     private Conexao cSQL = new Conexao();
     private Connection conexao;
     public static ResultSet resultado;
     private PreparedStatement enviaComando;
     
      public void insert(Funcionarios func){
-        String comando  = "Insert Into fornecedor (id_funcionarios, nome_funcionarios, cpf_funcionarios, rg_funcionarios, endereco,email_funcionarios, id_cidades, id_funcao) values (?, ?, ?, ?, ?, ?, ?)";
+        String comando  = "Insert Into funcionarios (id_funcionarios, nome_funcionarios, cpf_funcionarios, rg_funcionarios, endereco, email_funcionarios,id_cidades, id_funcao, id_tipotelefone, telefone1, telefone2) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         conexao  = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(comando);
-            enviaComando.setInt(1, func.getId_funcionario());
-            enviaComando.setString(2, func.getNome_funcionario());
-            enviaComando.setString(3, func.getCpf_funcionario());
-            enviaComando.setString(4, func.getRg_funcionario());
+            enviaComando.setInt(1, func.getId_funcionarios());
+            enviaComando.setString(2, func.getNome_funcionarios());
+            enviaComando.setString(3, func.getCpf_funcionarios());
+            enviaComando.setString(4, func.getRg_funcionarios());
             enviaComando.setString(5, func.getEndereco());
-            enviaComando.setString(6, func.getEmail_funcionario());
-            enviaComando.setString(7, func.getCidades().getNome_cidades());
+            enviaComando.setString(6, func.getEmail_funcionarios());
+            enviaComando.setInt(7, func.getCidades().getId_cidades());
+            enviaComando.setInt(8, func.getFfunc().getId_funcao());
+            enviaComando.setInt(9, func.getTipotel().getId_tipotelefone());
+            enviaComando.setString(10,func.getTelefone1());
+            enviaComando.setString(11,func.getTelefone2());
             enviaComando.executeUpdate();
             JOptionPane.showMessageDialog(null, "Registro efetuado com sucesso!");   
             enviaComando.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Registro não efetuado" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Registro não efetuado" + "ERRO:"+ ex.getMessage());
         }
     }
     
     public void atualizar(Funcionarios func ){
-        String query = "update funcionarios set nome_funcionarios = ?, cpf_funcionarios= ?, rg_funcionarios= ?, endereco= ?, email_funcionarios=?, id_cidades= ?  where id_funcionario= ?";
+        String query = "update funcionarios set nome_funcionarios = ?, cpf_funcionarios= ?, rg_funcionarios= ?, endereco= ?, email_funcionarios=?, id_cidades= ?, id_funcao=?, id_tipotelefone, telefone1, telefone2  where id_funcionario= ?";
         conexao = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(query);
-            enviaComando.setInt(7, func.getId_funcionario());
-            enviaComando.setString(1, func.getNome_funcionario());
-            enviaComando.setString(2, func.getCpf_funcionario());
-            enviaComando.setString(3, func.getRg_funcionario());
+            enviaComando.setInt(11, func.getId_funcionarios());
+            enviaComando.setString(1, func.getNome_funcionarios());
+            enviaComando.setString(2, func.getCpf_funcionarios());
+            enviaComando.setString(3, func.getRg_funcionarios());
             enviaComando.setString(4, func.getEndereco());
-            enviaComando.setString(5, func.getEmail_funcionario());
-            enviaComando.setString(6, func.getCidades().getNome_cidades());
+            enviaComando.setString(5, func.getEmail_funcionarios());
+            enviaComando.setInt(6, func.getCidades().getId_cidades());
+            enviaComando.setInt(7, func.getFfunc().getId_funcao());
+            enviaComando.setInt(8, func.getTipotel().getId_tipotelefone());
+            enviaComando.setString(9, func.getTelefone1());
+            enviaComando.setString(10, func.getTelefone2());
             enviaComando.executeUpdate();
         }catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao alterar funcionarios:" + ex.getMessage());
@@ -112,7 +129,7 @@ public class DAOFuncionario {
     public List<Funcionarios> localizarTipo(String Funcionarios){
         conexao = cSQL.getConnection();
         List<Funcionarios> tipos = new ArrayList<>();
-        String comando = "select *from funcionario where nome_funcionarios = ?";
+        String comando = "select *from funcionarios where nome_funcionarios = ?";
         
         try {
             enviaComando = conexao.prepareStatement(comando);
@@ -121,13 +138,17 @@ public class DAOFuncionario {
             
             while(resultado.next()){ 
                 Funcionarios func = new Funcionarios();
-                func.setId_funcionario(resultado.getInt("id_funcionarios"));
-                func.setNome_funcionario(resultado.getString("nome_funcionarios"));
-                func.setCpf_funcionario(resultado.getString("cpf_funcionarios"));
-                func.setRg_funcionario(resultado.getString("rg_funcionarios"));
+                func.setId_funcionarios(resultado.getInt("id_funcionarios"));
+                func.setNome_funcionarios(resultado.getString("nome_funcionarios"));
+                func.setCpf_funcionarios(resultado.getString("cpf_funcionarios"));
+                func.setRg_funcionarios(resultado.getString("rg_funcionarios"));
                 func.setEndereco(resultado.getString("endereco"));
-                func.setEmail_funcionario(resultado.getString("email_funcionarios"));
-                //func.setCidades(resultado.getC("id_cidades"));
+                func.setEmail_funcionarios(resultado.getString("email_funcionarios"));
+                func.setTelefone1(resultado.getString("telefone1"));
+                func.setTelefone2(resultado.getString("telefone2"));
+                func.setCidades(dCidades.localizarCidades(resultado.getInt("id_cidades")));
+                func.setFfunc(dFuncFunc.localizarFuncaoFuncionario(resultado.getInt("id_funcao")));
+                func.setTipotel(dTipoTel.localizarTipoTelefone(resultado.getInt("id_tipotelefone")));
                 tipos.add(func);
             }
         } catch (SQLException ex) {
@@ -153,12 +174,17 @@ public class DAOFuncionario {
             
             while(resultado.next()){ 
                 Funcionarios func = new Funcionarios();
-                func.setId_funcionario(resultado.getInt("id_funcionarios"));
-                func.setNome_funcionario(resultado.getString("nome_funcionarios"));
-                func.setCpf_funcionario(resultado.getString("cpf_funcionarios"));
-                func.setRg_funcionario(resultado.getString("rg_funcionarios"));
+                func.setId_funcionarios(resultado.getInt("id_funcionarios"));
+                func.setNome_funcionarios(resultado.getString("nome_funcionarios"));
+                func.setCpf_funcionarios(resultado.getString("cpf_funcionarios"));
+                func.setRg_funcionarios(resultado.getString("rg_funcionarios"));
                 func.setEndereco(resultado.getString("endereco"));
-                func.setEmail_funcionario(resultado.getString("email_funcionarios"));
+                func.setEmail_funcionarios(resultado.getString("email_funcionarios"));
+                func.setTelefone1(resultado.getString("telefone1"));
+                func.setTelefone2(resultado.getString("telefone2"));
+                func.setCidades(dCidades.localizarCidades(resultado.getInt("id_cidades")));
+                func.setFfunc(dFuncFunc.localizarFuncaoFuncionario(resultado.getInt("id_funcao")));
+                func.setTipotel(dTipoTel.localizarTipoTelefone(resultado.getInt("id_tipotelefone")));
                 tipos.add(func);
             }
         } catch (SQLException ex) {
@@ -179,7 +205,7 @@ public class DAOFuncionario {
         
         try {
             enviaComando = conexao.prepareStatement(query);
-            enviaComando.setInt(1, func.getId_funcionario());
+            enviaComando.setInt(1, func.getId_funcionarios());
             enviaComando.executeUpdate();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao excluir funcionarios:" + ex.getMessage());
@@ -193,4 +219,5 @@ public class DAOFuncionario {
         }
     }
     
+   
 }

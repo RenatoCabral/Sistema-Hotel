@@ -6,8 +6,8 @@ import modelo.TipoTelefone;
 
 public class TableModeloTipoTelefone extends AbstractTableModel{
     
-    private static final int Col_Id_Tipo_Telefone= 0;
-    private static final int Col_Nome_Tipo_Telefone= 1;
+    private static final int Col_Id_TipoTelefone= 0;
+    private static final int Col_Nome_TipoTelefone= 1;
     
      private List<TipoTelefone> tipos;
 
@@ -31,20 +31,20 @@ public class TableModeloTipoTelefone extends AbstractTableModel{
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
       TipoTelefone tt = tipos.get(rowIndex);
-      if(columnIndex == Col_Id_Tipo_Telefone){
-          return tt.getId_tipo_telefone();
-      }else if(columnIndex == Col_Nome_Tipo_Telefone){
-          return tt.getNome_tipo_telefone();
+      if(columnIndex == Col_Id_TipoTelefone){
+          return tt.getId_tipotelefone();
+      }else if(columnIndex == Col_Nome_TipoTelefone){
+          return tt.getNome_tipotelefone();
       }
       return "";
     }
     
      @Override
     public String getColumnName(int column){
-        if(column == Col_Id_Tipo_Telefone)
-            return "Id_Tipo_Telefone";
-        if(column == Col_Nome_Tipo_Telefone)
-            return "Nome_Tipo_Telefone";
+        if(column == Col_Id_TipoTelefone)
+            return "Id_TipoTelefone";
+        if(column == Col_Nome_TipoTelefone)
+            return "Nome_TipoTelefone";
         return "";
     }
     

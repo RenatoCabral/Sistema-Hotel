@@ -179,6 +179,35 @@ public class DAOCidades {
             }
         }
     }
+    
+    public Cidades localizarCidades(int  id) {
+        conexao = cSQL.getConnection();
+        Cidades  cid = null;
+        String comando = "Select * from cidades where id_cidades = ? order by nome_cidades";
+        try {
+            enviaComando = conexao.prepareStatement(comando);
+            enviaComando.setInt(1, id);
+            resultado = enviaComando.executeQuery();
+
+            while (resultado.next()) {
+                cid = new Cidades();
+                cid.setId_cidades(resultado.getInt("id_cidades"));
+                cid.setNome_cidades(resultado.getString("nome_cidades"));
+                cid.setEstados(resultado.getString("estados"));
+               
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar cidades:" + e.getMessage());
+        } finally {
+            try {
+                enviaComando.close();
+                resultado.close();
+            } catch (Throwable e) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexÃ£o com o banco de dados:" + e.getMessage());
+            }
+        }
+        return cid;
+    }
      
    
 }
