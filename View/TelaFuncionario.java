@@ -616,9 +616,9 @@ public class TelaFuncionario extends javax.swing.JFrame {
                     jTextFieldRG.setText("");
                     jTextFieldTelefone1.setText("");
                     jTextFieldTelefone2.setText("");
-                    JOptionPane.showMessageDialog(null, "Estado removido com sucesso!");
+                    JOptionPane.showMessageDialog(null, "Funcionario removido com sucesso!");
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Erro ao remover funcaofuncionario:" + e.getMessage());
+                    JOptionPane.showMessageDialog(null, "Erro ao remover funcionario:" + e.getMessage());
                 }
                 jButtonNovo.setEnabled(true);
                 jButtonLimpar.setEnabled(false);
