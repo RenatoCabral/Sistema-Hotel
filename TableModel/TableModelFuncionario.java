@@ -27,8 +27,6 @@ public class TableModelFuncionario extends AbstractTableModel{
         this.tipos = tipos;
     }
     
-    
-
     @Override
     public int getRowCount() {
          return tipos.size();

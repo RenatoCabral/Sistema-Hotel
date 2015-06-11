@@ -8,17 +8,19 @@ public class Produtos {
     private double valor_compra;
     private double valor_venda;
     private int quantidade;
+    private Fornecedor fornecedor;
 
     public Produtos() {
     }
 
-    public Produtos(int id_produto, int cod_produto, String nome_produto, double valor_compra, double valor_venda, int quantidade) {
+    public Produtos(int id_produto, int cod_produto, String nome_produto, double valor_compra, double valor_venda, int quantidade,Fornecedor fornecedor) {
         this.id_produto = id_produto;
         this.cod_produto = cod_produto;
         this.nome_produto = nome_produto;
         this.valor_compra = valor_compra;
         this.valor_venda = valor_venda;
         this.quantidade = quantidade;
+        this.fornecedor = fornecedor;
     }
 
     public int getId_produto() {
@@ -68,6 +70,16 @@ public class Produtos {
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
     }
+
+    public Fornecedor getFornecedor() {
+        return fornecedor;
+    }
+
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
+    }
+    
+    
     
     
     

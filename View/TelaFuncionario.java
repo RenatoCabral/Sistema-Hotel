@@ -6,6 +6,7 @@ import DAO.DAOFuncionario;
 import DAO.DAOTipoTelefone;
 import MascarasCampos.ApenasLetras;
 import MascarasCampos.ApenasNumeros;
+import MascarasCampos.LimitandoCamposLetras;
 import TableModel.TableModelFuncionario;
 import java.sql.SQLException;
 import java.util.List;
@@ -39,10 +40,10 @@ public class TelaFuncionario extends javax.swing.JFrame {
         initComponents();
         
         try {
-            preencherCombobox();
-            preencherComboboxFuncao();
+           
+            /*preencherComboboxFuncao();
             preencherComboboxTipoTel1();
-            preencherComboboxTipoTel2();
+            preencherComboboxTipoTel2();*/
             preencheTabela();
         } catch (Exception e) {
         }
@@ -50,6 +51,8 @@ public class TelaFuncionario extends javax.swing.JFrame {
         //MASCARA PARA OS CAMPOS
         jTextFieldNomeFunc.setDocument(new ApenasLetras());
         jTextFieldCodigo.setDocument(new ApenasNumeros());
+        jTextFieldEndereco.setDocument(new LimitandoCamposLetras(20));
+        jTextFieldEndereco.setDocument(new LimitandoCamposLetras(20));
         jTableTabela.setAutoCreateRowSorter(true); // ordenação das colunas
     }
 
@@ -153,6 +156,11 @@ public class TelaFuncionario extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Funcionarios");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Cadastro de Funcionarios"));
         jPanel1.setToolTipText("Cadastro de Funcionarios");
@@ -173,7 +181,6 @@ public class TelaFuncionario extends javax.swing.JFrame {
 
         jLabelCidade.setText("Cidade");
 
-        jComboBoxCidade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "<Selecione>" }));
         jComboBoxCidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxCidadeActionPerformed(evt);
@@ -488,6 +495,7 @@ public class TelaFuncionario extends javax.swing.JFrame {
     private void jComboBoxCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCidadeActionPerformed
        // String a = jComboBoxCidade.getModel().toString();
         cid = (Cidades)jComboBoxCidade.getSelectedItem();
+  
         
        
     }//GEN-LAST:event_jComboBoxCidadeActionPerformed
@@ -533,7 +541,9 @@ public class TelaFuncionario extends javax.swing.JFrame {
             func.setRg_funcionarios(jTextFieldRG.getText());
             func.setTelefone1(jTextFieldTelefone1.getText());
             func.setTelefone2(jTextFieldTelefone2.getText());
-            func.setCidades((Cidades)jComboBoxCidade.getSelectedItem());
+            //func.setCidades((Cidades)jComboBoxCidade.getSelectedItem());
+            cid.setNome_cidades(jComboBoxCidade.getSelectedItem().toString());    
+            func.setCidades(cid);
             func.setFfunc((FuncaoFuncionario)jComboBoxFuncao.getSelectedItem());
             func.setTipotel((TipoTelefone)jComboBoxTipoTelefone.getSelectedItem());
             func.setTipotel((TipoTelefone)jComboBoxTipoTelefone2.getSelectedItem());
@@ -558,7 +568,7 @@ public class TelaFuncionario extends javax.swing.JFrame {
         jButtonExcluir.setEnabled(true);
         jButtonSalvar.setEnabled(false);
         jButtonFechar.setEnabled(false);
-        jButtonNovo.setEnabled(false);
+        jButtonNovo.setEnabled(true);
         jButtonLimpar.setEnabled(false);
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
@@ -566,7 +576,7 @@ public class TelaFuncionario extends javax.swing.JFrame {
 
         TelaCadCidades tcc = new TelaCadCidades();//ABIR A TELA DE CADASTRO DE CIDADES
         tcc.setVisible(true); 
-        preencherCombobox();
+        
     }//GEN-LAST:event_jButtonAddCidadeActionPerformed
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
@@ -610,6 +620,10 @@ public class TelaFuncionario extends javax.swing.JFrame {
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Erro ao remover funcaofuncionario:" + e.getMessage());
                 }
+                jButtonNovo.setEnabled(true);
+                jButtonLimpar.setEnabled(false);
+                jButtonSalvar.setEnabled(false);
+                jButtonFechar.setEnabled(true);
 
             }  
     }//GEN-LAST:event_jButtonExcluirActionPerformed
@@ -690,6 +704,13 @@ public class TelaFuncionario extends javax.swing.JFrame {
     private void jComboBoxTipoTelefone2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTipoTelefone2ActionPerformed
        tt = (TipoTelefone)jComboBoxTipoTelefone2.getSelectedItem();
     }//GEN-LAST:event_jComboBoxTipoTelefone2ActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+       preencherCombobox();
+       preencherComboboxFuncao();
+       preencherComboboxTipoTel1();
+       preencherComboboxTipoTel2();
+    }//GEN-LAST:event_formWindowActivated
 
     
     private void preencheTabela() throws SQLException{

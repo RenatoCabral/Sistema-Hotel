@@ -12,7 +12,7 @@ import modelo.TipoTelefone;
 
 public class DAOTipoTelefone {
     
-     private Conexao cSQL = new Conexao();
+    private Conexao cSQL = new Conexao();
     private Connection conexao;
     public static ResultSet resultado;
     private PreparedStatement enviaComando;

@@ -1,6 +1,5 @@
 package DAO;
 
-import modelo.Cidades;
 import conexao.Conexao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,49 +8,51 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import modelo.TiposDeQuartos;
 
-public class DAOCidades {
+
+public class DAOTiposDeQuartos {
+    
+    //TiposDeQuartos tiposquarto = new TiposDeQuartos();
     
     private Conexao cSQL = new Conexao();
     private Connection conexao;
     public static ResultSet resultado;
     private PreparedStatement enviaComando;
-    private Cidades cid = new Cidades();
     
     
-    
-    
-    public void insert(Cidades cid){
-        String comando  = "Insert Into cidades (id_cidades, nome_cidades, estados) values (?, ?, ?)";
+     public void insert(TiposDeQuartos tiposquarto){
+        String comando  = "Insert Into tiposquarto (id_tiposquarto, descricao, valor) values (?, ?, ?)";
         conexao  = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(comando);
-            enviaComando.setInt(1, cid.getId_cidades());
-            enviaComando.setString(2, cid.getNome_cidades());
-            enviaComando.setString(3, cid.getEstados());
+            enviaComando.setInt(1, tiposquarto.getId_TiposQuartos());
+            enviaComando.setString(2, tiposquarto.getDescrição());
+            enviaComando.setDouble(3, tiposquarto.getValor());
             enviaComando.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Cadastro salvo com sucesso!");   
+            JOptionPane.showMessageDialog(null, "Registro efetuado");   
             enviaComando.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Registro não efetuado" + ex.getMessage());
         }
     }
-    
-    public void atualizar(Cidades cid){
-        String query = "update cidades set nome_cidades= ?, estado= ? where id_cidades= ?";
+     
+     public void atualizar(TiposDeQuartos tiposquarto){
+        String query = "update tiposquarto set descricao= ?, valor= ? where id_tiposquarto= ?";
         conexao = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(query);
-            enviaComando.setInt(3, cid.getId_cidades());
-            enviaComando.setString(1, cid.getNome_cidades());
-            enviaComando.setString(2, cid.getEstados());
+            enviaComando.setInt(3, tiposquarto.getId_TiposQuartos());
+            enviaComando.setString(1, tiposquarto.getDescrição());
+            enviaComando.setDouble(2, tiposquarto.getValor());
             enviaComando.executeUpdate();
         }catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao alterar cidades:" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao alterar Tipos de Quartos:" + ex.getMessage());
         }finally{  
-            try{ 
+            try{
+                
             enviaComando.close();
             conexao.close();
             }catch (SQLException ex) {
@@ -59,16 +60,16 @@ public class DAOCidades {
             }
         }
     }
-    
-  
-    public void removerTudo(){ 
-        String query = "Delete from cidades";
+     
+      public void removerTudo(){ 
+        String query = "Delete from tiposquarto";
         conexao = cSQL.getConnection();
+        
         try {
             enviaComando = conexao.prepareStatement(query);
             enviaComando.executeUpdate();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir cidades:" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao excluir Tipos de Quartos:" + ex.getMessage());
         }finally{
             try {
                 enviaComando.close();
@@ -79,11 +80,11 @@ public class DAOCidades {
         
         }
     }
-    
-    public int geraCodigo(){
+      
+      public int geraCodigo(){
         conexao = cSQL.getConnection();
         int codigo = 0;
-        String comando = "select max(id_cidades) as codigo from cidades";
+        String comando = "select max(id_tiposquarto) as codigo from tiposquarto";
         
         try {
             enviaComando = conexao.prepareStatement(comando);
@@ -104,26 +105,26 @@ public class DAOCidades {
         }
         return codigo + 1;
     }
-    
-    public List<Cidades> localizarTipo(String Cidades){
+      
+       public List<TiposDeQuartos> localizarTipo(String TiposDeQuartos){
         conexao = cSQL.getConnection();
-        List<Cidades> tipos = new ArrayList<>();
-        String comando = "select *from cidades where nome_cidades= ?";
+        List<TiposDeQuartos> tipos = new ArrayList<>();
+        String comando = "select *from tiposquarto where descricao= ?";
         
         try {
             enviaComando = conexao.prepareStatement(comando);
-            enviaComando.setString(1, Cidades);
+            enviaComando.setString(1, TiposDeQuartos);
             resultado = enviaComando.executeQuery() ;
             
             while(resultado.next()){ 
-               Cidades cid = new Cidades();
-               cid.setId_cidades(resultado.getInt("id_cidades"));
-               cid.setNome_cidades(resultado.getString("nome_cidades"));
-               cid.setEstados(resultado.getString("estados"));
-                tipos.add(cid);
+                TiposDeQuartos tiposquartos = new TiposDeQuartos();
+                tiposquartos.setId_TiposQuartos(resultado.getInt("id_tiposquarto"));
+                tiposquartos.setDescrição(resultado.getString("descricao"));
+                tiposquartos.setValor(resultado.getDouble("valor"));
+                tipos.add(tiposquartos);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar cidades" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao buscar Tipos de Quartos" + ex.getMessage());
         }finally{
             try {    
             } catch (Throwable ex) {
@@ -132,23 +133,23 @@ public class DAOCidades {
         }
         return tipos;
     }
-    
-     public List<Cidades> listarTodos(){
+       
+       public List<TiposDeQuartos> listarTodos(){
         conexao = cSQL.getConnection();
-        List<Cidades> tipos = new ArrayList<>();
-        String comando = "select *from cidades";  
+        List<TiposDeQuartos> tipos = new ArrayList<>();
+        String comando = "select *from tiposquarto";  
         try {
             enviaComando = conexao.prepareStatement(comando);
             resultado = enviaComando.executeQuery() ;       
             while(resultado.next()){ 
-                Cidades cid = new Cidades();
-                cid.setId_cidades(resultado.getInt("id_cidades"));
-                cid.setNome_cidades(resultado.getString("nome_cidades"));
-                cid.setEstados(resultado.getString("estados"));
-                tipos.add(cid);
+                TiposDeQuartos tiposquartos = new TiposDeQuartos();
+                tiposquartos.setId_TiposQuartos(resultado.getInt("id_tiposquarto"));
+                tiposquartos.setDescrição(resultado.getString("descricao"));
+                tiposquartos.setValor(resultado.getDouble("valor"));
+                tipos.add(tiposquartos);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar cidades" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao buscar Tipos de Quartos" + ex.getMessage());
         }finally{
             try {
                
@@ -158,18 +159,17 @@ public class DAOCidades {
         }
         return tipos;
     }
-     
-    
-    public void removerSelecionado(Cidades cid){
-        String query = "Delete from cidades where id_cidades= ?";
+       
+       public void removerSelecionado(TiposDeQuartos tiposquarto){
+        String query = "Delete from tiposquarto where id_tiposquarto= ?";
         conexao = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(query);
-            enviaComando.setInt(1, cid.getId_cidades());
+            enviaComando.setInt(1, tiposquarto.getId_TiposQuartos());
             enviaComando.executeUpdate();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao excluir cidades:" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao excluir Tipos de Quartos:" + ex.getMessage());
         }finally{
             try {
                 enviaComando.close();
@@ -179,35 +179,32 @@ public class DAOCidades {
             }
         }
     }
-    
-    public Cidades localizarCidades(int  id) {
+       
+       public TiposDeQuartos localizarTiposDeQuartos(int id) {
         conexao = cSQL.getConnection();
-        Cidades  cid = null;
-        String comando = "Select *from cidades where id_cidades = ? order by nome_cidades";
+        TiposDeQuartos tdq= null;
+        String comando = "Select * from tiposquarto where id_tiposquarto= ? order by descricao";
         try {
             enviaComando = conexao.prepareStatement(comando);
             enviaComando.setInt(1, id);
             resultado = enviaComando.executeQuery();
 
             while (resultado.next()) {
-                cid = new Cidades();
-                cid.setId_cidades(resultado.getInt("id_cidades"));
-                cid.setNome_cidades(resultado.getString("nome_cidades"));
-                cid.setEstados(resultado.getString("estados"));
-               
+                tdq = new TiposDeQuartos();
+                tdq.setId_TiposQuartos(resultado.getInt("id_tiposquarto"));
+                tdq.setDescrição(resultado.getString("descricao"));
+                tdq.setValor(resultado.getDouble("valor"));
             }
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar cidades:" + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao buscar tipos de quarto:" + e.getMessage());
         } finally {
             try {
                 enviaComando.close();
                 resultado.close();
             } catch (Throwable e) {
-                JOptionPane.showMessageDialog(null, "Erro ao fechar conexÃ£o com o banco de dados:" + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexão com o banco de dados:" + e.getMessage());
             }
         }
-        return cid;
+        return tdq;
     }
-     
-   
 }

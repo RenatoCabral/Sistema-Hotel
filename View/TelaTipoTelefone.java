@@ -203,7 +203,7 @@ public class TelaTipoTelefone extends javax.swing.JFrame {
         jButtonSalvar.setEnabled(true);
         jButtonNovo.setEnabled(false);
         jButtonFechar.setEnabled(true);
-        jTextFieldCodigo.requestFocus();
+        jTextFieldNome.requestFocus();
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed

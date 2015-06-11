@@ -39,8 +39,6 @@ public class Cidades {
         this.estados = estados;
     }
     
-    
-
     @Override
     public String toString() {
         return nome_cidades;

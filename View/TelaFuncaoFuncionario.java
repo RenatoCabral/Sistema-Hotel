@@ -4,6 +4,7 @@ import DAO.DAOFuncaoFuncionario;
 import TableModel.TableModelFuncaoFuncionario;
 import MascarasCampos.ApenasLetras;
 import MascarasCampos.ApenasNumeros;
+import MascarasCampos.LimitandoCamposLetras;
 import modelo.FuncaoFuncionario;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,6 +26,7 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
         
         jTextFieldCodigo.setDocument(new ApenasNumeros());
         jTextFieldDescricao.setDocument(new ApenasLetras());
+        jTextFieldDescricao.setDocument(new LimitandoCamposLetras(25));
         
         try {
             preencheTabela();

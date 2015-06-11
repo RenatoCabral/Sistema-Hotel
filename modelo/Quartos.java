@@ -48,7 +48,5 @@ public class Quartos {
     public void setStatus(String status) {
         this.status = status;
     }
-    
-    
-    
+
 }

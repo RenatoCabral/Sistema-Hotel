@@ -134,7 +134,7 @@ public class DAOFuncionario {
         try {
             enviaComando = conexao.prepareStatement(comando);
             enviaComando.setString(1, Funcionarios);
-            resultado = enviaComando.executeQuery() ;
+            resultado = enviaComando.executeQuery();
             
             while(resultado.next()){ 
                 Funcionarios func = new Funcionarios();

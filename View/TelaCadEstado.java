@@ -3,6 +3,7 @@ package View;
 import DAO.DAOEstado;
 import TableModel.TableModelEstado;
 import MascarasCampos.ApenasLetras;
+import MascarasCampos.LimitandoCamposLetras;
 import modelo.Estado;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,8 +23,7 @@ public class TelaCadEstado extends javax.swing.JFrame {
         initComponents();
         
         //MASCARA PARA OS CAMPOS
-        jTextFieldNomeEstado.setDocument(new ApenasLetras());
-        jTextFieldSigla.setDocument(new ApenasLetras());
+        jTextFieldNomeEstado.setDocument(new LimitandoCamposLetras(10));
         
         try {
             preencheTabela();

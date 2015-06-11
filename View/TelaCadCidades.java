@@ -4,6 +4,7 @@ package View;
 import DAO.DAOCidades;
 import MascarasCampos.ApenasLetras;
 import MascarasCampos.ApenasNumeros;
+import MascarasCampos.LimitandoCamposLetras;
 import TableModel.TableModelCidades;
 import java.sql.SQLException;
 import java.util.List;
@@ -25,8 +26,7 @@ public class TelaCadCidades extends javax.swing.JFrame {
         initComponents();
         
         //MASCARAS PARA OS CAMPOS
-        jTextFieldNomes.setDocument(new ApenasLetras());
-        jTextFieldCodigo.setDocument(new ApenasNumeros());
+        jTextFieldNomes.setDocument(new LimitandoCamposLetras(25));
         
         try {
             preencheTabela();
@@ -342,7 +342,8 @@ public class TelaCadCidades extends javax.swing.JFrame {
     }//GEN-LAST:event_jTableTabelaMouseClicked
 
     private void jComboBoxEstadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxEstadosActionPerformed
-        String a = jComboBoxEstados.getModel().toString();
+        //String a = jComboBoxEstados.getModel().toString();
+        String a = String.valueOf(jComboBoxEstados.getSelectedItem());
     }//GEN-LAST:event_jComboBoxEstadosActionPerformed
 
     private void preencheTabela() throws SQLException{

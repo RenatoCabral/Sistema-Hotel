@@ -105,14 +105,6 @@ public class Hospedes {
         this.cidades = cidades;
     }
 
-    public TipoTelefone getTipoTelefone() {
-        return tipoTelefone;
-    }
-
-    public void setTipoTelefone(TipoTelefone tipoTelefone) {
-        this.tipoTelefone = tipoTelefone;
-    }
-
     public String getTelefone1() {
         return telefone1;
     }
@@ -128,6 +120,16 @@ public class Hospedes {
     public void setTelefone2(String telefone2) {
         this.telefone2 = telefone2;
     }
+
+    public TipoTelefone getTipoTelefone() {
+        return tipoTelefone;
+    }
+
+    public void setTipoTelefone(TipoTelefone tipoTelefone) {
+        this.tipoTelefone = tipoTelefone;
+    }
+
+   
     
     @Override
     public String toString() {
