@@ -49,7 +49,7 @@ public class DAOFornecedor {
     }
     
      public void atualizar(Fornecedor fornec){
-         String query = "update fornecedor set razao_social= ?, nome_fantasia= ?, cnpj= ?, insc_estadual= ?, endereco= ?, telefone= ?, id_cidades= ?, id_tipotelefone= ? where id_fornecedor= ?";
+        String query = "update fornecedor set razao_social= ?, nome_fantasia= ?, cnpj= ?, insc_estadual= ?, endereco= ?, telefone= ?, id_cidades= ?, id_tipotelefone= ? where id_fornecedor= ?";
         conexao = cSQL.getConnection();
         
          try {

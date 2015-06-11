@@ -36,8 +36,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItemCadFuncionario = new javax.swing.JMenuItem();
         jMenuItemCadHospede = new javax.swing.JMenuItem();
-        jMenuItemCadCidades = new javax.swing.JMenuItem();
         jMenuItemCadProdutos = new javax.swing.JMenuItem();
+        jMenuItemCadastroQuartos = new javax.swing.JMenuItem();
+        jMenuItemCadastroTipoQuartos = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -87,11 +88,29 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItemCadHospede);
 
-        jMenuItemCadCidades.setText("Cadastro de Cidades");
-        jMenu1.add(jMenuItemCadCidades);
-
         jMenuItemCadProdutos.setText("Cadastro de Produtos");
+        jMenuItemCadProdutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCadProdutosActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItemCadProdutos);
+
+        jMenuItemCadastroQuartos.setText("Cadastro de Quartos");
+        jMenuItemCadastroQuartos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCadastroQuartosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemCadastroQuartos);
+
+        jMenuItemCadastroTipoQuartos.setText("Cadastro de Tipos de Quartos");
+        jMenuItemCadastroTipoQuartos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemCadastroTipoQuartosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItemCadastroTipoQuartos);
 
         jMenuBar1.add(jMenu1);
 
@@ -144,6 +163,21 @@ public class TelaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenu2MouseClicked
 
+    private void jMenuItemCadProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadProdutosActionPerformed
+        TelaProduto produto = new TelaProduto();
+        produto.setVisible(true);
+    }//GEN-LAST:event_jMenuItemCadProdutosActionPerformed
+
+    private void jMenuItemCadastroQuartosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadastroQuartosActionPerformed
+       TelaQuartos quartos = new TelaQuartos();
+       quartos.setVisible(true);
+    }//GEN-LAST:event_jMenuItemCadastroQuartosActionPerformed
+
+    private void jMenuItemCadastroTipoQuartosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCadastroTipoQuartosActionPerformed
+        TelaTiposDeQuartos tiposquartos = new TelaTiposDeQuartos();
+        tiposquartos.setVisible(true);
+    }//GEN-LAST:event_jMenuItemCadastroTipoQuartosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -183,10 +217,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItemCadCidades;
     private javax.swing.JMenuItem jMenuItemCadFuncionario;
     private javax.swing.JMenuItem jMenuItemCadHospede;
     private javax.swing.JMenuItem jMenuItemCadProdutos;
+    private javax.swing.JMenuItem jMenuItemCadastroQuartos;
+    private javax.swing.JMenuItem jMenuItemCadastroTipoQuartos;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
