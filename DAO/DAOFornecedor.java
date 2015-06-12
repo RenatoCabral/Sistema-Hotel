@@ -161,7 +161,7 @@ public class DAOFornecedor {
         String comando = "select *from fornecedor";
         
           try {
-               enviaComando = conexao.prepareStatement(comando);
+                enviaComando = conexao.prepareStatement(comando);
                 resultado = enviaComando.executeQuery() ;
             
                while(resultado.next()){ 
@@ -208,6 +208,74 @@ public class DAOFornecedor {
             }
         }
     }
-     
-    
+      
+      public Fornecedor localizarFornecedor(int  id) {
+        conexao = cSQL.getConnection();
+        Fornecedor fornecedor= null;
+        String comando = "Select * from fornecedor where id_fornecedor= ? order by nome_fantasia";
+        try {
+            enviaComando = conexao.prepareStatement(comando);
+            enviaComando.setInt(1, id);
+            resultado = enviaComando.executeQuery();
+            while (resultado.next()) {
+                fornecedor = new Fornecedor();
+                fornecedor.setId_fornecedor(resultado.getInt("id_fornecedor"));
+                fornecedor.setRazaoSocial(resultado.getString("razao_social"));
+                fornecedor.setNomeFantasia(resultado.getString("nome_fantasia"));
+                fornecedor.setCnpj(resultado.getString("cnpj"));
+                fornecedor.setInsc_estadual(resultado.getString("insc_estadual"));
+                fornecedor.setTelefone(resultado.getString("telefone"));
+                fornecedor.setEndereco(resultado.getString("endereco"));
+                fornecedor.setRazaoSocial(resultado.getString("razao_social"));
+                fornecedor.setCidades(dCidades.localizarCidades(resultado.getInt("id_cidades")));
+                fornecedor.setTipotelefone(dTipoTelefone.localizarTipoTelefone(resultado.getInt("id_tipotelefone")));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar tipotelefone:" + e.getMessage());
+        } finally {
+            try {
+                enviaComando.close();
+                resultado.close();
+            } catch (Throwable e) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexão com o banco de dados:" + e.getMessage());
+            }
+        }
+        return fornecedor;
+    }
+      
+      public List<Fornecedor> localizarFornecedor(String nome_fantasia) {
+        conexao = cSQL.getConnection();
+        List<Fornecedor> fornecedores = new ArrayList<>();
+        String comando = "Select * from fornecedor where nome_fantasia = ? order by nome_fantasia";
+        try {
+            enviaComando = conexao.prepareStatement(comando);
+            enviaComando.setString(1, nome_fantasia);
+            resultado = enviaComando.executeQuery();
+            while (resultado.next()) {
+                fornecedor = new Fornecedor();
+                fornecedor.setId_fornecedor(resultado.getInt("id_fornecedor"));
+                fornecedor.setRazaoSocial(resultado.getString("razao_social"));
+                fornecedor.setNomeFantasia(resultado.getString("nome_fantasia"));
+                fornecedor.setCnpj(resultado.getString("cnpj"));
+                fornecedor.setInsc_estadual(resultado.getString("insc_estadual"));
+                fornecedor.setTelefone(resultado.getString("telefone"));
+                fornecedor.setEndereco(resultado.getString("endereco"));
+                fornecedor.setRazaoSocial(resultado.getString("razao_social"));
+                fornecedor.setCidades(dCidades.localizarCidades(resultado.getInt("id_cidades")));
+                fornecedor.setTipotelefone(dTipoTelefone.localizarTipoTelefone(resultado.getInt("id_tipotelefone")));
+                fornecedores.add(fornecedor);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar tipotelefone:" + e.getMessage());
+        } finally {
+            try {
+                enviaComando.close();
+                resultado.close();
+            } catch (Throwable e) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexão com o banco de dados:" + e.getMessage());
+            }
+        }
+            return fornecedores;
+      }
+         
 }

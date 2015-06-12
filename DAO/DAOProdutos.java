@@ -112,6 +112,84 @@ public class DAOProdutos {
         
         public List<Produtos> localizarTipo(String Produtos){
             conexao = cSQL.getConnection();
-            List<Fornecedor> tipos = new ArrayList<>();
-            String comando = "select *from fornecedor where razao_social= ?";
+            List<Produtos> tipos = new ArrayList<>();
+            String comando = "select *from produtos where nome_produto= ?";
+            
+            try {
+                enviaComando = conexao.prepareStatement(comando);
+                resultado = enviaComando.executeQuery() ;
+   
+               while(resultado.next()){
+                   Produtos produtos = new Produtos();
+                   produtos.setId_produto(resultado.getInt("id_produto"));
+                   produtos.setNome_produto(resultado.getString("nome_produto"));
+                   produtos.setCod_produto(resultado.getInt("codigo_produto"));
+                   produtos.setQuantidade(resultado.getInt("quantidade"));
+                   produtos.setValor_compra(resultado.getDouble("valor_compra"));
+                   produtos.setValor_venda(resultado.getDouble("valor_venda"));
+                   produtos.setFornecedor(daoFornecedor.localizarFornecedor(resultado.getInt("id_fornecedor")));  
+               }
+            }catch (SQLException e) {
+               JOptionPane.showMessageDialog(null, "Erro ao buscar produtos" + e.getMessage());
+            }finally{
+                try {
+                
+                } catch (Throwable ex) {
+                    JOptionPane.showMessageDialog(null, "Erro ao fechar conexão com o banco de dados:\n ERRO:" + ex.getMessage());
+                }
+            }
+            return tipos;
+        }
+        
+        public List<Produtos> listarTodos(){
+            conexao = cSQL.getConnection();
+            List<Produtos> tipos = new ArrayList<>();
+            String comando = "select *from produtos";
+            
+            try {
+                 enviaComando = conexao.prepareStatement(comando);
+                 resultado = enviaComando.executeQuery() ;
+                 
+                while(resultado.next()){
+                   Produtos produtos = new Produtos();
+                   produtos.setId_produto(resultado.getInt("id_produto"));
+                   produtos.setNome_produto(resultado.getString("nome_produto"));
+                   produtos.setCod_produto(resultado.getInt("codigo_produto"));
+                   produtos.setQuantidade(resultado.getInt("quantidade"));
+                   produtos.setValor_compra(resultado.getDouble("valor_compra"));
+                   produtos.setValor_venda(resultado.getDouble("valor_venda"));
+                   produtos.setFornecedor(daoFornecedor.localizarFornecedor(resultado.getInt("id_fornecedor"))); 
+                   tipos.add(produtos);
+               }
+            }catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Erro ao buscar forncedor" + e.getMessage());
+            }finally{
+            try {
+                
+            } catch (Throwable ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexão com o banco de dados:\n ERRO:" + ex.getMessage());
+            }
+            }
+                return tipos;
+        }
+        
+        public void removerSelecionado(Produtos produtos){
+        String query = "Delete from produtos where id_produto= ?";
+        conexao = cSQL.getConnection();
+        
+        try {
+            enviaComando = conexao.prepareStatement(query);
+            enviaComando.setInt(1, produtos.getId_produto());
+            enviaComando.executeUpdate();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao excluir produto:" + ex.getMessage());
+        }finally{
+            try {
+                enviaComando.close();
+                conexao.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexão com o banco de dados:\n ERRO:" + ex.getMessage());
+            }
+        }
+    }
 }

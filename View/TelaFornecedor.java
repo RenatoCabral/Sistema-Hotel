@@ -3,11 +3,14 @@ package View;
 import DAO.DAOCidades;
 import DAO.DAOFornecedor;
 import DAO.DAOTipoTelefone;
+import MascarasCampos.LimitandoCamposLetras;
 import TableModel.TableModelFornecedor;
+import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import modelo.Cidades;
 import modelo.Fornecedor;
@@ -15,6 +18,7 @@ import modelo.TipoTelefone;
 
 public class TelaFornecedor extends javax.swing.JFrame {
     
+     public static List<Fornecedor> fornecedores;
     Fornecedor fornecedor = new Fornecedor();
     Cidades cidades = new Cidades();
     TipoTelefone tipotelefone = new TipoTelefone();
@@ -26,6 +30,7 @@ public class TelaFornecedor extends javax.swing.JFrame {
     private DefaultComboBoxModel dcbmfornecedor = new DefaultComboBoxModel();
     private DefaultComboBoxModel dcbmcidades = new DefaultComboBoxModel();
     private DefaultComboBoxModel dcbmtipotelefone = new DefaultComboBoxModel();
+    private DefaultTableModel dtmfornecedor = new DefaultTableModel();
     private TableRowSorter sorter = new TableRowSorter();
 
     public TelaFornecedor() {
@@ -35,6 +40,10 @@ public class TelaFornecedor extends javax.swing.JFrame {
             preencheTabela();
         } catch (Exception e) {
         }
+        //MASCARA CAMPOS
+       jTextFieldNomeFantasia.setDocument(new LimitandoCamposLetras(70));
+       jTextFieldRazaoSocial.setDocument(new LimitandoCamposLetras(70));
+       jTextFieldEndereco.setDocument(new LimitandoCamposLetras(60));
     }
 
     @SuppressWarnings("unchecked")
@@ -46,12 +55,30 @@ public class TelaFornecedor extends javax.swing.JFrame {
         jTextFieldCodigo = new javax.swing.JTextField();
         jLabelCNPJ = new javax.swing.JLabel();
         jTextFieldCNPJ = new javax.swing.JTextField();
+        try{
+            javax.swing.text.MaskFormatter CNPJ = new javax.swing.text.MaskFormatter("##.###.###/####-##");
+
+            jTextFieldCNPJ = new javax.swing.JFormattedTextField(CNPJ);
+        }catch(Exception e){
+        }
         jLabelInscEstadual = new javax.swing.JLabel();
         jTextFieldInscEstadual = new javax.swing.JTextField();
+        try{
+            javax.swing.text.MaskFormatter InscEstadual = new javax.swing.text.MaskFormatter("##.###.###-#");
+
+            jTextFieldInscEstadual = new javax.swing.JFormattedTextField(InscEstadual);
+        }catch(Exception e){
+        }
         jLabelNomeFantasia = new javax.swing.JLabel();
         jTextFieldNomeFantasia = new javax.swing.JTextField();
         jLabelTelefone = new javax.swing.JLabel();
         jTextFieldTelefone = new javax.swing.JTextField();
+        try{
+            javax.swing.text.MaskFormatter Telefone = new javax.swing.text.MaskFormatter("(##)####-####");
+
+            jTextFieldTelefone = new javax.swing.JFormattedTextField(Telefone);
+        }catch(Exception e){
+        }
         jLabel1 = new javax.swing.JLabel();
         jTextFieldRazaoSocial = new javax.swing.JTextField();
         jLabelTipoTelefone = new javax.swing.JLabel();
@@ -137,10 +164,14 @@ public class TelaFornecedor extends javax.swing.JFrame {
             }
         });
 
-        jTextFieldPesquisar.setEnabled(false);
         jTextFieldPesquisar.setFocusCycleRoot(true);
 
         jButtonPesquisar.setText("Pesquisar");
+        jButtonPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPesquisarActionPerformed(evt);
+            }
+        });
 
         jButtonNovo.setText("Novo");
         jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -567,7 +598,7 @@ public class TelaFornecedor extends javax.swing.JFrame {
         preencherComboboxCidades();
         preencherComboboxTipoTelefone();
     }//GEN-LAST:event_formWindowActivated
-
+    
     private void jComboBoxTipoTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxTipoTelefoneActionPerformed
        tipotelefone = (TipoTelefone)jComboBoxTipoTelefone.getSelectedItem();
     }//GEN-LAST:event_jComboBoxTipoTelefoneActionPerformed
@@ -576,6 +607,12 @@ public class TelaFornecedor extends javax.swing.JFrame {
       cidades = (Cidades)jComboBoxCidades.getSelectedItem();
     }//GEN-LAST:event_jComboBoxCidadesActionPerformed
 
+    private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
+      
+        
+    }//GEN-LAST:event_jButtonPesquisarActionPerformed
+
+    
     private void preencheTabela() throws SQLException{
         List<Fornecedor> tipos = daoFornecedor.listarTodos();
         tmfornecedor = new TableModelFornecedor(tipos);

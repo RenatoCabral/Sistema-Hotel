@@ -22,7 +22,7 @@ public class LimitandoCamposLetras extends PlainDocument{
         
         int totalquantia=(getLength()+str.length());
         if(totalquantia <= quantidadeMax){
-            super.insertString(offset, str.replaceAll("[^A-Z|^a-z|^ ]",""), attr);
+            super.insertString(offset, str.replaceAll("[^A-Z|^a-z|^ |^0-9|^à|^á|^ã]",""), attr);
             return;
         }
        String nova = str.substring(0, getLength()- quantidadeMax);
