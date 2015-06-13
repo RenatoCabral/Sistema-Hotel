@@ -2,22 +2,26 @@
 package View;
 
 import DAO.DAOCidades;
-import MascarasCampos.ApenasLetras;
-import MascarasCampos.ApenasNumeros;
 import MascarasCampos.LimitandoCamposLetras;
 import TableModel.TableModelCidades;
-import java.sql.SQLException;
-import java.util.List;
+import ViewPesquisas.TelaPesquisaCidades;
 import javax.swing.JOptionPane;
 import modelo.Cidades;
 
 
 public class TelaCadCidades extends javax.swing.JFrame {
     
+    private static TelaCadCidades instancia;
+    
     Cidades cid =  new Cidades();
+     public static TelaCadCidades getInstancia() {
+         if(instancia == null){
+             instancia = new TelaCadCidades();
+         }
+         return instancia;  
+     }
     
     private DAOCidades dCidades = new DAOCidades();
-    //private DAOEstado dEstado = new DAOEstado();
     private TableModel.TableModelCidades tmc = new TableModelCidades();
     
    
@@ -29,7 +33,7 @@ public class TelaCadCidades extends javax.swing.JFrame {
         jTextFieldNomes.setDocument(new LimitandoCamposLetras(25));
         
         try {
-            preencheTabela();
+           // preencheTabela();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -55,6 +59,7 @@ public class TelaCadCidades extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableTabela = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
+        jButtonPesquisar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Cidades");
@@ -144,6 +149,13 @@ public class TelaCadCidades extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableTabela);
 
+        jButtonPesquisar.setText("Pesquisar");
+        jButtonPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPesquisarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -167,7 +179,7 @@ public class TelaCadCidades extends javax.swing.JFrame {
                                 .addComponent(jTextFieldNomes, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jButtonNovo)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -179,12 +191,18 @@ public class TelaCadCidades extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jButtonFechar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtonLimpar))
-                            .addComponent(jScrollPane1)
-                            .addComponent(jSeparator1))
-                        .addGap(0, 15, Short.MAX_VALUE)))
+                                .addComponent(jButtonLimpar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonPesquisar))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jSeparator1)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonAlterar, jButtonExcluir, jButtonFechar, jButtonLimpar, jButtonNovo, jButtonPesquisar, jButtonSalvar});
+
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -205,12 +223,15 @@ public class TelaCadCidades extends javax.swing.JFrame {
                     .addComponent(jButtonAlterar)
                     .addComponent(jButtonExcluir)
                     .addComponent(jButtonFechar)
-                    .addComponent(jButtonLimpar))
+                    .addComponent(jButtonLimpar)
+                    .addComponent(jButtonPesquisar))
                 .addGap(16, 16, 16)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonAlterar, jButtonExcluir, jButtonFechar, jButtonLimpar, jButtonNovo, jButtonPesquisar, jButtonSalvar});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -229,7 +250,7 @@ public class TelaCadCidades extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(542, 339));
+        setSize(new java.awt.Dimension(695, 339));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -255,7 +276,7 @@ public class TelaCadCidades extends javax.swing.JFrame {
             cid.setNome_cidades(jTextFieldNomes.getText());
             cid.setEstados(Integer.toString(jComboBoxEstados.getSelectedIndex()));
             dCidades.insert(cid);
-            preencheTabela();
+           // preencheTabela();
              //JOptionPane.showMessageDialog(null, "Cidade salva com sucesso!");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao salvar a cidade!" + "ERRO:"+ e.getMessage());
@@ -281,7 +302,7 @@ public class TelaCadCidades extends javax.swing.JFrame {
             cid.setNome_cidades(jTextFieldNomes.getText());
             cid.setEstados(Integer.toString(jComboBoxEstados.getSelectedIndex()));
             dCidades.atualizar(cid);
-            preencheTabela();
+            //preencheTabela();
             dCidades.atualizar(cid);
              JOptionPane.showMessageDialog(null, "A Cidade foi atualizada com sucesso!");
         } catch (Exception e) {
@@ -302,7 +323,7 @@ public class TelaCadCidades extends javax.swing.JFrame {
             if(resultado == JOptionPane.YES_OPTION){
                 try {
                     dCidades.removerSelecionado(cid);
-                    preencheTabela();
+                   // preencheTabela();
                     jTextFieldCodigo.setText("");
                     jTextFieldNomes.setText("");
                     jComboBoxEstados.setSelectedItem("");
@@ -346,11 +367,17 @@ public class TelaCadCidades extends javax.swing.JFrame {
         String a = String.valueOf(jComboBoxEstados.getSelectedItem());
     }//GEN-LAST:event_jComboBoxEstadosActionPerformed
 
-    private void preencheTabela() throws SQLException{
+    private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
+       TelaPesquisaCidades tpc = new TelaPesquisaCidades();
+       tpc.setVisible(true);
+       tpc.setValida(1);
+    }//GEN-LAST:event_jButtonPesquisarActionPerformed
+
+   /* private void preencheTabela() throws SQLException{
         List<Cidades> tipos = dCidades.listarTodos();
         tmc = new TableModelCidades(tipos);
         jTableTabela.setModel(tmc);
-    }
+    }*/
     
 
     public static void main(String args[]) {
@@ -392,6 +419,7 @@ public class TelaCadCidades extends javax.swing.JFrame {
     private javax.swing.JButton jButtonFechar;
     private javax.swing.JButton jButtonLimpar;
     private javax.swing.JButton jButtonNovo;
+    private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JComboBox jComboBoxEstados;
     private javax.swing.JLabel jLabel1;
@@ -404,4 +432,14 @@ public class TelaCadCidades extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldCodigo;
     private javax.swing.JTextField jTextFieldNomes;
     // End of variables declaration//GEN-END:variables
+    
+    public void recebeDados(Cidades cid){
+        
+        jTextFieldCodigo.setText(String.valueOf(cid.getId_cidades()));
+        jTextFieldNomes.setText(String.valueOf(cid.getNome_cidades()));
+        jComboBoxEstados.setToolTipText(String.valueOf(cid.getEstados()));
+    }
+
+
+
 }

@@ -8,7 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import modelo.Produtos;
 
 public class DAOCidades {
     
@@ -208,6 +211,33 @@ public class DAOCidades {
         }
         return cid;
     }
+    
+     public List<Cidades> getListaCidades() {
+        conexao = cSQL.getConnection();
+        List<Cidades> ListCidades = new ArrayList<>();
+        String comando = "select *from cidades";
+         try {
+             enviaComando = conexao.prepareStatement(comando);
+             resultado = enviaComando.executeQuery();
+             while (resultado.next()){
+                cid = new Cidades();
+                cid.setId_cidades(resultado.getInt("id_cidades"));
+                cid.setNome_cidades(resultado.getString("nome_cidades"));
+                cid.setEstados(resultado.getString("estados"));
+                ListCidades.add(cid);
+             }
+             
+         } catch (SQLException ex) {
+              JOptionPane.showMessageDialog(null, "Erro ao tentar prencher uma lista de Cidades!!\n\nERRO: " + ex.getMessage());
+         }finally{
+            try {
+                conexao.close();
+            } catch (SQLException ex) {
+               JOptionPane.showMessageDialog(null, "Erro ao tentar prencher uma lista de Cidades!!\n\nERRO: " + ex.getMessage());
+            }   
+         }
+         return ListCidades;
+     }
      
    
 }
