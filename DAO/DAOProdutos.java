@@ -22,7 +22,7 @@ public class DAOProdutos {
     private Produtos produtos = new Produtos();
     
       public void inserir(Produtos produtos){
-        String comando  = "Insert Into produtos (id_produto, nome_produto, codigo_produto, quantidade, valor_compra, valor_venda, id_fornecedor) values (?, ?, ?, ?, ?, ?, ?)";
+        String comando  = "Insert Into produtos (id_produtos, nome_produto, codigo_produto, quantidade, valor_compra, valor_venda, id_fornecedor) values (?, ?, ?, ?, ?, ?, ?)";
         conexao  = cSQL.getConnection();
         
           try { 
@@ -43,7 +43,7 @@ public class DAOProdutos {
       }
       
         public void atualizar(Produtos produtos){
-            String query = "update produtos set nome_produto= ?, codigo_produto= ?, quantidade= ?, valor_compra= ?, valor_venda= ?, id_fornecedor where id_produto= ?";
+            String query = "update produtos set nome_produto= ?, codigo_produto= ?, quantidade= ?, valor_compra= ?, valor_venda= ?, id_fornecedor where id_produtos= ?";
             conexao = cSQL.getConnection();
             
             try {
@@ -89,7 +89,7 @@ public class DAOProdutos {
         public int geraCodigo(){
             conexao = cSQL.getConnection();
             int codigo = 0;
-            String comando = "select max(id_produto) as codigo from produtos";
+            String comando = "select max(id_produtos) as codigo from produtos";
         
             try {
                 enviaComando = conexao.prepareStatement(comando);
@@ -121,7 +121,7 @@ public class DAOProdutos {
    
                while(resultado.next()){
                    Produtos produtos = new Produtos();
-                   produtos.setId_produto(resultado.getInt("id_produto"));
+                   produtos.setId_produto(resultado.getInt("id_produtos"));
                    produtos.setNome_produto(resultado.getString("nome_produto"));
                    produtos.setCod_produto(resultado.getInt("codigo_produto"));
                    produtos.setQuantidade(resultado.getInt("quantidade"));
@@ -152,7 +152,7 @@ public class DAOProdutos {
                  
                 while(resultado.next()){
                    Produtos produtos = new Produtos();
-                   produtos.setId_produto(resultado.getInt("id_produto"));
+                   produtos.setId_produto(resultado.getInt("id_produtos"));
                    produtos.setNome_produto(resultado.getString("nome_produto"));
                    produtos.setCod_produto(resultado.getInt("codigo_produto"));
                    produtos.setQuantidade(resultado.getInt("quantidade"));
@@ -174,7 +174,7 @@ public class DAOProdutos {
         }
         
         public void removerSelecionado(Produtos produtos){
-        String query = "Delete from produtos where id_produto= ?";
+        String query = "Delete from produtos where id_produtos= ?";
         conexao = cSQL.getConnection();
         
         try {

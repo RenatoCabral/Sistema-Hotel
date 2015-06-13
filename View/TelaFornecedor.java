@@ -18,7 +18,7 @@ import modelo.TipoTelefone;
 
 public class TelaFornecedor extends javax.swing.JFrame {
     
-     public static List<Fornecedor> fornecedores;
+    public static List<Fornecedor> fornecedores;
     Fornecedor fornecedor = new Fornecedor();
     Cidades cidades = new Cidades();
     TipoTelefone tipotelefone = new TipoTelefone();
