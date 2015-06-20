@@ -10,13 +10,13 @@ public class Fornecedor {
     private String telefone;
     private String endereco;
     private Cidades cidades;
-    private TipoTelefone tipotelefone;
+    private String tipo_telefone;
 
 
     public Fornecedor() {
     }
 
-    public Fornecedor(int id_fornecedor, String endereco, String cnpj, String insc_estadual, String NomeFantasia, String RazaoSocial, String telefone, Cidades cidades, TipoTelefone tipotelefone) {
+    public Fornecedor(int id_fornecedor, String endereco, String cnpj, String insc_estadual, String NomeFantasia, String RazaoSocial, String telefone, Cidades cidades, String tipo_telefone) {
         this.id_fornecedor = id_fornecedor;
         this.cnpj = cnpj;
         this.insc_estadual = insc_estadual;
@@ -25,7 +25,7 @@ public class Fornecedor {
         this.telefone = telefone;
         this.endereco = endereco;
         this.cidades = cidades;
-        this.tipotelefone = tipotelefone;
+        this.tipo_telefone = tipo_telefone;
     }
 
     public int getId_fornecedor() {
@@ -92,12 +92,12 @@ public class Fornecedor {
         this.cidades = cidades;
     }
 
-    public TipoTelefone getTipotelefone() {
-        return tipotelefone;
+    public String getTipo_telefone() {
+        return tipo_telefone;
     }
 
-    public void setTipotelefone(TipoTelefone tipotelefone) {
-        this.tipotelefone = tipotelefone;
+    public void setTipo_telefone(String tipo_telefone) {
+        this.tipo_telefone = tipo_telefone;
     }
 
     @Override

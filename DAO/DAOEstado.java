@@ -180,6 +180,36 @@ public class DAOEstado {
         }
     }
     
+    public List<Estado> localizarEstado(String nome_estado) {
+        conexao = cSQL.getConnection();
+        List<Estado> estados = new ArrayList<>();
+        String comando = "Select *from estado where nome_estado = ? order by nome_estado";
+        try {
+            enviaComando = conexao.prepareStatement(comando);
+            enviaComando.setString(1, nome_estado);
+            resultado = enviaComando.executeQuery();
+
+            while (resultado.next()) {
+                Estado est = new Estado();
+                est.setId_estado(resultado.getInt("id_estado"));
+                est.setNome_estado(resultado.getString("nome_estado"));
+                est.setSigla(resultado.getString("sigla"));
+                estados.add(est);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar estado:" + e.getMessage());
+        } finally {
+            try {
+                enviaComando.close();
+                resultado.close();
+            } catch (Throwable e) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexÃ£o com o banco de dados:" + e.getMessage());
+            }
+        }
+        return estados;
+    }
+
+    
     
 }
 

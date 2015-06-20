@@ -14,7 +14,7 @@ public class TableModelFornecedor extends AbstractTableModel{
     private static final int Col_Endereco= 5;
     private static final int Col_Telefone= 6;
     private static final int Col_Id_Cidades = 7;
-    private static final int Col_Id_TipoTelefone = 8;
+    private static final int Col_TipoTelefone = 8;
     
     
     private List<Fornecedor> tipos;
@@ -55,8 +55,8 @@ public class TableModelFornecedor extends AbstractTableModel{
             return fornecedor.getTelefone();
         }else if(columnIndex == Col_Id_Cidades){
             return fornecedor.getCidades().getId_cidades();
-        }else if(columnIndex == Col_Id_TipoTelefone){
-            return fornecedor.getTipotelefone().getId_tipotelefone();
+        }else if(columnIndex == Col_TipoTelefone){
+            return fornecedor.getTipo_telefone();
         }
         return "";
     }
@@ -79,8 +79,8 @@ public class TableModelFornecedor extends AbstractTableModel{
              return "Telefone";
          if(column == Col_Id_Cidades)
              return "Id_Cidades";
-         if(column == Col_Id_TipoTelefone)
-             return "Id_TipoTelefone";
+         if(column == Col_TipoTelefone)
+             return "TipoTelefone";
          return "";
      }
      

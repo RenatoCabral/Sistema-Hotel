@@ -2,16 +2,16 @@ package View;
 
 import DAO.DAOFuncaoFuncionario;
 import TableModel.TableModelFuncaoFuncionario;
-import MascarasCampos.ApenasLetras;
 import MascarasCampos.ApenasNumeros;
 import MascarasCampos.LimitandoCamposLetras;
+import ViewPesquisas.TelaPesquisaFuncaoFuncionario;
 import modelo.FuncaoFuncionario;
-import java.sql.SQLException;
-import java.util.List;
 import javax.swing.JOptionPane;
 
 
 public class TelaFuncaoFuncionario extends javax.swing.JFrame {
+    
+    private TelaFuncaoFuncionario instancia;
     
     FuncaoFuncionario ff = new FuncaoFuncionario();
     
@@ -21,15 +21,16 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
    
     public TelaFuncaoFuncionario() {
         initComponents();
+        instancia = this;
         
         //MASCARA PARA OS CAMPOS
         
         jTextFieldCodigo.setDocument(new ApenasNumeros());
-        jTextFieldDescricao.setDocument(new ApenasLetras());
+        //jTextFieldDescricao.setDocument(new ApenasLetras());
         jTextFieldDescricao.setDocument(new LimitandoCamposLetras(25));
         
         try {
-            preencheTabela();
+           // preencheTabela();
         } catch (Exception e) {
         }
     }
@@ -53,6 +54,7 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableTabela = new javax.swing.JTable();
         jSeparator1 = new javax.swing.JSeparator();
+        jButtonPesquisar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Função");
@@ -134,6 +136,17 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableTabela);
 
+        jButtonPesquisar.setText("Pesquisar");
+        jButtonPesquisar.setEnabled(false);
+        jButtonPesquisar.setMaximumSize(new java.awt.Dimension(66, 25));
+        jButtonPesquisar.setMinimumSize(new java.awt.Dimension(66, 25));
+        jButtonPesquisar.setPreferredSize(new java.awt.Dimension(66, 25));
+        jButtonPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPesquisarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -141,31 +154,40 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jSeparator1)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabelCodigo)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabelDescricao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButtonNovo)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonSalvar)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonAlterar)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonExcluir)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonFechar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonLimpar)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabelCodigo)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabelDescricao)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButtonNovo)
+                                .addGap(12, 12, 12)
+                                .addComponent(jButtonSalvar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonAlterar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonExcluir)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonFechar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtonLimpar)))
+                        .addGap(106, 106, 106))))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonAlterar, jButtonExcluir, jButtonFechar, jButtonLimpar, jButtonNovo, jButtonPesquisar, jButtonSalvar});
+
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -174,7 +196,8 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
                     .addComponent(jLabelCodigo)
                     .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelDescricao)
-                    .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonNovo)
@@ -186,9 +209,11 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonAlterar, jButtonExcluir, jButtonFechar, jButtonLimpar, jButtonNovo, jButtonPesquisar, jButtonSalvar});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -196,8 +221,8 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,7 +232,7 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(557, 309));
+        setSize(new java.awt.Dimension(653, 309));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -222,6 +247,7 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
        jButtonSalvar.setEnabled(true);
        jButtonNovo.setEnabled(false);
        jButtonFechar.setEnabled(true);
+       jButtonPesquisar.setEnabled(true);
        jTextFieldCodigo.requestFocus();
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
@@ -231,7 +257,7 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
             ff.setId_funcao(Integer.parseInt(jTextFieldCodigo.getText()));
             ff.setNome_Funcao(jTextFieldDescricao.getText());
             dff.insert(ff);
-            preencheTabela();
+           // preencheTabela();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERRO:" + e.getMessage());
         }
@@ -245,6 +271,7 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
         jButtonLimpar.setEnabled(false);
         jButtonSalvar.setEnabled(false);
         jButtonNovo.setEnabled(true);
+        jButtonPesquisar.setEnabled(true);
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
@@ -253,7 +280,7 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
             ff.setNome_Funcao(jTextFieldDescricao.getText());
             ff.setId_funcao(Integer.parseInt(jTextFieldCodigo.getText()));
             dff.atualizar(ff);
-            preencheTabela();
+            //preencheTabela();
              JOptionPane.showMessageDialog(null, "Função atualizado!");
         } catch (Exception e) {
              JOptionPane.showMessageDialog(null, "Função não atualizado!" + "ERRO:" + e.getMessage());
@@ -263,6 +290,7 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
         jButtonExcluir.setEnabled(false);
         jButtonLimpar.setEnabled(false);
         jButtonNovo.setEnabled(true);
+        jButtonPesquisar.setEnabled(true);
         jTextFieldCodigo.setEnabled(false);
         jTextFieldDescricao.setEnabled(false);
     }//GEN-LAST:event_jButtonAlterarActionPerformed
@@ -272,7 +300,7 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
             if(resultado == JOptionPane.YES_OPTION){
                 try {
                     dff.removerSelecionado(ff);
-                    preencheTabela();
+                    //preencheTabela();
                     jTextFieldCodigo.setText("");
                     jTextFieldDescricao.setText("");
                     JOptionPane.showMessageDialog(null, "Estado removido com sucesso!");
@@ -291,6 +319,7 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
        jTextFieldDescricao.setText(null);
        jTextFieldCodigo.setText(null);
        jButtonNovo.setEnabled(true);
+       jButtonPesquisar.setEnabled(true);
     }//GEN-LAST:event_jButtonLimparActionPerformed
 
     private void jTableTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTabelaMouseClicked
@@ -302,19 +331,35 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
        jButtonAlterar.setEnabled(true);
        jButtonNovo.setEnabled(false);
        jButtonExcluir.setEnabled(true);
+       jButtonPesquisar.setEnabled(true);
        jTextFieldCodigo.setEnabled(true);
        jTextFieldDescricao.setEnabled(true);
     }//GEN-LAST:event_jTableTabelaMouseClicked
 
-     private void preencheTabela() throws SQLException{
+    private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
+       TelaPesquisaFuncaoFuncionario tpff = new TelaPesquisaFuncaoFuncionario(instancia);
+       tpff.setVisible(true);
+       tpff.setValida(1);
+        try {
+            tpff.preencheTabela();
+        } catch (Exception e) {
+        }
+       
+       jButtonAlterar.setEnabled(false);
+       jButtonExcluir.setEnabled(true);
+       jButtonFechar.setEnabled(true);
+       jButtonLimpar.setEnabled(false);
+       jButtonNovo.setEnabled(true);
+       jButtonSalvar.setEnabled(false);
+       jButtonPesquisar.setEnabled(true);
+    }//GEN-LAST:event_jButtonPesquisarActionPerformed
+
+     /*private void preencheTabela() throws SQLException{
         List<FuncaoFuncionario> tipos = dff.listarTodos();
         tmff = new TableModelFuncaoFuncionario(tipos);
         jTableTabela.setModel(tmff);
-    } 
-    
-    
-    
-    
+    } */
+   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -353,6 +398,7 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
     private javax.swing.JButton jButtonFechar;
     private javax.swing.JButton jButtonLimpar;
     private javax.swing.JButton jButtonNovo;
+    private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JLabel jLabelCodigo;
     private javax.swing.JLabel jLabelDescricao;
@@ -363,4 +409,14 @@ public class TelaFuncaoFuncionario extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldCodigo;
     private javax.swing.JTextField jTextFieldDescricao;
     // End of variables declaration//GEN-END:variables
+
+    public void recebeDados(FuncaoFuncionario funcf){
+        jTextFieldCodigo.setText(String.valueOf(funcf.getId_funcao()));
+        jTextFieldDescricao.setText(String.valueOf(funcf.getNome_Funcao()));
+    }
+
+
+
+
+
 }

@@ -16,7 +16,7 @@ public class TableModelHospedes extends AbstractTableModel {
     private static final int Col_Telefone2 = 7;
     private static final int Col_Placa_Veiculo = 8;
     private static final int Col_Id_Cidades = 9;
-    private static final int Col_Id_TipoTelefone = 10;
+    private static final int Col_TipoTelefone = 10;
     
      private List<Hospedes> tipos;
 
@@ -55,8 +55,8 @@ public class TableModelHospedes extends AbstractTableModel {
            return hosp.getEmail();
        }else if(columnIndex == Col_Telefone1){
            return hosp.getTelefone1();
-        }else if(columnIndex == Col_Id_TipoTelefone){
-           return hosp.getTipoTelefone().getId_tipotelefone();
+        }else if(columnIndex == Col_TipoTelefone){
+           return hosp.getTipo_Telefone();
        }else if(columnIndex == Col_Telefone2){
            return hosp.getTelefone2();
        }else if(columnIndex == Col_Placa_Veiculo){
@@ -84,8 +84,8 @@ public class TableModelHospedes extends AbstractTableModel {
             return "Email";
         if(column == Col_Telefone1)
             return "Telefone1";
-        if(column == Col_Id_TipoTelefone)
-            return "Id_TipoTelefone";
+        if(column == Col_TipoTelefone)
+            return "TipoTelefone";
         if(column == Col_Telefone2)
             return "Telefone2";
         if(column == Col_Placa_Veiculo)

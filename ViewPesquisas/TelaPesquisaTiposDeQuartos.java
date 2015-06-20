@@ -1,63 +1,50 @@
 package ViewPesquisas;
 
-import DAO.DAOCidades;
-import TableModel.TableModelCidades;
-import View.TelaCadCidades;
-import View.TelaFornecedor;
-import View.TelaHospede;
+
+import DAO.DAOTiposDeQuartos;
+import TableModel.TableModelTiposDeQuartos;
+import View.TelaQuartos;
+import View.TelaTiposDeQuartos;
 import java.awt.HeadlessException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import modelo.Cidades;
+import modelo.TiposDeQuartos;
 
-public class TelaPesquisaCidades extends javax.swing.JFrame {
-
-    TelaCadCidades tc;
-    TelaFornecedor tf;
-    TelaHospede th;
+public class TelaPesquisaTiposDeQuartos extends javax.swing.JFrame {
     
-    public TelaPesquisaCidades(TelaCadCidades title) throws HeadlessException {
-        tc = title;
+    TelaTiposDeQuartos ttdq;
+    TelaQuartos tq;
+
+    public TelaPesquisaTiposDeQuartos( TelaTiposDeQuartos title) throws HeadlessException{
+        ttdq = title;
+      
         initComponents();
-        
-             jTableTabela.setAutoCreateRowSorter(true); // ordenação das colunas
-        
-        try {
+         jTableTabela.setAutoCreateRowSorter(true); // ordenação das colunas
+         
+         try {
             preencheTabela();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }
 
-    public TelaPesquisaCidades(TelaFornecedor title) throws HeadlessException {
-        tf = title;
-        initComponents();
-             jTableTabela.setAutoCreateRowSorter(true); // ordenação das colunas
-        
-        try {
+    public TelaPesquisaTiposDeQuartos(TelaQuartos title) throws HeadlessException {
+         tq =title;
+
+         initComponents();
+         jTableTabela.setAutoCreateRowSorter(true); // ordenação das colunas
+         
+         try {
             preencheTabela();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
+     
     }
 
-    public TelaPesquisaCidades(TelaHospede title) throws HeadlessException {
-        th = title;
-        initComponents();
-             jTableTabela.setAutoCreateRowSorter(true); // ordenação das colunas
-        
-        try {
-            preencheTabela();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
-    }
-    
-    
-
-    List<Cidades> cid = new ArrayList();
+    List<TiposDeQuartos> tdq = new ArrayList();
     
     int linha;
     int valida;
@@ -77,8 +64,8 @@ public class TelaPesquisaCidades extends javax.swing.JFrame {
     public void setLinha(int linha) {
         this.linha = linha;
     }
-
-    public TelaPesquisaCidades() {
+    
+    public TelaPesquisaTiposDeQuartos() {
         initComponents();
              jTableTabela.setAutoCreateRowSorter(true); // ordenação das colunas
         
@@ -96,6 +83,7 @@ public class TelaPesquisaCidades extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableTabela = new javax.swing.JTable();
+        jButtonFechar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -120,80 +108,85 @@ public class TelaPesquisaCidades extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTableTabela);
 
+        jButtonFechar.setText("Fechar");
+        jButtonFechar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonFecharActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonFechar)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButtonFechar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(649, 339));
+        setSize(new java.awt.Dimension(688, 305));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTableTabelaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTableTabelaKeyPressed
-        if(getValida()==1){
+      if(getValida()==1){
             if(evt.getKeyCode() == evt.VK_ENTER){
                 //pega a linha selecionada
                 setLinha(jTableTabela.getSelectedRow());
                 //recupera um objeto da lista em um alinha especifica que foi definido
-                Cidades cidades = cid.get(getLinha());
+                TiposDeQuartos tiposdequartos = tdq.get(getLinha());
                 //envia o objeto para ser enviado;
 
-                enviaDados(cidades,1);
-            }
-        }else if(getValida()==0){
-                if(evt.getKeyCode() == evt.VK_ENTER){
-                //pega a linha selecionada
-                setLinha(jTableTabela.getSelectedRow());
-                //recupera um objeto da lista em um alinha especifica que foi definido
-                Cidades cidades = cid.get(getLinha());
-                //envia o objeto para ser enviado;
-
-                enviaDados(cidades,0);
-            }
-                
-            }else if(getValida()==2){
-                if(evt.getKeyCode() == evt.VK_ENTER){
-                //pega a linha selecionada
-                setLinha(jTableTabela.getSelectedRow());
-                //recupera um objeto da lista em um alinha especifica que foi definido
-                Cidades cidades = cid.get(getLinha());
-                //envia o objeto para ser enviado;
-
-                enviaDados(cidades,2);
+                enviaDados(tiposdequartos,1);
             }
         }
-     
-             
+      else{
+          if(evt.getKeyCode() == evt.VK_ENTER){
+                //pega a linha selecionada
+                setLinha(jTableTabela.getSelectedRow());
+                //recupera um objeto da lista em um alinha especifica que foi definido
+                TiposDeQuartos tiposdequartos = tdq.get(getLinha());
+                //envia o objeto para ser enviado;
+
+                enviaDados(tiposdequartos,0);
+            }
+      }
     }//GEN-LAST:event_jTableTabelaKeyPressed
+
+    private void jButtonFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonFecharActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_jButtonFecharActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -209,52 +202,52 @@ public class TelaPesquisaCidades extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaPesquisaCidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaPesquisaTiposDeQuartos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaPesquisaCidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaPesquisaTiposDeQuartos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaPesquisaCidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaPesquisaTiposDeQuartos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaPesquisaCidades.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaPesquisaTiposDeQuartos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaPesquisaCidades().setVisible(true);
+                new TelaPesquisaTiposDeQuartos().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonFechar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableTabela;
     // End of variables declaration//GEN-END:variables
 
-    private void preencheTabela() throws SQLException{
+     private void preencheTabela() throws SQLException{
         
-        DAOCidades dcid = new DAOCidades();
-        cid = dcid.getListaCidades();
-        TableModelCidades tmcid = new TableModelCidades(cid);
-        jTableTabela.setModel(tmcid);
-      
-    }
-    
-     private void enviaDados(Cidades cid, int i) {
+        DAO.DAOTiposDeQuartos dtdq = new DAOTiposDeQuartos();
+        tdq = dtdq.getListaTiposDeQuartos();
+        TableModelTiposDeQuartos tmtdq = new TableModelTiposDeQuartos(tdq);
+        jTableTabela.setModel(tmtdq);
+     }
+     
+     private void enviaDados(TiposDeQuartos tdq, int i) {
          if(i == 1){
-            tc.recebeDados(cid);
-            dispose();
-         }else if(i==0){
-             tf.recebeDados(cid);
-             dispose();
-         }else if(i==2){
-             th.recebeDados(cid);
+          
+             ttdq.recebeDados(tdq);/*TELA DE TIPOS DE DE QUARTOS RECEBE O METODO RECEBEDADOS,
+                                   COMO PARAMETRO TIPOSDEQUARTOS */
              dispose();
          }
-     
+         else{
+             tq.recebeDados(tdq);// ERRO ESTA AQUI, COMO FAÇO ESSA DECLARAÇÃO? 
+                dispose();
+             
+         }
+         
      }
+   
 }
-     
-

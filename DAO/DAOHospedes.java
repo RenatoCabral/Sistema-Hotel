@@ -10,14 +10,12 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.Cidades;
 import modelo.Hospedes;
-import modelo.TipoTelefone;
+
 
 public class DAOHospedes{
     
     private DAOCidades dCidades = new DAOCidades();
-    private DAOTipoTelefone dTipoTel = new DAOTipoTelefone();
     private Cidades cid = new Cidades();
-    private TipoTelefone tt = new TipoTelefone();
     private Hospedes hosp = new Hospedes();
     private Conexao cSQL = new Conexao();
     private Connection conexao;
@@ -25,22 +23,22 @@ public class DAOHospedes{
     private PreparedStatement enviaComando;
 
     public void inserir(Hospedes hosp){
-        String comando  = "Insert Into hospedes (id_hospede, nome_hospede, cpf_hospede, rg_hospede, endereco_hospede, email, placa_veiculo, id_cidades, id_tipotelefone,telefone1, telefone2) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String comando  = "Insert Into hospedes (id_hospede, nome_hospede, cpf_hospede, rg_hospede, endereco_hospede, email, placa_veiculo, id_cidades, tipo_telefone,telefone1, telefone2) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         conexao  = cSQL.getConnection();
         
         try {
             enviaComando = conexao.prepareStatement(comando);
             enviaComando.setInt(1, hosp.getId_hospede());
             enviaComando.setString(2, hosp.getNome_hospede());
-            enviaComando.setString(3, hosp.getRg_hospede());
-            enviaComando.setString(4, hosp.getCpf_hospede());
+            enviaComando.setString(3, hosp.getCpf_hospede());
+            enviaComando.setString(4, hosp.getRg_hospede());
             enviaComando.setString(5, hosp.getEndereco_hospede());
-            enviaComando.setString(6, hosp.getPlaca_veiculo());
-            enviaComando.setString(7, hosp.getEmail());
-            enviaComando.setString(8, hosp.getTelefone1());
-            enviaComando.setString(9, hosp.getTelefone2());
-            enviaComando.setInt(10, hosp.getCidades().getId_cidades());
-            enviaComando.setInt(11, hosp.getTipoTelefone().getId_tipotelefone());
+            enviaComando.setString(6, hosp.getEmail());
+            enviaComando.setString(7, hosp.getPlaca_veiculo());
+            enviaComando.setInt(8, hosp.getCidades().getId_cidades());
+            enviaComando.setString(9, hosp.getTipo_Telefone());
+            enviaComando.setString(10, hosp.getTelefone1());
+            enviaComando.setString(11, hosp.getTelefone2());
             enviaComando.executeUpdate();
             JOptionPane.showMessageDialog(null, "Registro efetuado com sucesso!");   
             enviaComando.close();
@@ -52,7 +50,7 @@ public class DAOHospedes{
     }
     
      public void atualizar(Hospedes hosp){
-         String query = "update hospedes set nome_hospede = ?, cpf_hospede= ?, rg_hospede= ?, endereco_hospede= ?, email= ?,placa_veiculo= ?, telefone1, telefone2, id_cidades= ?,id_tipotelefone= ? where id_hospede= ?";
+         String query = "update hospedes set nome_hospede = ?, cpf_hospede= ?, rg_hospede= ?, endereco_hospede= ?, email= ?,placa_veiculo= ?, telefone1, telefone2, id_cidades= ?,tipo_telefone= ? where id_hospede= ?";
         conexao = cSQL.getConnection();
         
          try {
@@ -67,7 +65,7 @@ public class DAOHospedes{
             enviaComando.setString(7, hosp.getTelefone1());
             enviaComando.setString(8, hosp.getTelefone2());
             enviaComando.setInt(9, hosp.getCidades().getId_cidades());
-            enviaComando.setInt(10, hosp.getTipoTelefone().getId_tipotelefone());
+            enviaComando.setString(10, hosp.getTipo_Telefone());
             enviaComando.executeUpdate();
          } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Erro ao alterar hospede:" + e.getMessage());
@@ -145,7 +143,7 @@ public class DAOHospedes{
                 hosp.setTelefone1(resultado.getString("telefone1"));
                 hosp.setTelefone2(resultado.getString("telefone2"));
                 hosp.setCidades(dCidades.localizarCidades(resultado.getInt("id_cidades")));
-                hosp.setTipoTelefone(dTipoTel.localizarTipoTelefone(resultado.getInt("id_tipotelefone")));
+                hosp.setTipo_Telefone(resultado.getString("tipo_telefone"));
                 tipos.add(hosp);
                }
           } catch (SQLException e) {
@@ -170,7 +168,7 @@ public class DAOHospedes{
                 resultado = enviaComando.executeQuery() ;
             
                while(resultado.next()){ 
-                   Hospedes hosp = new Hospedes();
+                Hospedes hosp = new Hospedes();
                 hosp.setId_hospede(resultado.getInt("id_hospede"));
                 hosp.setNome_hospede(resultado.getString("nome_hospede"));
                 hosp.setCpf_hospede(resultado.getString("cpf_hospede"));
@@ -181,7 +179,7 @@ public class DAOHospedes{
                 hosp.setTelefone1(resultado.getString("telefone1"));
                 hosp.setTelefone2(resultado.getString("telefone2"));
                 hosp.setCidades(dCidades.localizarCidades(resultado.getInt("id_cidades")));
-                hosp.setTipoTelefone(dTipoTel.localizarTipoTelefone(resultado.getInt("id_tipotelefone")));
+                hosp.setTipo_Telefone(resultado.getString("tipo_telefone"));
                 tipos.add(hosp);
                }
           } catch (SQLException e) {
@@ -196,18 +194,17 @@ public class DAOHospedes{
         return tipos;
       }
        
-        public List<Hospedes> localizarHospede(String nome_hospede){
+        public List<Hospedes> getListaHospede(){
         conexao = cSQL.getConnection();
         List<Hospedes> hospedes = new ArrayList<>();
-        String comando = "select *from hospedes where nome_hospede= ? order by nome_hospede";
+        String comando = "select *from hospedes";
         
           try {
                 enviaComando = conexao.prepareStatement(comando);
-                enviaComando.setString(1, nome_hospede);
                 resultado = enviaComando.executeQuery();
             
                while(resultado.next()){ 
-                   Hospedes hosp = new Hospedes();
+                hosp = new Hospedes();
                 hosp.setId_hospede(resultado.getInt("id_hospede"));
                 hosp.setNome_hospede(resultado.getString("nome_hospede"));
                 hosp.setCpf_hospede(resultado.getString("cpf_hospede"));
@@ -218,15 +215,15 @@ public class DAOHospedes{
                 hosp.setTelefone1(resultado.getString("telefone1"));
                 hosp.setTelefone2(resultado.getString("telefone2"));
                 hosp.setCidades(dCidades.localizarCidades(resultado.getInt("id_cidades")));
-                hosp.setTipoTelefone(dTipoTel.localizarTipoTelefone(resultado.getInt("id_tipotelefone")));
+                hosp.setTipo_Telefone(resultado.getString("tipo_telefone"));
                 hospedes.add(hosp);
                }
           } catch (SQLException e) {
-               JOptionPane.showMessageDialog(null, "Erro ao buscar hospedes" + e.getMessage());
+               JOptionPane.showMessageDialog(null, "Erro ao tentar preencher a lista de hospedes" + "ERRO:" + e.getMessage());
           }finally{
             try {
-                
-            } catch (Throwable ex) {
+                 conexao.close();
+            } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Erro ao fechar conexão com o banco de dados:\n ERRO:" + ex.getMessage());
             }
         }
@@ -251,6 +248,81 @@ public class DAOHospedes{
                 JOptionPane.showMessageDialog(null, "Erro ao fechar conexão com o banco de dados:\n ERRO:" + ex.getMessage());
             }
         }
+    }
+       
+       public Hospedes LocalizarHospede(int id){
+        conexao = cSQL.getConnection();
+        Hospedes hospss = null;
+        String comando = "select *from hospedes where id_hospede= ? order by nome_hospede";
+        
+          try {
+                 enviaComando = conexao.prepareStatement(comando);
+                 enviaComando.setInt(1, id);
+                 resultado = enviaComando.executeQuery();
+            
+               while(resultado.next()){ 
+                hosp = new Hospedes();
+                hosp.setId_hospede(resultado.getInt("id_hospede"));
+                hosp.setNome_hospede(resultado.getString("nome_hospede"));
+                hosp.setCpf_hospede(resultado.getString("cpf_hospede"));
+                hosp.setRg_hospede(resultado.getString("rg_hospede"));
+                hosp.setEndereco_hospede(resultado.getString("endereco_hospede"));
+                hosp.setEmail(resultado.getString("email"));
+                hosp.setPlaca_veiculo(resultado.getString("placa_veiculo"));
+                hosp.setTelefone1(resultado.getString("telefone1"));
+                hosp.setTelefone2(resultado.getString("telefone2"));
+                hosp.setCidades(dCidades.localizarCidades(resultado.getInt("id_cidades")));
+                hosp.setTipo_Telefone(resultado.getString("tipo_telefone"));
+                //hospedes.add(hosp);
+               }
+          } catch (SQLException e) {
+               JOptionPane.showMessageDialog(null, "Erro ao tentar preencher a lista de hospedes" + "ERRO:" + e.getMessage());
+          }finally{
+            try {
+                 enviaComando.close();
+                 resultado.close();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexão com o banco de dados:\n ERRO:" + ex.getMessage());
+            }
+        }
+        return hosp;
+      }
+       
+        public List<Hospedes> getHospedes(){
+        conexao = cSQL.getConnection();
+         List<Hospedes> ListHospedes = new ArrayList<>();
+        String comando = "select *from hospedes";  
+        
+        try {
+            enviaComando = conexao.prepareStatement(comando);
+            resultado = enviaComando.executeQuery() ;   
+            
+            while(resultado.next()){ 
+                 hosp = new Hospedes();
+                hosp.setId_hospede(resultado.getInt("id_hospede"));
+                hosp.setNome_hospede(resultado.getString("nome_hospede"));
+                hosp.setCpf_hospede(resultado.getString("cpf_hospede"));
+                hosp.setRg_hospede(resultado.getString("rg_hospede"));
+                hosp.setEndereco_hospede(resultado.getString("endereco_hospede"));
+                hosp.setEmail(resultado.getString("email"));
+                hosp.setPlaca_veiculo(resultado.getString("placa_veiculo"));
+                hosp.setTelefone1(resultado.getString("telefone1"));
+                hosp.setTelefone2(resultado.getString("telefone2"));
+                hosp.setCidades(dCidades.localizarCidades(resultado.getInt("id_cidades")));
+                hosp.setTipo_Telefone(resultado.getString("tipo_telefone"));
+                //quartos.setTiposquartos(dtdq.localizarTiposDeQuartos(Integer.parseInt(resultado.getString("descricao_tiposquartos"))));
+                ListHospedes.add(hosp);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar hospede" + ex.getMessage());
+        }finally{
+            try {
+               
+            } catch (Throwable e) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexão com o banco de dados:\n ERRO:" + e.getMessage());
+            }
+        }
+        return ListHospedes;
     }
 
    

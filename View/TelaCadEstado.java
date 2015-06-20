@@ -2,22 +2,30 @@ package View;
 
 import DAO.DAOEstado;
 import TableModel.TableModelEstado;
-import MascarasCampos.ApenasLetras;
 import MascarasCampos.LimitandoCamposLetras;
 import modelo.Estado;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 public class TelaCadEstado extends javax.swing.JFrame {
     
+   String[] veDados = new String[]{};
+    
     Estado est = new Estado();
 
-    
+    public static List<Estado> estados;
     private DAOEstado dEstado = new DAOEstado();
     private TableModel.TableModelEstado tmEstado = new TableModelEstado();
+    private DefaultTableModel dtm = new DefaultTableModel();
     private Connection conexao;
+    
+    
 
     public TelaCadEstado() {
         initComponents();
@@ -32,6 +40,46 @@ public class TelaCadEstado extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
+    
+    public static void addTextAndSelectToTextFieldToRest(JTextField textField, String newDado){
+        String dadoProcurado= "";
+        int nroAtual = textField.getText().length();
+        dadoProcurado = newDado.substring(nroAtual, newDado.length());
+        if(newDado.isEmpty() || dadoProcurado.isEmpty())
+            return;
+        try {
+            textField.getDocument().insertString(textField.getCaretPosition(), dadoProcurado, null);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "ERRO:" + e.getMessage());
+        }
+        textField.select(nroAtual, textField.getText().length());
+    }
+    
+    /*Recebe o text ocompleto est partir da busca entre o dado est buscar e o vetor, toda que o vetor encontre 
+    uma minima conincidencia*/   
+    
+    public static String getTextoApartirVetor(String dadoBuscar, String []veDados){
+        int nroPosition = getPositionVetorBuscar(dadoBuscar, veDados);
+        if(nroPosition == -1){
+            return dadoBuscar;
+        }
+        return veDados[nroPosition];
+    
+    }
+    
+    /*receber est posição est partir da busca entre o dado est buscar e o vetor, toda vez que  vetor encontrar alguma
+    coincidencia*/
+    public static int getPositionVetorBuscar(String dadoBuscar, String []veDados ){
+        try {
+            for (int i = 0; i < veDados.length; i++) {
+                if(dadoBuscar.equals(veDados[i].substring(0, dadoBuscar.length())))
+                    return i;
+                
+            }
+        } catch (Exception e) {
+        }
+        return -1;
+    }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -50,6 +98,8 @@ public class TelaCadEstado extends javax.swing.JFrame {
         jButtonExcluir = new javax.swing.JButton();
         jButtonFechar = new javax.swing.JButton();
         jButtonLimpar = new javax.swing.JButton();
+        jTextFieldPesquisar = new javax.swing.JTextField();
+        jButtonPesquisar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Estados");
@@ -69,6 +119,11 @@ public class TelaCadEstado extends javax.swing.JFrame {
         jLabel1.setToolTipText("Nome do Estado");
 
         jTextFieldNomeEstado.setToolTipText("Nome do Estado");
+        jTextFieldNomeEstado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldNomeEstadoKeyReleased(evt);
+            }
+        });
 
         jLabelSigla.setText("Sigla");
 
@@ -141,6 +196,13 @@ public class TelaCadEstado extends javax.swing.JFrame {
             }
         });
 
+        jButtonPesquisar.setText("Pesquisar");
+        jButtonPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPesquisarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -163,17 +225,24 @@ public class TelaCadEstado extends javax.swing.JFrame {
                             .addComponent(jTextFieldNomeEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(jButtonNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jTextFieldPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(jButtonPesquisar)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButtonNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButtonFechar, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonLimpar, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(53, 53, 53))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 640, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -195,20 +264,20 @@ public class TelaCadEstado extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextFieldNomeEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButtonLimpar)
-                            .addComponent(jButtonFechar)
-                            .addComponent(jButtonExcluir)
-                            .addComponent(jButtonAlterar)
-                            .addComponent(jButtonSalvar)
-                            .addComponent(jButtonNovo))
-                        .addContainerGap(185, Short.MAX_VALUE))))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonLimpar)
+                    .addComponent(jButtonFechar)
+                    .addComponent(jButtonExcluir)
+                    .addComponent(jButtonAlterar)
+                    .addComponent(jButtonSalvar)
+                    .addComponent(jButtonNovo))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonPesquisar))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonAlterar, jButtonExcluir, jButtonFechar, jButtonLimpar, jButtonNovo, jButtonSalvar});
@@ -230,7 +299,7 @@ public class TelaCadEstado extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(698, 379));
+        setSize(new java.awt.Dimension(698, 401));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -247,6 +316,7 @@ public class TelaCadEstado extends javax.swing.JFrame {
             est.setSigla(jTextFieldSigla.getText());
             dEstado.insert(est);
             preencheTabela();
+            //listaEstados();
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -287,6 +357,24 @@ public class TelaCadEstado extends javax.swing.JFrame {
         jTextFieldSigla.requestFocus();
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
+     private void listaEstados() {
+        estados = dEstado.listarTodos();
+        Estado est;
+        dtm.setNumRows(0);
+        dtm.setRowCount(0);
+
+        for (int i = 0; i < estados.size(); i++) {
+            est = estados.get(i);
+            dtm.addRow(new String[]{String.valueOf(est.getId_estado()),
+                est.getNome_estado(),
+               // est.getSigla()});
+                String.valueOf(est.getSigla())});
+        }
+        jTableTabela.setModel(dtm);
+    }
+     
+     
+    
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
         int resultado = JOptionPane.showConfirmDialog(this, "Confirma a exclusão do registro selecionado?","Confirmação", JOptionPane.YES_NO_OPTION, JOptionPane.OK_OPTION );
             if(resultado == JOptionPane.YES_OPTION){
@@ -336,6 +424,45 @@ public class TelaCadEstado extends javax.swing.JFrame {
          jTextFieldSigla.setEnabled(false);
     }//GEN-LAST:event_jButtonAlterarActionPerformed
 
+    private void jTextFieldNomeEstadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldNomeEstadoKeyReleased
+        if(!(evt.getKeyCode() >= 65 && evt.getKeyCode() <= 90 || evt.getKeyCode() >= 96 && evt.getKeyCode()<= 105 ||evt.getKeyCode() == evt.VK_ENTER))
+            return;
+        
+        if(jTextFieldNomeEstado.getText().isEmpty())
+            return;
+        if(veDados.length == 0)
+            return;
+        addTextAndSelectToTextFieldToRest(jTextFieldNomeEstado, getTextoApartirVetor(jTextFieldNomeEstado.getText(), veDados));
+        
+    }//GEN-LAST:event_jTextFieldNomeEstadoKeyReleased
+
+    private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
+        estados = dEstado.localizarEstado(jTextFieldPesquisar.getText());
+       listarAutoresSelecionados();
+    }//GEN-LAST:event_jButtonPesquisarActionPerformed
+
+    
+     private void listarAutoresSelecionados(){
+        dtm.setNumRows(0);
+        Estado est;
+        if (estados.isEmpty()){
+            try {
+                listaEstados();
+                preencheTabela();
+            } catch (SQLException ex) {
+                Logger.getLogger(TelaCadEstado.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return;
+        }
+        for (int i = 0; i < estados.size(); i++){
+            est = estados.get(i);
+            dtm.addRow(new String[]{String.valueOf(est.getId_estado()),
+                est.getNome_estado(),
+               // est.getSigla()});
+                String.valueOf(est.getSigla())});
+        }
+                    jTableTabela.setModel(dtm);
+    }
     
     private void preencheTabela() throws SQLException{
         List<Estado> tipos = dEstado.listarTodos();
@@ -381,6 +508,7 @@ public class TelaCadEstado extends javax.swing.JFrame {
     private javax.swing.JButton jButtonFechar;
     private javax.swing.JButton jButtonLimpar;
     private javax.swing.JButton jButtonNovo;
+    private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelCodigo;
@@ -390,6 +518,7 @@ public class TelaCadEstado extends javax.swing.JFrame {
     private javax.swing.JTable jTableTabela;
     private javax.swing.JTextField jTextFieldCodigo;
     private javax.swing.JTextField jTextFieldNomeEstado;
+    private javax.swing.JTextField jTextFieldPesquisar;
     private javax.swing.JTextField jTextFieldSigla;
     // End of variables declaration//GEN-END:variables
 

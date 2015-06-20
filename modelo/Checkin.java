@@ -1,12 +1,10 @@
 package modelo;
 
-import java.sql.Date;
-
 public class Checkin {
     
     private int id_Checkin;
-    private Date data_chegada;
-    private Date data_saida;
+    private String data_chegada;
+    private String data_saida;
     private String hora_chegada;
     private String hora_saida;
     private int quantidade_hospede;
@@ -17,7 +15,7 @@ public class Checkin {
     public Checkin() {
     }
 
-    public Checkin(int id_Checkin, Date data_chegada, Date data_saida, String hora_chegada, String hora_saida, int quantidade_hospede, Funcionarios funcionarios, Hospedes hospedes, Quartos quartos) {
+    public Checkin(int id_Checkin, String data_chegada, String data_saida, String hora_chegada, String hora_saida, int quantidade_hospede, Funcionarios funcionarios, Hospedes hospedes, Quartos quartos) {
         this.id_Checkin = id_Checkin;
         this.data_chegada = data_chegada;
         this.data_saida = data_saida;
@@ -37,19 +35,19 @@ public class Checkin {
         this.id_Checkin = id_Checkin;
     }
 
-    public Date getData_chegada() {
+    public String getData_chegada() {
         return data_chegada;
     }
 
-    public void setData_chegada(Date data_chegada) {
+    public void setData_chegada(String data_chegada) {
         this.data_chegada = data_chegada;
     }
 
-    public Date getData_saida() {
+    public String getData_saida() {
         return data_saida;
     }
 
-    public void setData_saida(Date data_saida) {
+    public void setData_saida(String data_saida) {
         this.data_saida = data_saida;
     }
 

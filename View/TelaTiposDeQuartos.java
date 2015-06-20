@@ -4,13 +4,14 @@ import DAO.DAOTiposDeQuartos;
 import MascarasCampos.ApenasLetras;
 import MascarasCampos.ApenasNumeros;
 import TableModel.TableModelTiposDeQuartos;
-import java.sql.SQLException;
-import java.util.List;
+import ViewPesquisas.TelaPesquisaTiposDeQuartos;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableRowSorter;
 import modelo.TiposDeQuartos;
 
 public class TelaTiposDeQuartos extends javax.swing.JFrame {
+    
+    private TelaTiposDeQuartos instancia;
     
     TiposDeQuartos tdq = new TiposDeQuartos();
     
@@ -20,9 +21,10 @@ public class TelaTiposDeQuartos extends javax.swing.JFrame {
 
     public TelaTiposDeQuartos() {
         initComponents();
+        instancia = this;
         
         try {
-            preencheTabela();
+            //preencheTabela();
         } catch (Exception e) {
         }
         
@@ -30,7 +32,7 @@ public class TelaTiposDeQuartos extends javax.swing.JFrame {
         jTextFieldCodigo.setDocument(new ApenasNumeros());
         jTextFieldDescricao.setDocument(new ApenasLetras());
         jTextFieldValor.setDocument(new ApenasNumeros());
-        jTableTabela.setAutoCreateRowSorter(true); // ordenação das colunas
+        //jTableTabela.setAutoCreateRowSorter(true); // ordenação das colunas
         
         
     }
@@ -47,13 +49,12 @@ public class TelaTiposDeQuartos extends javax.swing.JFrame {
         jLabelValor = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jTextFieldValor = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableTabela = new javax.swing.JTable();
         jButtonNovo = new javax.swing.JButton();
         jButtonSalvar = new javax.swing.JButton();
         jButtonAlterar = new javax.swing.JButton();
         jButtonExcluir = new javax.swing.JButton();
         jButtonFechar = new javax.swing.JButton();
+        jButtonPesquisar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -72,24 +73,6 @@ public class TelaTiposDeQuartos extends javax.swing.JFrame {
         jLabelValor.setText("Valor");
 
         jTextFieldValor.setEnabled(false);
-
-        jTableTabela.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jTableTabela.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableTabelaMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(jTableTabela);
 
         jButtonNovo.setText("Novo");
         jButtonNovo.addActionListener(new java.awt.event.ActionListener() {
@@ -130,46 +113,53 @@ public class TelaTiposDeQuartos extends javax.swing.JFrame {
             }
         });
 
+        jButtonPesquisar.setText("Pesquisar");
+        jButtonPesquisar.setEnabled(false);
+        jButtonPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPesquisarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabelCodigo)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabelValor)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jTextFieldValor)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabelDescricao)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButtonNovo)
-                                .addGap(37, 37, 37)
-                                .addComponent(jButtonSalvar)
-                                .addGap(36, 36, 36)
-                                .addComponent(jButtonAlterar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonExcluir)
-                                .addGap(54, 54, 54)
-                                .addComponent(jButtonFechar)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jSeparator1)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabelCodigo)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jLabelValor)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jTextFieldValor)))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabelDescricao)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jTextFieldDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(jButtonNovo, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonSalvar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonAlterar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonExcluir)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonFechar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jButtonPesquisar))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonAlterar, jButtonExcluir, jButtonFechar, jButtonNovo, jButtonSalvar});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButtonAlterar, jButtonExcluir, jButtonFechar, jButtonNovo, jButtonPesquisar, jButtonSalvar});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,32 +182,31 @@ public class TelaTiposDeQuartos extends javax.swing.JFrame {
                     .addComponent(jButtonSalvar)
                     .addComponent(jButtonAlterar)
                     .addComponent(jButtonExcluir)
-                    .addComponent(jButtonFechar))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                    .addComponent(jButtonFechar)
+                    .addComponent(jButtonPesquisar))
+                .addGap(123, 123, 123))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonAlterar, jButtonExcluir, jButtonFechar, jButtonNovo, jButtonSalvar});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {jButtonAlterar, jButtonExcluir, jButtonFechar, jButtonNovo, jButtonPesquisar, jButtonSalvar});
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        setSize(new java.awt.Dimension(581, 323));
+        setSize(new java.awt.Dimension(591, 253));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -232,6 +221,7 @@ public class TelaTiposDeQuartos extends javax.swing.JFrame {
        jButtonSalvar.setEnabled(true);
        jButtonNovo.setEnabled(false);
        jButtonFechar.setEnabled(true);
+       jButtonPesquisar.setEnabled(true);
        jTextFieldDescricao.requestFocus();
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
@@ -251,7 +241,7 @@ public class TelaTiposDeQuartos extends javax.swing.JFrame {
             tdq.setDescrição(jTextFieldDescricao.getText());
             tdq.setValor(Double.parseDouble(jTextFieldValor.getText()));
             dtdq.insert(tdq);
-            preencheTabela();
+           // preencheTabela();
             
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -268,6 +258,7 @@ public class TelaTiposDeQuartos extends javax.swing.JFrame {
         jButtonSalvar.setEnabled(false);
         jButtonFechar.setEnabled(true);
         jButtonNovo.setEnabled(true);
+        jButtonPesquisar.setEnabled(true);
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButtonAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAlterarActionPerformed
@@ -277,7 +268,7 @@ public class TelaTiposDeQuartos extends javax.swing.JFrame {
             tdq.setDescrição(jTextFieldDescricao.getText());
             tdq.setValor(Double.parseDouble(jTextFieldValor.getText()));
             dtdq.atualizar(tdq);
-            preencheTabela();
+            //preencheTabela();
             JOptionPane.showMessageDialog(null, "Tipo de Quarto atualizado!");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao atualizar Tipo de Quarto:" + "ERRO:" + e.getMessage());
@@ -297,7 +288,7 @@ public class TelaTiposDeQuartos extends javax.swing.JFrame {
             if(resultado == JOptionPane.YES_OPTION){
                 try {
                     dtdq.removerSelecionado(tdq);
-                    preencheTabela();
+                    //preencheTabela();
                     jTextFieldCodigo.setText("");
                     jTextFieldDescricao.setText("");
                     jTextFieldValor.setText("");
@@ -313,24 +304,17 @@ public class TelaTiposDeQuartos extends javax.swing.JFrame {
        this.dispose();
     }//GEN-LAST:event_jButtonFecharActionPerformed
 
-    private void jTableTabelaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableTabelaMouseClicked
-        int linha = jTableTabela.getSelectedRow();
-       tdq = tbmtdq.getTiposDeQuartos(linha);
-       
-       jTextFieldCodigo.setText((String.valueOf(tdq.getId_TiposQuartos())));
-       jTextFieldDescricao.setText(String.valueOf(tdq.getDescrição()));
-       jTextFieldValor.setText(String.valueOf(tdq.getValor()));
-       jButtonExcluir.setEnabled(true);
-       jButtonAlterar.setEnabled(true);
-       jTextFieldDescricao.setEnabled(true);
-       jTextFieldValor.setEnabled(true);
-    }//GEN-LAST:event_jTableTabelaMouseClicked
+    private void jButtonPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPesquisarActionPerformed
+        TelaPesquisaTiposDeQuartos tptdq = new TelaPesquisaTiposDeQuartos(instancia);
+        tptdq.setVisible(true);
+        tptdq.setValida(1);
+    }//GEN-LAST:event_jButtonPesquisarActionPerformed
 
-   private void preencheTabela() throws SQLException{
+   /*private void preencheTabela() throws SQLException{
         List<TiposDeQuartos> tipos = dtdq.listarTodos();
         tbmtdq = new TableModelTiposDeQuartos(tipos);
         jTableTabela.setModel(tbmtdq);
-    }
+    }*/
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -369,16 +353,30 @@ public class TelaTiposDeQuartos extends javax.swing.JFrame {
     private javax.swing.JButton jButtonExcluir;
     private javax.swing.JButton jButtonFechar;
     private javax.swing.JButton jButtonNovo;
+    private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JLabel jLabelCodigo;
     private javax.swing.JLabel jLabelDescricao;
     private javax.swing.JLabel jLabelValor;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable jTableTabela;
     private javax.swing.JTextField jTextFieldCodigo;
     private javax.swing.JTextField jTextFieldDescricao;
     private javax.swing.JTextField jTextFieldValor;
     // End of variables declaration//GEN-END:variables
+
+    public void recebeDados(TiposDeQuartos tdq){
+        
+        jTextFieldCodigo.setText(String.valueOf(tdq.getId_TiposQuartos()));
+        jTextFieldDescricao.setText(String.valueOf(tdq.getDescrição()));
+        jTextFieldValor.setText(String.valueOf(tdq.getValor()));
+    }
+
+
+
+
+
+
+
+
 }

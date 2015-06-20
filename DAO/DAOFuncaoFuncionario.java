@@ -203,4 +203,29 @@ public class DAOFuncaoFuncionario {
         return ff;
     }
     
+     public List<FuncaoFuncionario> getFuncaoFuncionario() {
+        conexao = cSQL.getConnection();
+        List<FuncaoFuncionario> ListFuncaoFuncionario = new ArrayList<>();
+        String comando = "select *from funcao_funcionario";
+         try {
+             enviaComando = conexao.prepareStatement(comando);
+             resultado = enviaComando.executeQuery();
+             while (resultado.next()){
+                ff = new FuncaoFuncionario();
+                ff.setId_funcao(resultado.getInt("id_funcao"));
+                ff.setNome_Funcao(resultado.getString("nome_funcao"));
+                ListFuncaoFuncionario.add(ff);
+             }
+             
+         } catch (SQLException ex) {
+              JOptionPane.showMessageDialog(null, "Erro ao tentar prencher uma lista de Cidades!!\n\nERRO: " + ex.getMessage());
+         }finally{
+            try {
+                conexao.close();
+            } catch (SQLException ex) {
+               JOptionPane.showMessageDialog(null, "Erro ao tentar prencher uma lista de Cidades!!\n\nERRO: " + ex.getMessage());
+            }   
+         }
+         return ListFuncaoFuncionario;
+     }
 }

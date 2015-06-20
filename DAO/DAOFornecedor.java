@@ -10,7 +10,6 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import modelo.Cidades;
 import modelo.Fornecedor;
-import modelo.TipoTelefone;
 
 public class DAOFornecedor {
     
@@ -18,14 +17,12 @@ public class DAOFornecedor {
     private Connection conexao;
     public static ResultSet resultado;
     private PreparedStatement enviaComando;
-    private DAOTipoTelefone dTipoTelefone = new DAOTipoTelefone();
     private DAOCidades dCidades = new DAOCidades();
     private Fornecedor fornecedor = new Fornecedor();
     private Cidades cidades = new Cidades();
-    private TipoTelefone tipotelefone = new TipoTelefone();
     
     public void inserir(Fornecedor fornec){
-        String comando  = "Insert Into fornecedor (id_fornecedor, razao_social, nome_fantasia, cnpj, insc_estadual, endereco, telefone, id_cidades, id_tipotelefone) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String comando  = "Insert Into fornecedor (id_fornecedor, razao_social, nome_fantasia, cnpj, insc_estadual, endereco, telefone, id_cidades, tipo_telefone) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         conexao  = cSQL.getConnection();
         
         try {
@@ -38,7 +35,7 @@ public class DAOFornecedor {
             enviaComando.setString(6, fornec.getEndereco());
             enviaComando.setString(7, fornec.getTelefone());
             enviaComando.setInt(8, fornec.getCidades().getId_cidades());
-            enviaComando.setInt(9, fornec.getTipotelefone().getId_tipotelefone());
+            enviaComando.setString(9, fornec.getTipo_telefone());
             enviaComando.executeUpdate();
             JOptionPane.showMessageDialog(null, "Registro efetuado com sucesso!");   
             enviaComando.close();
@@ -62,7 +59,7 @@ public class DAOFornecedor {
             enviaComando.setString(5, fornec.getEndereco());
             enviaComando.setString(6, fornec.getTelefone());
             enviaComando.setInt(7, fornec.getCidades().getId_cidades());
-            enviaComando.setInt(8, fornec.getTipotelefone().getId_tipotelefone());
+            enviaComando.setString(8, fornec.getTipo_telefone());
             enviaComando.executeUpdate();
          } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Erro ao atualizar fornecedor:" + e.getMessage());
@@ -140,7 +137,7 @@ public class DAOFornecedor {
                 forn.setNomeFantasia(resultado.getString("nome_fantasia"));
                 forn.setTelefone(resultado.getString("telefone"));
                 forn.setCidades(dCidades.localizarCidades(resultado.getInt("id_cidades")));
-                forn.setTipotelefone(dTipoTelefone.localizarTipoTelefone(resultado.getInt("id_tipotelefone")));
+                forn.setTipo_telefone(resultado.getString("tipo_telefone"));
                 tipos.add(forn);
                }
           } catch (SQLException e) {
@@ -174,7 +171,7 @@ public class DAOFornecedor {
                 fornecedor.setNomeFantasia(resultado.getString("nome_fantasia"));
                 fornecedor.setTelefone(resultado.getString("telefone"));
                 fornecedor.setCidades(dCidades.localizarCidades(resultado.getInt("id_cidades")));
-                fornecedor.setTipotelefone(dTipoTelefone.localizarTipoTelefone(resultado.getInt("id_tipotelefone")));
+                fornecedor.setTipo_telefone(resultado.getString("tipo_telefone"));
                 tipos.add(fornecedor);
                }
           } catch (SQLException e) {
@@ -228,7 +225,7 @@ public class DAOFornecedor {
                 fornecedor.setEndereco(resultado.getString("endereco"));
                 fornecedor.setRazaoSocial(resultado.getString("razao_social"));
                 fornecedor.setCidades(dCidades.localizarCidades(resultado.getInt("id_cidades")));
-                fornecedor.setTipotelefone(dTipoTelefone.localizarTipoTelefone(resultado.getInt("id_tipotelefone")));
+               fornecedor.setTipo_telefone(resultado.getString("tipo_telefone"));
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro ao buscar tipotelefone:" + e.getMessage());
@@ -262,7 +259,7 @@ public class DAOFornecedor {
                 fornecedor.setEndereco(resultado.getString("endereco"));
                 fornecedor.setRazaoSocial(resultado.getString("razao_social"));
                 fornecedor.setCidades(dCidades.localizarCidades(resultado.getInt("id_cidades")));
-                fornecedor.setTipotelefone(dTipoTelefone.localizarTipoTelefone(resultado.getInt("id_tipotelefone")));
+                fornecedor.setTipo_telefone(resultado.getString("tipo_telefone"));
                 fornecedores.add(fornecedor);
             }
         } catch (SQLException e) {
@@ -277,5 +274,39 @@ public class DAOFornecedor {
         }
             return fornecedores;
       }
+      
+      public List<Fornecedor> getFornecedor() {
+        conexao = cSQL.getConnection();
+        List<Fornecedor> ListFornecedor = new ArrayList<>();
+        String comando = "select *from fornecedor";
+         try {
+             enviaComando = conexao.prepareStatement(comando);
+             resultado = enviaComando.executeQuery();
+             while (resultado.next()){
+                fornecedor = new Fornecedor();
+                fornecedor.setId_fornecedor(resultado.getInt("id_fornecedor"));
+                fornecedor.setRazaoSocial(resultado.getString("razao_social"));
+                fornecedor.setNomeFantasia(resultado.getString("nome_fantasia"));
+                fornecedor.setCnpj(resultado.getString("cnpj"));
+                fornecedor.setInsc_estadual(resultado.getString("insc_estadual"));
+                fornecedor.setTelefone(resultado.getString("telefone"));
+                fornecedor.setEndereco(resultado.getString("endereco"));
+                fornecedor.setRazaoSocial(resultado.getString("razao_social"));
+                fornecedor.setCidades(dCidades.localizarCidades(resultado.getInt("id_cidades")));
+                fornecedor.setTipo_telefone(resultado.getString("tipo_telefone"));
+                ListFornecedor.add(fornecedor);
+             }
+             
+         } catch (SQLException ex) {
+              JOptionPane.showMessageDialog(null, "Erro ao tentar prencher uma lista de Cidades!!\n\nERRO: " + ex.getMessage());
+         }finally{
+            try {
+                conexao.close();
+            } catch (SQLException ex) {
+               JOptionPane.showMessageDialog(null, "Erro ao tentar prencher uma lista de Cidades!!\n\nERRO: " + ex.getMessage());
+            }   
+         }
+         return ListFornecedor;
+     }
          
 }

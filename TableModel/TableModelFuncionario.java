@@ -16,7 +16,7 @@ public class TableModelFuncionario extends AbstractTableModel{
     private static final int Col_Telefone2 = 7;
     private static final int Col_Id_Cidades = 8;
     private static final int Col_Id_Funcao_Funcionario = 9;
-    private static final int Col_Id_Tipo_Telefone = 10;
+    private static final int Col_Tipo_Telefone = 10;
     
     private List<Funcionarios> tipos;
 
@@ -60,8 +60,8 @@ public class TableModelFuncionario extends AbstractTableModel{
            return func.getCidades().getId_cidades();
        }else if(columnIndex == Col_Id_Funcao_Funcionario){
            return func.getFfunc().getId_funcao();
-       }else if(columnIndex == Col_Id_Tipo_Telefone){
-           return func.getTipotel().getId_tipotelefone();
+       }else if(columnIndex == Col_Tipo_Telefone){
+           return func.getTipo_telefone();
            
        }
         return "";      
@@ -89,8 +89,8 @@ public class TableModelFuncionario extends AbstractTableModel{
             return "id_Cidades";
         if(column == Col_Id_Funcao_Funcionario)
             return "id_Funcao_Funcionario";
-        if(column == Col_Id_Tipo_Telefone)
-            return "id_Tipo_Telefone";
+        if(column == Col_Tipo_Telefone)
+            return "Tipo_Telefone";
          return "";
     }
     

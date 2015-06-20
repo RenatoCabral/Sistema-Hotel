@@ -33,6 +33,7 @@ public class DAOQuartos {
             enviaComando.setInt(2, quartos.getNumero_quarto());
             enviaComando.setString(3, quartos.getStatus());
             enviaComando.setInt(4, quartos.getTiposquartos().getId_TiposQuartos());
+            //enviaComando.setString(5, quartos.getTiposquartos().getDescrição());
             enviaComando.executeUpdate();
             JOptionPane.showMessageDialog(null, "Cadastro salvo com sucesso!");   
             enviaComando.close();
@@ -47,10 +48,11 @@ public class DAOQuartos {
         
         try {
             enviaComando = conexao.prepareStatement(query);
-            enviaComando.setInt(4, quartos.getId_quarto());
+            enviaComando.setInt(5, quartos.getId_quarto());
             enviaComando.setInt(1, quartos.getNumero_quarto());
             enviaComando.setString(2, quartos.getStatus());
             enviaComando.setInt(3, quartos.getTiposquartos().getId_TiposQuartos());
+           // enviaComando.setString(4, quartos.getTiposquartos().getDescrição());
             enviaComando.executeUpdate();
         }catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Erro ao alterar quartos:" + ex.getMessage());
@@ -126,6 +128,7 @@ public class DAOQuartos {
                 quartos.setNumero_quarto(resultado.getInt("numero_quarto"));
                 quartos.setStatus(resultado.getString("status"));
                 quartos.setTiposquartos(dtdq.localizarTiposDeQuartos(resultado.getInt("id_tiposquarto")));
+                //quartos.setTiposquartos(dtdq.localizarTiposDeQuartos(Integer.parseInt(resultado.getString("descricao_tiposquartos"))));
                 tipos.add(quartos);
             }
         } catch (SQLException ex) {
@@ -145,17 +148,19 @@ public class DAOQuartos {
         String comando = "select *from quartos";  
         try {
             enviaComando = conexao.prepareStatement(comando);
-            resultado = enviaComando.executeQuery() ;       
+            resultado = enviaComando.executeQuery() ; 
+            
             while(resultado.next()){ 
-                Quartos quartos = new Quartos();
-                quartos.setId_quarto(resultado.getInt("id_quarto"));
-                quartos.setNumero_quarto(resultado.getInt("numero_quarto"));
-                quartos.setStatus(resultado.getString("status"));
-                quartos.setTiposquartos(dtdq.localizarTiposDeQuartos(resultado.getInt("id_tiposquarto")));
-                tipos.add(quartos);
+                Quartos quarto = new Quartos();
+                quarto.setId_quarto(resultado.getInt("id_quarto"));
+                quarto.setNumero_quarto(resultado.getInt("numero_quarto"));
+                quarto.setStatus(resultado.getString("status"));
+                quarto.setTiposquartos(dtdq.localizarTiposDeQuartos(resultado.getInt("id_tiposquarto")));
+                //quartos.setTiposquartos(dtdq.localizarTiposDeQuartos(Integer.parseInt(resultado.getString("descricao_tiposquartos"))));
+                tipos.add(quarto);
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Erro ao buscar quartos" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao buscar quarto" + ex.getMessage());
         }finally{
             try {
                
@@ -185,6 +190,36 @@ public class DAOQuartos {
             }
         }
     }
-    
-    
+      
+      public List<Quartos> getQuartos(){
+        conexao = cSQL.getConnection();
+         List<Quartos> ListQuartos = new ArrayList<>();
+        String comando = "select *from quartos";  
+        
+        try {
+            enviaComando = conexao.prepareStatement(comando);
+            resultado = enviaComando.executeQuery() ;   
+            
+            while(resultado.next()){ 
+                Quartos quartos = new Quartos();
+                TiposDeQuartos tdq = new TiposDeQuartos();
+                quartos.setId_quarto(resultado.getInt("id_quarto"));
+                quartos.setNumero_quarto(resultado.getInt("numero_quarto"));
+                quartos.setStatus(resultado.getString("status"));
+                quartos.setTiposquartos(dtdq.localizarTiposDeQuartos(resultado.getInt("id_tiposquarto")));
+                //quartos.setTiposquartos(dtdq.localizarTiposDeQuartos(Integer.parseInt(resultado.getString("descricao_tiposquartos"))));
+                ListQuartos.add(quartos);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao buscar quarto" + ex.getMessage());
+        }finally{
+            try {
+               
+            } catch (Throwable e) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexão com o banco de dados:\n ERRO:" + e.getMessage());
+            }
+        }
+        return ListQuartos;
+    }
+          
 }

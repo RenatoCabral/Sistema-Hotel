@@ -13,12 +13,12 @@ public class Hospedes {
     private String email;
     private String telefone1;
     private String telefone2;
-    private TipoTelefone tipoTelefone;
+    private String tipo_telefone;
 
     public Hospedes() {
     }
 
-    public Hospedes(int id_hospede,String telefone1, String telefone2, String nome_hospede, String cpf_hospede, String rg_hospede, String endereco_hospede,String telefone, String placa_veiculo, String email, Cidades cidades, TipoTelefone tipoTelefone) {
+    public Hospedes(int id_hospede,String telefone1, String telefone2, String nome_hospede, String cpf_hospede, String rg_hospede, String endereco_hospede,String telefone, String placa_veiculo, String email, Cidades cidades, String tipo_telefone) {
         this.id_hospede = id_hospede;
         this.nome_hospede = nome_hospede;
         this.cpf_hospede = cpf_hospede;
@@ -30,7 +30,7 @@ public class Hospedes {
         this.telefone1 = telefone1;
         this.telefone2 = telefone2;
         this.cidades = cidades;
-        this.tipoTelefone = tipoTelefone;
+        this.tipo_telefone = tipo_telefone;
     }
 
     public int getId_hospede() {
@@ -121,21 +121,20 @@ public class Hospedes {
         this.telefone2 = telefone2;
     }
 
-    public TipoTelefone getTipoTelefone() {
-        return tipoTelefone;
+    public String getTipo_Telefone() {
+        return tipo_telefone;
     }
 
-    public void setTipoTelefone(TipoTelefone tipoTelefone) {
-        this.tipoTelefone = tipoTelefone;
+    public void setTipo_Telefone(String tipo_telefone) {
+        this.tipo_telefone = tipo_telefone;
     }
-
-   
+    
+    
     
     @Override
     public String toString() {
         return nome_hospede;
     }
-    
-    
 
+    
 }

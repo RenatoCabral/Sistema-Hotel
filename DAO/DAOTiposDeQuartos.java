@@ -207,4 +207,30 @@ public class DAOTiposDeQuartos {
         }
         return tdq;
     }
+       
+       public List<TiposDeQuartos> getListaTiposDeQuartos(){
+        conexao = cSQL.getConnection();
+        List<TiposDeQuartos> ListTiposDeQuartos = new ArrayList<>();
+        String comando = "select *from tiposquarto";  
+        try {
+            enviaComando = conexao.prepareStatement(comando);
+            resultado = enviaComando.executeQuery() ;       
+            while(resultado.next()){ 
+                TiposDeQuartos tiposquartos = new TiposDeQuartos();
+                tiposquartos.setId_TiposQuartos(resultado.getInt("id_tiposquarto"));
+                tiposquartos.setDescrição(resultado.getString("descricao"));
+                tiposquartos.setValor(resultado.getDouble("valor"));
+                ListTiposDeQuartos.add(tiposquartos);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao tentar prencher uma lista de Tipos de Quartos" + ex.getMessage());
+        }finally{
+            try {
+               
+            } catch (Throwable e) {
+                JOptionPane.showMessageDialog(null, "Erro ao fechar conexão com o banco de dados:\n ERRO:" + e.getMessage());
+            }
+        }
+        return ListTiposDeQuartos;
+    }
 }

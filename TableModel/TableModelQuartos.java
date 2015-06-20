@@ -10,6 +10,7 @@ public class TableModelQuartos extends AbstractTableModel{
     private static final int Col_Numero_Quarto= 1;
     private static final int Col_Status= 2;
     private static final int Col_Id_TiposDeQuartos= 3;
+   // private static final int Col_Descricao_TiposDeQuartos= 4;
     
      private List<Quartos> tipos;
 
@@ -41,6 +42,8 @@ public class TableModelQuartos extends AbstractTableModel{
            return quartos.getStatus();
        }else if(columnIndex == Col_Id_TiposDeQuartos){
            return quartos.getTiposquartos().getId_TiposQuartos();
+      // }else if(columnIndex == Col_Descricao_TiposDeQuartos){
+           //return quartos.getTiposquartos().getDescrição();
        }
         return "";
     }
@@ -55,6 +58,8 @@ public class TableModelQuartos extends AbstractTableModel{
             return "Status";
         if(column == Col_Id_TiposDeQuartos)
             return "Id_TiposDeQuartos";
+       // if(column == Col_Descricao_TiposDeQuartos)
+            //return "Descricao_TiposDeQuartos";
          return "";
     }
     

@@ -12,13 +12,13 @@ public class Funcionarios {
     private String telefone2;
     private Cidades cidades;
     private FuncaoFuncionario ffunc;
-    private TipoTelefone tipotel;
+    private String tipo_telefone;
 
     public Funcionarios() {
     }
 
   
-    public Funcionarios(int id_funcionarios, String nome_funcionarios, String cpf_funcionarios, String rg_funcionarios, String endereco, String email_funcionarios, String telefone1, String telefone2, Cidades cidades, FuncaoFuncionario ffunc, TipoTelefone tipotel) {
+    public Funcionarios(int id_funcionarios, String nome_funcionarios, String cpf_funcionarios, String rg_funcionarios, String endereco, String email_funcionarios, String telefone1, String telefone2, Cidades cidades, FuncaoFuncionario ffunc, String tipo_telefone) {
         this.id_funcionarios = id_funcionarios;
         this.nome_funcionarios = nome_funcionarios;
         this.cpf_funcionarios = cpf_funcionarios;
@@ -29,7 +29,7 @@ public class Funcionarios {
         this.telefone2 = telefone2;
         this.cidades = cidades;
         this.ffunc = ffunc;
-        this.tipotel = tipotel;
+        this.tipo_telefone = tipo_telefone;
     }
 
     public int getId_funcionarios() {
@@ -96,14 +96,6 @@ public class Funcionarios {
         this.ffunc = ffunc;
     }
 
-    public TipoTelefone getTipotel() {
-        return tipotel;
-    }
-
-    public void setTipotel(TipoTelefone tipotel) {
-        this.tipotel = tipotel;
-    }
-
     public String getTelefone1() {
         return telefone1;
     }
@@ -119,6 +111,16 @@ public class Funcionarios {
     public void setTelefone2(String telefone2) {
         this.telefone2 = telefone2;
     }
+
+    public String getTipo_telefone() {
+        return tipo_telefone;
+    }
+
+    public void setTipo_telefone(String tipo_telefone) {
+        this.tipo_telefone = tipo_telefone;
+    }
+    
+    
 
     @Override
     public String toString() {
